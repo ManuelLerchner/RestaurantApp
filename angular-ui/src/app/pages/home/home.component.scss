@@ -6,20 +6,21 @@
 
   height: calc(100% - 56px);
   width: 100%;
-}
 
-app-map {
-  height: calc(100% - 56px);
-  width: 100%;
+  app-map {
+    height: 100%;
+    width: calc(100% - 360px);
 
-  overflow-y: auto;
+    overflow-y: auto;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
 
-app-side-menu {
-  height: 100%;
+  app-side-menu {
+    width: 360px;
+    height: 100%;
+  }
 }

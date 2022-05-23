@@ -1,0 +1,86 @@
+.restaurant-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+
+  background-color: rgb(46, 46, 46);
+
+  border-radius: 5px;
+
+
+
+  padding: 10px;
+  padding-left: 18px;
+  margin: 10px;
+
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+
+  cursor: pointer;
+
+  p {
+    color: rgb(189, 189, 189);
+    margin: 0;
+  }
+
+  h3 {
+    margin: 0;
+    padding: 0;
+
+    font-size: 22px;
+    color: rgb(250, 250, 250);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    p {
+      margin-right: 10px;
+    }
+
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  .type {
+    font-style: italic;
+  }
+
+  .priceCategory {
+    font-style: italic;
+    color: burlywood;
+
+    font-size: 20px;
+  }
+
+  .rating {
+    font-style: italic;
+    color: yellow;
+
+    font-size: 20px;
+    font-weight: 500;
+    margin-right: 5px !important;
+  }
+
+  .rewiews {
+    font-style: italic;
+
+    font-size: 16px;
+  }
+
+  .distance {
+    font-style: italic;
+
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.restaurant-card:hover {
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  transition: all 0.1s ease-out;
+}

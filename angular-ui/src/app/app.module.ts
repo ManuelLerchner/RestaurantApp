@@ -10,7 +10,8 @@ import { TopbarComponent } from './components/topbar/topbar.component';
 import { FormsModule } from '@angular/forms';
 import { RestaurantFiltersComponent } from './components/restaurant-filters/restaurant-filters.component';
 import { LoginComponent } from './components/login/login.component';
-import { LogoComponent } from './components/logo/logo.component';
+
+import { RestaurantListCardComponent } from './components/restaurant-list-card/restaurant-list-card.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { LogoComponent } from './components/logo/logo.component';
     TopbarComponent,
     RestaurantFiltersComponent,
     LoginComponent,
-    LogoComponent,
+    RestaurantListCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
