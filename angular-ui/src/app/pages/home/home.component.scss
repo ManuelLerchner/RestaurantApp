@@ -1,0 +1,25 @@
+.page {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+
+  height: calc(100% - 56px);
+  width: 100%;
+}
+
+app-map {
+  height: calc(100% - 56px);
+  width: 100%;
+
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+app-side-menu {
+  height: 100%;
+}
