@@ -48,3 +48,14 @@ test {
     defaultCharacterEncoding = 'UTF-8'
     useJUnitPlatform()
 }
+
+jar {
+    baseName = 'spring-angular'
+    version = '0.0.1-SNAPSHOT'
+    from('angular-ui/dist') {
+        into 'public'
+    }
+}
+
+processResources.dependsOn('angular-ui:buildAngular')
+
