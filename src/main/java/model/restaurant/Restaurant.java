@@ -36,6 +36,7 @@ public class Restaurant {
         this.location = location;
         this.openingTimes = openingTimes;
         this.comments = comments;
+        this.averageRating = Math.random() * 5; // TODO delete
     }
 
     // default constructor for testing purpose
@@ -52,6 +53,8 @@ public class Restaurant {
             openingTimes[i] = new WeekTimeSlot(LocalTime.of(12, 00), LocalTime.of(23,00), DayOfWeek.of(i+1));
         }
         this.comments = new ArrayList<>();
+
+
     }
 
     public int getId() {
