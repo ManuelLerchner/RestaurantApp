@@ -7,19 +7,26 @@ import model.restaurant.PriceCategory;
 import model.restaurant.Restaurant;
 import model.util.WeekTimeSlot;
 import org.springframework.stereotype.Service;
+import repositories.RestaurantRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class RestaurantService {
 
-    private static List<Restaurant> restaurants;
+    private RestaurantRepository restaurantRepository;
+    private List<Restaurant> restaurants;
 
     // TODO replace default data by connection to data base
-    static {
+    public RestaurantService() {
+        restaurants = new ArrayList<Restaurant>();
+
+        List<Comment> commentstest = List.of(new Comment(), new Comment(), new Comment());
+
         // Initialize Data
-        Restaurant res1 = new Restaurant("name1", "linkToRestaurant1", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.NORMAL, RestaurantType.INDIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
+        Restaurant res1 = new Restaurant("name1", "linkToRestaurant1", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.NORMAL, RestaurantType.INDIAN, new Location(), new WeekTimeSlot[7], commentstest);
         Restaurant res2 = new Restaurant("name2", "linkToRestaurant2", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.CHEAP, RestaurantType.ITALIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
         Restaurant res3 = new Restaurant("name3", "linkToRestaurant3", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.COSTLY, RestaurantType.CHINESE, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
         Restaurant res4 = new Restaurant("name4", "linkToRestaurant4", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.NORMAL, RestaurantType.ITALIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
@@ -41,21 +48,59 @@ public class RestaurantService {
         restaurants.add(res10);
     }
 
+
     public List<Restaurant> retrieveAllRestaurants() {
         return restaurants;
     }
 
-    public List<Restaurant> retrieveRestaurants(int number) {
-        return restaurants.subList(0, number);
-    }
-
     public Restaurant retrieveRestaurant(int restaurantId) {
         for (Restaurant restaurant : restaurants) {
-            if(restaurant.getId() == restaurantId) {
+            if (restaurant.getId() == restaurantId) {
                 return restaurant;
             }
         }
         return null;
+    }
+
+    public List<Restaurant> filterRestaurant(int number, RestaurantType restaurantType, PriceCategory priceCategory, Location userLocation, double maxDistance, int minRating) {
+        //TODO: Update list  z.B. restaurants = restaurantRepository.findByName("abc");
+        Stream<Restaurant> restaurantStream = restaurants.stream();
+
+        if(restaurantType != RestaurantType.DEFAULT) {
+            restaurantStream = filterByType(restaurantStream, restaurantType);
+        }
+
+        if(priceCategory != PriceCategory.DEFAULT) {
+            restaurantStream = filterByPriceCategory(restaurantStream, priceCategory);
+        }
+
+        if(maxDistance > 0 && userLocation != null) {
+            restaurantStream = filterByMaxDistance(restaurantStream, userLocation, maxDistance);
+        }
+
+        if(minRating > 1) {
+            restaurantStream = filterByMinRating(restaurantStream, minRating);
+        }
+
+        restaurantStream = restaurantStream.limit(Math.min(50, number));
+
+        return restaurantStream.toList();
+    }
+
+    private Stream<Restaurant> filterByType(Stream<Restaurant> restaurantStream, RestaurantType restaurantType) {
+        return restaurantStream.filter(restaurant -> restaurant.getRestaurantType() == restaurantType);
+    }
+
+    private Stream<Restaurant> filterByPriceCategory(Stream<Restaurant> restaurantStream, PriceCategory priceCategory) {
+        return restaurantStream.filter(restaurant -> restaurant.getPriceCategory() == priceCategory);
+    }
+
+    private Stream<Restaurant> filterByMaxDistance(Stream<Restaurant> restaurantStream, Location userLocation, double maxDistance) {
+        return restaurantStream.filter(restaurant -> restaurant.getLocation().getDistanceTo(userLocation) < maxDistance);
+    }
+
+    private Stream<Restaurant> filterByMinRating(Stream<Restaurant> restaurantStream, int minRating) {
+        return restaurantStream.filter(restaurant -> restaurant.getAverageRating() >= minRating);
     }
 
     public List<Comment> retrieveComments(int restaurantId) {
@@ -73,7 +118,6 @@ public class RestaurantService {
         }
         restaurant.addComment(comment);
     }
-
 
 
 }
