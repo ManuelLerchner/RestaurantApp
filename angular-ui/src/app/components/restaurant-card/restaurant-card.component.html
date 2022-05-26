@@ -1,0 +1,65 @@
+<div class="card-wrapper">
+  <div class="content-top">
+    <h3>{{ restaurant.name }}</h3>
+    <div class="info-grid">
+      <span class="type">{{ restaurant.type }}</span>
+      <span class="priceCategory">{{
+        getPriceCategory(restaurant.price_category)
+      }}</span>
+
+      <div class="rating-wrapper">
+        <span class="rating">★{{ restaurant.rating }}</span>
+        <span class="reviews">({{ restaurant.number_of_reviews }})</span>
+      </div>
+      <span class="distance">{{ restaurant.distance }} km</span>
+    </div>
+  </div>
+
+  <div class="center-content">
+    <div class="image-slider">
+      <img [src]="restaurant.images[currentImageIndex]" alt="{{ restaurant.name }} image" />
+      <button class="image-slider-btn-left">&lt;</button>
+      <button class="image-slider-btn-right">&gt;</button>
+    </div>
+
+    <div class="opening-times">
+      <h4>Opening Times</h4>
+      <table>
+        <tr>
+          <td>MON</td>
+          <td>13:00-23:00</td>
+        </tr>
+        <tr>
+          <td>TUE</td>
+          <td>13:00-23:00</td>
+        </tr>
+        <tr>
+          <td>WED</td>
+          <td>13:00-23:00</td>
+        </tr>
+        <tr>
+          <td>THU</td>
+          <td>13:00-23:00</td>
+        </tr>
+        <tr>
+          <td>FRI</td>
+          <td>13:00-23:00</td>
+        </tr>
+        <tr>
+          <td>SAT</td>
+          <td>13:00-23:00</td>
+        </tr>
+        <tr>
+          <td>SUN</td>
+          <td>13:00-23:00</td>
+        </tr>
+      </table>
+      <a href="" class="website-link">Website</a>
+    </div>
+  </div>
+
+  <div class="bottom-content">
+    <button class="comments-btn">Comments</button>
+    <button class="reserve-btn">Reserve</button>
+  </div>
+</div>

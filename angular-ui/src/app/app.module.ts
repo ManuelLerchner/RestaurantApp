@@ -12,6 +12,7 @@ import { RestaurantFiltersComponent } from './components/restaurant-filters/rest
 import { LoginComponent } from './components/login/login.component';
 
 import { RestaurantListCardComponent } from './components/restaurant-list-card/restaurant-list-card.component';
+import { RestaurantCardComponent } from './components/restaurant-card/restaurant-card.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { RestaurantListCardComponent } from './components/restaurant-list-card/r
     RestaurantFiltersComponent,
     LoginComponent,
     RestaurantListCardComponent,
+    RestaurantCardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],

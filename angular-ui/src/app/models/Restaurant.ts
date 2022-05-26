@@ -8,4 +8,6 @@ export interface Restaurant {
 
   distance: number;
   number_of_reviews: number;
+
+  images: string[];
 }
