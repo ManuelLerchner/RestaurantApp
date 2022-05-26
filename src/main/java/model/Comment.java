@@ -29,7 +29,7 @@ public class Comment {
         this.headline = "headline";
         this.text = "text";
         this.rating = 3;
-        this.restaurant = new Restaurant();
+        this.restaurant = null;
         this.author = new User();
     }
 

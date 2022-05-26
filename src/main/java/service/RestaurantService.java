@@ -7,19 +7,26 @@ import model.restaurant.PriceCategory;
 import model.restaurant.Restaurant;
 import model.util.WeekTimeSlot;
 import org.springframework.stereotype.Service;
+import repositories.RestaurantRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class RestaurantService {
 
-    private static List<Restaurant> restaurants;
+    private RestaurantRepository restaurantRepository;
+    private List<Restaurant> restaurants;
 
     // TODO replace default data by connection to data base
-    static {
+    public RestaurantService() {
+        restaurants = new ArrayList<Restaurant>();
+
+        List<Comment> commentstest = List.of(new Comment(), new Comment(), new Comment());
+
         // Initialize Data
-        Restaurant res1 = new Restaurant("name1", "linkToRestaurant1", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.NORMAL, RestaurantType.INDIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
+        Restaurant res1 = new Restaurant("name1", "linkToRestaurant1", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.NORMAL, RestaurantType.INDIAN, new Location(), new WeekTimeSlot[7], commentstest);
         Restaurant res2 = new Restaurant("name2", "linkToRestaurant2", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.CHEAP, RestaurantType.ITALIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
         Restaurant res3 = new Restaurant("name3", "linkToRestaurant3", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.COSTLY, RestaurantType.CHINESE, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
         Restaurant res4 = new Restaurant("name4", "linkToRestaurant4", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.NORMAL, RestaurantType.ITALIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
@@ -41,6 +48,7 @@ public class RestaurantService {
         restaurants.add(res10);
     }
 
+
     public List<Restaurant> retrieveAllRestaurants() {
         return restaurants;
     }
@@ -51,7 +59,7 @@ public class RestaurantService {
 
     public Restaurant retrieveRestaurant(int restaurantId) {
         for (Restaurant restaurant : restaurants) {
-            if(restaurant.getId() == restaurantId) {
+            if (restaurant.getId() == restaurantId) {
                 return restaurant;
             }
         }
@@ -73,7 +81,6 @@ public class RestaurantService {
         }
         restaurant.addComment(comment);
     }
-
 
 
 }

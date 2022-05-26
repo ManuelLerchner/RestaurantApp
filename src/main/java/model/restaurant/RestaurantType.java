@@ -1,5 +1,5 @@
 package model.restaurant;
 
 public enum RestaurantType {
-    ITALIAN, CHINESE, INDIAN
+    DEFAULT, ITALIAN, CHINESE, INDIAN
 }
