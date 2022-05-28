@@ -1,0 +1,128 @@
+.filterCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  background-color: rgb(252, 252, 252);
+  color: black;
+
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+  padding: 10px;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.actionsRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+//sliders
+.itemSelector {
+  width: 80%;
+  padding: 0px;
+}
+
+::ng-deep {
+  .custom-slider {
+    width: 100%;
+    margin-top: 8px;
+  }
+  .custom-slider .ngx-slider .ngx-slider-bar {
+    background: #8eb4fc;
+    height: 2px;
+  }
+  .custom-slider .ngx-slider .ngx-slider-selection {
+    background: rgb(255, 136, 0);
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer {
+    width: 8px;
+    height: 18px;
+    top: auto; /* to remove the default positioning */
+    bottom: 0;
+    background-color: #333;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer:after {
+    display: none;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-limit {
+    font-weight: 500;
+  }
+}
+
+//stars selector
+.rating-list {
+  display: inline-block;
+  list-style: none;
+}
+.rating-list li {
+  font-size: 20px;
+  float: right;
+  color: #ddd;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  cursor: pointer;
+}
+.rating-list li:hover {
+  color: #ffd700;
+}
+.rating-list li:hover ~ li {
+  color: #ffd700;
+}
+.rating-list li.selected {
+  color: #ffd700;
+}
+
+//Big Show-Filter-Button
+.showFiltersButton {
+  height: 40px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+//small buttons
+button {
+  background-color: #fff;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
+}
+
+button:hover {
+  background-color: rgb(238, 238, 238);
+  color: black;
+}

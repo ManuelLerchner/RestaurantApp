@@ -13,6 +13,13 @@ import { LoginComponent } from './components/login/login.component';
 
 import { RestaurantListCardComponent } from './components/restaurant-list-card/restaurant-list-card.component';
 import { RestaurantCardComponent } from './components/restaurant-card/restaurant-card.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -26,8 +33,18 @@ import { RestaurantCardComponent } from './components/restaurant-card/restaurant
     RestaurantListCardComponent,
     RestaurantCardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    NgxSliderModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatInputModule,
+    MatIconModule,
+  ],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

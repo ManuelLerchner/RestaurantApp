@@ -1,2 +1,68 @@
-<p>Filter: nur italienisch</p>
+<div class="filterCard" *ngIf="filterExpanded; else elseBlock">
+  <div class="actionsRow">
+    <button
+      class="toggleExpandedButton"
+      (click)="filterExpanded = !filterExpanded"
+    >
+      Close Filter Options
+    </button>
+    <button>Reset</button>
+  </div>
 
+  <h3>Restaurant Types</h3>
+  <div class="itemRow">
+    <button *ngFor="let type of restaurantTypes">{{ type }}</button>
+  </div>
+
+  <h3>Price categories</h3>
+  <div class="itemRow">
+    <button *ngFor="let category of priceCategories">{{ category }}</button>
+  </div>
+
+  <h3>Rating</h3>
+
+  <div class="row rating-list">
+    <li
+      *ngFor="let star of stars"
+      (click)="countStar(star)"
+      [ngClass]="{ selected: star <= selectedStar }"
+      (mouseover)="addClass(star)"
+      (mouseout)="removeClass()"
+    >
+      <span class="material-icons star">star</span>
+    </li>
+  </div>
+
+  <h3>Maximum Distance</h3>
+
+  <div class="custom-slider">
+    <ngx-slider
+      [(value)]="maxDistance"
+      [options]="distanceOptions"
+    ></ngx-slider>
+  </div>
+
+  <h3>Time Slots</h3>
+
+  <mat-form-field class="itemSelector" appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" [value]="date.value" />
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div class="custom-slider">
+    <ngx-slider
+      [(value)]="startHour"
+      [(highValue)]="endHour"
+      [options]="hourSelectorOptions"
+    ></ngx-slider>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <button class="showFiltersButton" (click)="filterExpanded = !filterExpanded">
+    Show Filter Options
+  </button>
+</ng-template>

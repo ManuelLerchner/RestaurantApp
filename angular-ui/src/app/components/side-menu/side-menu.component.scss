@@ -12,12 +12,14 @@
 }
 
 .sidemenu {
-  width: 300px;
+  width: 350px;
 
   padding-left: 20px;
   padding-right: 5px;
-  padding-top: 0px;
+  padding-top: 10px;
   padding-bottom: 0px;
+
+  box-sizing: border-box;
 
   height: 100%;
 
@@ -29,7 +31,8 @@
     font-size: 22px;
     color: hsla(0, 0%, 100%, 0.5);
     margin: 0;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .restaurant-list-container {
@@ -52,8 +55,15 @@
 }
 
 .sidemenu-controller {
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   button {
-    width: 50px;
+    width: 35px;
     background-color: transparent;
     border: none;
     padding: 5;
@@ -62,7 +72,10 @@
     filter: invert(0.8);
     transition: all 0.1s ease-out;
   }
-  img:hover {
+}
+
+.sidemenu-controller:hover {
+  img {
     transform: scale(1.02);
     filter: invert(1);
   }
