@@ -9,6 +9,8 @@ import { Restaurant } from 'src/app/models/Restaurant';
 export class SideMenuComponent implements OnInit {
   @Input() restaurants!: Restaurant[];
 
+  sideMenuExpanded: boolean = true;
+
   constructor() {}
 
   ngOnInit(): void {}
