@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import * as Leaflet from 'leaflet';
 import { Restaurant } from 'src/app/models/Restaurant'
 import {RESTAURANTS} from "../../mockdata/Restaurants";
+import {LatLng} from "leaflet";
 
 
 @Component({
@@ -27,14 +28,43 @@ export class MapComponent implements OnInit {
     });
 
 
-    var markerIcon = Leaflet.icon({
-      iconUrl: 'assets/icons/leaflet_marker_icon.png',
-      iconSize:     [40, 60],
-      iconAnchor:   [20, 60], // [0,0] = anchoring at top left
 
+
+    RESTAURANTS.forEach(restaurant => {
+      const marker = Leaflet.marker(
+        new LatLng(restaurant.location.latitude, restaurant.location.longitude),
+        {icon: new Leaflet.DivIcon(
+            {
+                className: 'marker-restaurant-' + restaurant.id,
+                //iconSize:     [40, 60],
+                iconAnchor:   [20, 60], // [0,0] = anchoring at top left
+                html:
+                  '<img ' +
+                  'class=markerIcon '+
+                  'style="height:60px; width: 40px" ' +
+                  'src="assets/icons/leaflet_marker_icon.png" ' +
+                  'alt="Marker"/>' +
+                '<span ' +
+                  'class=markerIcon.subLabel ' +
+                  'style="' +
+                  'position: absolute; ' +
+                  'width: fit-content; ' +
+                  'height: fit-content; ' +
+                  'font-size: 12pt; ' +
+                  'left: 160%; ' +
+                  'transform: translate(-50%, -90%); ' +
+                  'line-height: 13pt; ' +
+                  'text-align: center;' +
+                  'text-shadow: .5px .5px 0  #212529"' +
+                  '>' +
+                  restaurant.name +
+                  '</span>'
+            }),
+              title: restaurant.name
+        });
+      marker.addTo(this.map);
     });
 
-    RESTAURANTS.forEach(restaurant => Leaflet.marker(restaurant.position, {icon: markerIcon}).addTo(this.map));
     tiles.addTo(this.map);
 
   }

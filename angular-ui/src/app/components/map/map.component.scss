@@ -13,6 +13,14 @@
   height: 100%;
 }
 
-.leaflet-pane.leaflet-shadow-pane {
-  display: none;
+.markerIcon {
+  height: 60px;
+  width: 40px;
+  .subLabel {
+    text-align: center;
+
+  }
 }
+
+
+
