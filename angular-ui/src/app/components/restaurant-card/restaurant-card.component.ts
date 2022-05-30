@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Restaurant } from '../../models/Restaurant';
-import { RESTAURANTS } from '../../mockdata/Restaurants';
+import {Component, OnInit} from '@angular/core';
+import {Restaurant} from '../../models/Restaurant';
+import {RESTAURANTS} from '../../mockdata/Restaurants';
 
 @Component({
   selector: 'app-restaurant-card',
@@ -13,13 +13,18 @@ export class RestaurantCardComponent implements OnInit {
 
   constructor() {
     this.restaurant = RESTAURANTS[0];
-   }
+  }
 
   ngOnInit(): void {
   }
 
   getPriceCategory(priceCategory: number): string {
     return '€'.repeat(priceCategory);
+  }
+
+  changeImage(delta: number) {
+    const amountOfImages: number = this.restaurant.images.length;
+    this.currentImageIndex = (this.currentImageIndex + delta + amountOfImages) % amountOfImages;
   }
 
 }

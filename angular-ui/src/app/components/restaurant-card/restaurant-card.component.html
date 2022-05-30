@@ -18,8 +18,8 @@
   <div class="center-content">
     <div class="image-slider">
       <img [src]="restaurant.images[currentImageIndex]" alt="{{ restaurant.name }} image" />
-      <button class="image-slider-btn-left">&lt;</button>
-      <button class="image-slider-btn-right">&gt;</button>
+      <button class="image-slider-btn-left" (click)="changeImage(1)">&lt;</button>
+      <button class="image-slider-btn-right" (click)="changeImage(-1)">&gt;</button>
     </div>
 
     <div class="opening-times">
