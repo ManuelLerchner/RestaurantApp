@@ -1,3 +1,5 @@
+import {LatLngExpression} from "leaflet";
+
 export interface Restaurant {
   id: number;
   name: string;
@@ -6,7 +8,8 @@ export interface Restaurant {
   rating: number;
   type: string;
 
-  distance: number;
+  distance:number;
+  position: LatLngExpression;
   number_of_reviews: number;
 
   images: string[];
