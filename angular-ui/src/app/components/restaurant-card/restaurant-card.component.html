@@ -17,9 +17,16 @@
 
   <div class="center-content">
     <div class="image-slider">
-      <img [src]="restaurant.images[currentImageIndex]" alt="{{ restaurant.name }} image" />
-      <button class="image-slider-btn-left" (click)="changeImage(1)">&lt;</button>
-      <button class="image-slider-btn-right" (click)="changeImage(-1)">&gt;</button>
+      <img
+        [src]="restaurant.images[currentImageIndex]"
+        alt="{{ restaurant.name }} image"
+      />
+      <button class="image-slider-btn-left" (click)="changeImage(1)">
+        &lt;
+      </button>
+      <button class="image-slider-btn-right" (click)="changeImage(-1)">
+        &gt;
+      </button>
     </div>
 
     <div class="opening-times">
@@ -61,5 +68,29 @@
   <div class="bottom-content">
     <button class="comments-btn">Comments</button>
     <button class="reserve-btn">Reserve</button>
+  </div>
+
+  <div class="comments-section" *ngIf="showComments">
+    <div class="comment" *ngFor="let comment of comments">
+      <div class="comment-top">
+        <div class="comment-top-left">
+          <div>
+            <h4>{{ comment.headline }}</h4>
+            <span>{{ getCommentRating(comment.rating) }}</span>
+          </div>
+          <span>{{ comment.date | date: "longDate" }}</span>
+        </div>
+
+        <div>
+          <div class="profile-picture">
+            <span>{{ getInitials(comment.postedBy.name) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment-content">
+        {{ comment.text }}
+      </div>
+    </div>
   </div>
 </div>

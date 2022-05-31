@@ -7,6 +7,7 @@
 }
 
 .content-top {
+  margin-bottom: 0.35em;
   h3 {
     color: white;
     font-size: 2em;
@@ -15,7 +16,7 @@
   }
 
   span {
-    font-size: 1.75em;
+    font-size: 1.5em;
   }
 }
 
@@ -25,8 +26,12 @@
   grid-template-rows: auto auto;
   width: 50%;
   justify-items: start;
+  grid-gap: 0.3em;
 
-  .type, .distance, .priceCategory, .reviews {
+  .type,
+  .distance,
+  .priceCategory,
+  .reviews {
     color: rgb(189, 189, 189);
   }
 
@@ -89,7 +94,8 @@
     font-size: 1.25em;
   }
 
-  h4, a {
+  h4,
+  a {
     color: rgb(189, 189, 189);
   }
 
@@ -132,4 +138,56 @@ td:nth-child(2n) {
     padding: 2px 10px;
     font-weight: 600;
   }
+}
+
+.comment {
+  margin: 0.5em;
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.comment-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5em;
+
+  h4 {
+    margin: 0;
+    display: inline;
+    margin-right: 0.5em;
+    font-weight: 500;
+    font-size: 1.2em;
+  }
+
+  .comment-top-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comment-top-left > div > span {
+    color: rgb(255, 225, 0);
+    font-size: 1.2em;
+  }
+
+  .profile-picture{
+    background-color: purple;
+    height: 3em;
+    aspect-ratio: 1/1;
+    border-radius: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-picture>span{
+    color: white;
+    font-size: 1.75em;
+    font-weight: 200;
+  }
+}
+
+.comment-content{
+  padding: 0 0.5em;
 }
