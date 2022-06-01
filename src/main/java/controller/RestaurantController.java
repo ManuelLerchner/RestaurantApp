@@ -67,7 +67,9 @@ public class RestaurantController {
 
     @GetMapping("restaurants/{restaurantId}")
     public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Integer restaurantId) {
-        // TODO check whether restaurantId exists
+        if (!restaurantService.isExistingRestaurantId(restaurantId)) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(restaurantService.retrieveRestaurant(restaurantId));
     }
 

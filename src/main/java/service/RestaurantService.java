@@ -139,5 +139,8 @@ public class RestaurantService {
         restaurant.addComment(comment);
     }
 
+    public boolean isExistingRestaurantId(int restaurantId) {
+        return true; // TODO request to repository to check whether the restaurantId exists
+    }
 
 }
