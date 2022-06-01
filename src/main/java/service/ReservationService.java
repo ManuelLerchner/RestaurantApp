@@ -20,11 +20,20 @@ public class ReservationService {
                 return new Reservation(); // TODO
         }
 
-        public Reservation deleteReservation(int reservationId) {
-                return new Reservation(); // TODO
+        public void deleteReservation(int reservationId) {
+                // TODO delete
         }
 
-        public List<Reservation> retrieveReservationsForUser(int userId) {
-                return new ArrayList<>(); // TODO
+        public boolean isExistingReservationId(int reservationId) {
+                return true; // TODO request to repository to check whether the reservationId exists
         }
+
+        public boolean isExistingRestaurantId(int restaurantId) {
+                return true; // TODO request to repository to check whether the restaurantId exists
+        }
+
+        public boolean isExistingTableId(int tableId) {
+                return true; // TODO request to repository to check whether the tableId exists
+        }
+
 }
