@@ -41,7 +41,6 @@ public class Restaurant {
 
 
     public Restaurant(String name, String linkToWebsite, List<String> pictures, PriceCategory priceCategory, RestaurantType restaurantType, Location location, WeekTimeSlot[] openingTimes, List<Comment> comments) {
-        this.id = idCounter++;
         this.name = name;
         this.linkToWebsite = linkToWebsite;
         this.pictures = pictures;
@@ -55,7 +54,6 @@ public class Restaurant {
 
     // default constructor for testing purpose
     public Restaurant() {
-        this.id = idCounter++;
         this.name = "DefaultName";
         this.linkToWebsite = "linkToWebsite";
         this.averageRating = 4;
