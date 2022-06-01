@@ -20,7 +20,7 @@ import java.util.List;
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String linkToWebsite;
@@ -31,16 +31,17 @@ public class Restaurant {
     private PriceCategory priceCategory;
     private RestaurantType restaurantType;
 
-
-
     @Embedded
     private Location location;
 
-    private WeekTimeSlot[] openingTimes;
+    @ElementCollection
+    private List<WeekTimeSlot> openingTimes;
+
+    @ElementCollection
     private List<Comment> comments;
 
 
-    public Restaurant(String name, String linkToWebsite, List<String> pictures, PriceCategory priceCategory, RestaurantType restaurantType, Location location, WeekTimeSlot[] openingTimes, List<Comment> comments) {
+    public Restaurant(String name, String linkToWebsite, List<String> pictures, PriceCategory priceCategory, RestaurantType restaurantType, Location location, List<WeekTimeSlot> openingTimes, List<Comment> comments) {
         this.name = name;
         this.linkToWebsite = linkToWebsite;
         this.pictures = pictures;
@@ -60,9 +61,9 @@ public class Restaurant {
         this.pictures = List.of("/pathToPicture1", "/pathToPicture2");
         this.priceCategory = PriceCategory.NORMAL;
         this.restaurantType = RestaurantType.ITALIAN;
-        this.openingTimes = new WeekTimeSlot[7];
-        for(int i = 0; i < openingTimes.length; i++){
-            openingTimes[i] = new WeekTimeSlot(LocalTime.of(12, 00), LocalTime.of(23,00), DayOfWeek.of(i+1));
+        this.openingTimes = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            openingTimes.add(new WeekTimeSlot(LocalTime.of(12, 0), LocalTime.of(23, 0), DayOfWeek.of(i + 1)));
         }
         this.comments = new ArrayList<>();
 
@@ -133,11 +134,11 @@ public class Restaurant {
         this.location = location;
     }
 
-    public WeekTimeSlot[] getOpeningTimes() {
+    public List<WeekTimeSlot> getOpeningTimes() {
         return openingTimes;
     }
 
-    public void setOpeningTimes(WeekTimeSlot[] openingTimes) {
+    public void setOpeningTimes(List<WeekTimeSlot> openingTimes) {
         this.openingTimes = openingTimes;
     }
 
@@ -156,7 +157,7 @@ public class Restaurant {
 
     private void updateRating() {
         int sum = 0;
-        for(Comment comment : comments) {
+        for (Comment comment : comments) {
             sum += comment.getRating();
         }
         this.averageRating = (double) sum / comments.size();
@@ -172,7 +173,7 @@ public class Restaurant {
                 ", \npriceCategory=" + priceCategory +
                 ", \nrestaurantType=" + restaurantType +
                 ", \nlocation=" + location +
-                ", \nopeningTimes=" + Arrays.toString(openingTimes) +
+                ", \nopeningTimes=" + openingTimes.toString() +
                 ", \ncomments=" + comments +
                 "\n}";
     }

@@ -54,11 +54,6 @@ public class RestaurantService {
     }
     */
 
-    public static void main(String[] args) {
-        Restaurant res2 = new Restaurant("name2", "linkToRestaurant2", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.CHEAP, RestaurantType.ITALIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
-        createRestaurant(res2);
-    }
-
     @Transactional
     public String createRestaurant(Restaurant restaurant) {
         try {

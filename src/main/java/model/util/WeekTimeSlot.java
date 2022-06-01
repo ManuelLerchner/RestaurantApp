@@ -1,11 +1,17 @@
 package model.util;
 
+import javax.persistence.Embeddable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+@Embeddable
 public class WeekTimeSlot extends TimeSlot {
 
     private DayOfWeek dayOfWeek;
+
+    public WeekTimeSlot() {
+        super(LocalTime.of(12, 0), LocalTime.of(23, 59));
+    }
 
     public WeekTimeSlot(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
         super(startTime, endTime);
