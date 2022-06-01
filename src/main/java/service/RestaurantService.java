@@ -6,9 +6,11 @@ import model.Comment;
 import model.restaurant.PriceCategory;
 import model.restaurant.Restaurant;
 import model.util.WeekTimeSlot;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repositories.RestaurantRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,10 +18,13 @@ import java.util.stream.Stream;
 @Service
 public class RestaurantService {
 
+    @Autowired
     private RestaurantRepository restaurantRepository;
+
     private List<Restaurant> restaurants;
 
     // TODO replace default data by connection to data base
+    /*
     public RestaurantService() {
         restaurants = new ArrayList<Restaurant>();
 
@@ -46,6 +51,26 @@ public class RestaurantService {
         restaurants.add(res8);
         restaurants.add(res9);
         restaurants.add(res10);
+    }
+    */
+
+    public static void main(String[] args) {
+        Restaurant res2 = new Restaurant("name2", "linkToRestaurant2", List.of("/pathPicture1", "/pathPicture2"), PriceCategory.CHEAP, RestaurantType.ITALIAN, new Location(), new WeekTimeSlot[7], new ArrayList<Comment>());
+        createRestaurant(res2);
+    }
+
+    @Transactional
+    public String createRestaurant(Restaurant restaurant) {
+        try {
+            if(!restaurantRepository.existsByName(restaurant.getName())) {
+                restaurantRepository.save(restaurant);
+                return "Restaurant saved successfully!";
+            } else {
+                return "Restaurant already exists in database";
+            }
+        } catch(Exception e) {
+            throw e;
+        }
     }
 
 

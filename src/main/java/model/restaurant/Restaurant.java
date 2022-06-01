@@ -3,23 +3,37 @@ package model.restaurant;
 import model.util.Location;
 import model.Comment;
 import model.util.WeekTimeSlot;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
+import javax.annotation.processing.Generated;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Entity
+@TypeDefs(@TypeDef(name = "week-time-slot-array", typeClass = WeekTimeSlot[].class))
 public class Restaurant {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    private static int idCounter = 0;
     private String name;
     private String linkToWebsite;
     private double averageRating;
-    private List<String> pictures;
 
+    @ElementCollection
+    private List<String> pictures;
     private PriceCategory priceCategory;
     private RestaurantType restaurantType;
+
+
+
+    @Embedded
     private Location location;
 
     private WeekTimeSlot[] openingTimes;

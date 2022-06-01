@@ -1,5 +1,8 @@
 package model.util;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Location {
 
     private double longitude;
