@@ -9,7 +9,10 @@ import { Restaurant } from 'src/app/models/Restaurant';
 })
 export class MapComponent implements OnInit {
   @Input() restaurants!: Restaurant[];
+  @Input() canPlacePersonMarker!: boolean;
+
   @Output() selectedRestaurantEvent = new EventEmitter<Restaurant | null>();
+  @Output() personMarkerLocationEvent = new EventEmitter<Leaflet.LatLng>();
 
   private map: any;
   private centroid: Leaflet.LatLngExpression = [48.135125, 11.581981]; //
@@ -41,14 +44,25 @@ export class MapComponent implements OnInit {
     });
 
     this.restaurants.forEach((restaurant) => {
-      let marker = Leaflet.marker(new Leaflet.LatLng(restaurant.location.latitude, restaurant.location.longitude), {
-        icon: markerIcon,
-      }).addTo(this.map);
+      let marker = Leaflet.marker(
+        new Leaflet.LatLng(
+          restaurant.location.latitude,
+          restaurant.location.longitude
+        ),
+        {
+          icon: markerIcon,
+        }
+      ).addTo(this.map);
 
       let popup = Leaflet.popup({
         offset: [0, -40],
       })
-        .setLatLng(Leaflet.latLng(restaurant.location.latitude, restaurant.location.longitude))
+        .setLatLng(
+          Leaflet.latLng(
+            restaurant.location.latitude,
+            restaurant.location.longitude
+          )
+        )
         .setContent(
           `<h2>${restaurant.name}</h2>
           <img style="width:280px" src=${restaurant.images[0]}</img>`
@@ -75,6 +89,7 @@ export class MapComponent implements OnInit {
         }
       });
     });
+
     tiles.addTo(this.map);
   }
 
@@ -82,5 +97,27 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMap();
+    this.prepareUserMarker();
+  }
+
+  prepareUserMarker() {
+    var userIcon = Leaflet.icon({
+      iconUrl: 'assets/icons/leaflet_marker_person.png',
+      iconSize: [25, 40],
+      iconAnchor: [20, 60],
+    });
+
+    let marker: any;
+    this.map.on('click', (e: any) => {
+      if (this.canPlacePersonMarker) {
+        if (marker) this.map.removeLayer(marker);
+
+        this.personMarkerLocationEvent.emit(e.latlng);
+
+        marker = Leaflet.marker(e.latlng, {
+          icon: userIcon,
+        }).addTo(this.map);
+      }
+    });
   }
 }

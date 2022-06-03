@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Restaurant } from 'src/app/models/Restaurant';
 
 @Component({
@@ -8,6 +8,8 @@ import { Restaurant } from 'src/app/models/Restaurant';
 })
 export class SideMenuComponent implements OnInit {
   @Input() restaurants!: Restaurant[];
+  @Input() canPlacePersonMarker!: boolean;
+  @Output() canPlaceLocationMarkerEvent = new EventEmitter<boolean>();
 
   sideMenuExpanded: boolean = true;
 

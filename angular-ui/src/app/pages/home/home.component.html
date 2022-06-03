@@ -1,10 +1,16 @@
 <div class="page">
-  <app-side-menu [restaurants]="restaurants"></app-side-menu>
+  <app-side-menu
+    [restaurants]="restaurants"
+    [canPlacePersonMarker]="canPlacePersonMarker"
+    (canPlaceLocationMarkerEvent)="handleCanPlaceLocationMarkerEvent($event)"
+  ></app-side-menu>
 
   <div>
     <app-map
       [restaurants]="restaurants"
+      [canPlacePersonMarker]="canPlacePersonMarker"
       (selectedRestaurantEvent)="selectedRestaurantEvent($event)"
+      (personMarkerLocationEvent)="personMarkerLocationEvent($event)"
     ></app-map>
 
     <app-restaurant-card

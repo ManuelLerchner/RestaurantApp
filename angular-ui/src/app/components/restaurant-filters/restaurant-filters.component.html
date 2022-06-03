@@ -35,6 +35,13 @@
 
   <h3>Maximum Distance</h3>
 
+  <button
+    (click)="placeLocationMarkerEvent()"
+    [ngStyle]="{ 'background-color': canPlacePersonMarker ? 'green' : '' }"
+  >
+    Place Person Marker
+  </button>
+
   <div class="custom-slider">
     <ngx-slider
       [(value)]="maxDistance"

@@ -1,5 +1,5 @@
 import { Options } from '@angular-slider/ngx-slider';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 @Component({
@@ -8,6 +8,9 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./restaurant-filters.component.scss'],
 })
 export class RestaurantFiltersComponent implements OnInit {
+  @Output() canPlaceLocationMarkerEvent = new EventEmitter<boolean>();
+  @Input() canPlacePersonMarker!: boolean;
+
   filterExpanded: boolean = false;
   mouseOverStar = false;
 
@@ -79,5 +82,9 @@ export class RestaurantFiltersComponent implements OnInit {
     if (this.mouseOverStar) {
       this.selectedStar = 0;
     }
+  }
+
+  placeLocationMarkerEvent() {
+    this.canPlaceLocationMarkerEvent.emit(true);
   }
 }
