@@ -1,6 +1,6 @@
 .map-container {
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
 }
 
 .map-frame {
@@ -13,12 +13,25 @@
   height: 100%;
 }
 
-.markerIcon {
-  height: 60px;
-  width: 40px;
-  .subLabel {
-    text-align: center;
+::ng-deep {
+  .leaflet-popup-close-button {
+    display: none;
+  }
+  .leaflet-popup-content-wrapper {
+    background: #353333f1;
+    color: #d3d3d3;
+  }
 
+  .leaflet-popup-content-wrapper .leaflet-popup-content {
+    h2 {
+      padding: 0;
+      margin: 0;
+    }
+    margin: 10px;
+  }
+
+  .leaflet-popup-tip {
+    background: #353333f1;
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Restaurant } from '../../models/Restaurant';
 import { RESTAURANTS } from '../../mockdata/Restaurants';
 import { Comment } from 'src/app/models/Comment';
@@ -10,13 +10,12 @@ import { COMMENTS } from 'src/app/mockdata/Comments';
   styleUrls: ['./restaurant-card.component.scss'],
 })
 export class RestaurantCardComponent implements OnInit {
-  restaurant!: Restaurant;
+  @Input() restaurant!: Restaurant;
   comments!: Comment[];
   showComments: boolean = true;
   currentImageIndex: number = 0;
 
   constructor() {
-    this.restaurant = RESTAURANTS[0];
     this.comments = COMMENTS;
   }
 

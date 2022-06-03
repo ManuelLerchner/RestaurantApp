@@ -47,7 +47,7 @@ export class RestaurantFiltersComponent implements OnInit {
   hourSelectorOptions: Options = {
     floor: 10,
     ceil: 24,
-    step: 0.5,
+    step: 0.25,
     minRange: 2,
     pushRange: true,
     translate: (value: number): string => {

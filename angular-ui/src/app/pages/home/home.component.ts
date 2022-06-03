@@ -10,9 +10,15 @@ import { RESTAURANTS } from './../../mockdata/Restaurants';
 export class HomeComponent implements OnInit {
   restaurants: Restaurant[];
 
+  currentRestaurant: Restaurant | null = null;
+
   constructor() {
     this.restaurants = RESTAURANTS;
   }
 
   ngOnInit(): void {}
+
+  selectedRestaurantEvent(restaurant: Restaurant | null): void {
+    this.currentRestaurant = restaurant;
+  }
 }
