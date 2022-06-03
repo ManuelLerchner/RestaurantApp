@@ -23,15 +23,20 @@ export class HomeComponent implements OnInit {
 
   selectedRestaurantEvent(restaurant: Restaurant | null): void {
     this.currentRestaurant = restaurant;
+
+    console.log('Current restaurant selected: ', this.currentRestaurant);
   }
 
   personMarkerLocationEvent(canPlacePersonMarker: LatLng): void {
-    this.canPlacePersonMarker = false;
+    this.handleCanPlaceLocationMarkerEvent(false);
     this.personMarkerLocation = canPlacePersonMarker;
-    console.log(this.personMarkerLocation);
+
+    console.log('Person marker location: ', this.personMarkerLocation);
   }
 
   handleCanPlaceLocationMarkerEvent(canPlaceLocationMarker: boolean): void {
     this.canPlacePersonMarker = canPlaceLocationMarker;
+
+    console.log('Can place person marker: ', this.canPlacePersonMarker);
   }
 }
