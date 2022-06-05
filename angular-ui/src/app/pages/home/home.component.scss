@@ -7,30 +7,36 @@
   height: calc(100% - 56px);
   width: 100%;
 
-  app-map {
-    height: 100%;
-    width: 100%;
-
-    position: fixed;
-
-    overflow-y: auto;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
   app-side-menu {
     height: 100%;
-    z-index: 500;
+    z-index: 501;
   }
 
-  app-restaurant-card {
-    position: absolute;
-    left: 50%;
-    top: 50%;
+  .content-wrapper {
+    width: 100%;
+    height: 100%;
 
-    transform: translateY(-50%);
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    app-map {
+      height: 100%;
+      width: 100%;
+
+      position: absolute;
+    }
+
+    app-restaurant-card {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+      z-index: 500;
+    }
   }
 }
