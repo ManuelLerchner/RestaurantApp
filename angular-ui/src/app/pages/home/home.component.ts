@@ -16,26 +16,26 @@ export class HomeComponent implements OnInit {
   constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
-    this.mapService
-      .getSelectedRestaurant()
-      .subscribe((restaurant: Restaurant | null) => {
+    this.mapService.selectedRestaurant.subscribe(
+      (restaurant: Restaurant | null) => {
         this.currentRestaurant = restaurant;
-      });
+      }
+    );
 
     this.log();
   }
 
   log() {
-    this.mapService
-      .getPersonMarkerLocation()
-      .subscribe((location: LatLng | null) => {
+    this.mapService.personMarkerLocation.subscribe(
+      (location: LatLng | null) => {
         console.log('user-marker:', location);
-      });
+      }
+    );
 
-    this.mapService
-      .getSelectedRestaurant()
-      .subscribe((restaurant: Restaurant | null) => {
+    this.mapService.selectedRestaurant.subscribe(
+      (restaurant: Restaurant | null) => {
         console.log('selected-restaurant:', restaurant);
-      });
+      }
+    );
   }
 }

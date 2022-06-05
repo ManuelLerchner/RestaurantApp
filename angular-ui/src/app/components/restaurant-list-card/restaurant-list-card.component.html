@@ -1,4 +1,7 @@
-<div class="restaurant-card">
+<div
+  class="restaurant-card"
+  [style.background]="isSelected ? 'rgb(73, 73, 73)' : ''"
+>
   <h3>{{ restaurant.name }}</h3>
   <div class="row">
     <p class="type">{{ restaurant.type }}</p>

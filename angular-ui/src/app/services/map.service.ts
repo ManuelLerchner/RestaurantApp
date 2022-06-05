@@ -21,9 +21,8 @@ import { RestaurantService } from './restaurant.service';
 })
 export class MapService {
   private _map!: Map;
-
-  private personMarker = new BehaviorSubject<Marker<any> | null>(null);
-  private selectedRestaurant = new Subject<Restaurant | null>();
+  private _personMarker = new BehaviorSubject<Marker<any> | null>(null);
+  private _selectedRestaurant = new BehaviorSubject<Restaurant | null>(null);
 
   constructor(
     private restaurantService: RestaurantService,
@@ -38,12 +37,12 @@ export class MapService {
     this._map = map;
 
     this.map.on('click', (e: any) => {
-      this.selectedRestaurant.next(null);
+      this.selectedRestaurant = of(null);
     });
 
     this.initMap();
     this.prepareRestaurantBehaiviour();
-    this.setUserMarker();
+    this.prepareMovingUserMarker();
   }
 
   private initMap(): void {
@@ -92,7 +91,7 @@ export class MapService {
 
       //select Restaurant
       restaurantMarker.on('click', () => {
-        this.selectedRestaurant.next(restaurant);
+        this.flyTo(restaurant, 0);
       });
 
       //Hover Preview
@@ -112,10 +111,10 @@ export class MapService {
     }
   }
 
-  setUserMarker() {
+  prepareMovingUserMarker() {
     this.map.on('click', (e: any) => {
       if (this.filterService.canPlaceUserMarker) {
-        const oldMarker = this.personMarker.getValue();
+        const oldMarker = this._personMarker.getValue();
         if (oldMarker) this.map.removeLayer(oldMarker);
 
         let newMarker = marker(e.latlng, {
@@ -136,10 +135,10 @@ export class MapService {
             draggable: 'true',
           });
 
-          this.personMarker.next(newMarker);
+          this._personMarker.next(newMarker);
         });
 
-        this.personMarker.next(newMarker);
+        this._personMarker.next(newMarker);
         this.filterService.canPlaceUserMarker = false;
 
         newMarker.addTo(this.map);
@@ -147,8 +146,8 @@ export class MapService {
     });
   }
 
-  public getPersonMarkerLocation(): Observable<LatLng | null> {
-    return this.personMarker.pipe(
+  get personMarkerLocation(): Observable<LatLng | null> {
+    return this._personMarker.pipe(
       map((marker: Marker<any> | null) => {
         if (marker) {
           return marker.getLatLng();
@@ -159,7 +158,32 @@ export class MapService {
     );
   }
 
-  public getSelectedRestaurant(): Observable<Restaurant | null> {
-    return this.selectedRestaurant.asObservable();
+  get selectedRestaurant(): Observable<Restaurant | null> {
+    return this._selectedRestaurant.asObservable();
+  }
+
+  set selectedRestaurant(restaurant: Observable<Restaurant | null>) {
+    restaurant.subscribe((restaurant) => {
+      this._selectedRestaurant.next(restaurant);
+    });
+  }
+
+  public flyTo(restaurant: Restaurant, durationSeconds: number) {
+    this.map.flyTo(
+      new LatLng(restaurant.location.latitude, restaurant.location.longitude),
+      15,
+      {
+        animate: true,
+        duration: durationSeconds,
+      }
+    );
+
+    if (durationSeconds > 0) {
+      this.selectedRestaurant = of(null);
+    }
+
+    setTimeout(() => {
+      this.selectedRestaurant = of(restaurant);
+    }, durationSeconds * 1000);
   }
 }

@@ -10,6 +10,8 @@
       <app-restaurant-list-card
         *ngFor="let restaurant of restaurants"
         [restaurant]="restaurant"
+        [isSelected]="isSelectedRestaurant(restaurant)"
+        (click)="selectRestaurant(restaurant)"
       ></app-restaurant-list-card>
     </div>
   </div>

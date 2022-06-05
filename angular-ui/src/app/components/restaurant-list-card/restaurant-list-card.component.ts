@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/models/Restaurant';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-restaurant-list-card',
@@ -8,16 +9,19 @@ import { Restaurant } from 'src/app/models/Restaurant';
 })
 export class RestaurantListCardComponent implements OnInit {
   @Input() restaurant!: Restaurant;
+  @Input() isSelected!: boolean;
 
-  constructor() {}
+  constructor(public mapService: MapService) {}
 
   ngOnInit(): void {}
 
   getRating(rating: number): string {
-    return '★'.repeat(rating);	
+    return '★'.repeat(rating);
   }
 
   getPriceCategory(priceCategory: number): string {
     return '€'.repeat(priceCategory);
   }
+
+
 }
