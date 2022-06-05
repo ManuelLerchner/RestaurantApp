@@ -12,7 +12,7 @@ import { COMMENTS } from 'src/app/mockdata/Comments';
 export class RestaurantCardComponent implements OnInit {
   @Input() restaurant!: Restaurant;
   comments!: Comment[];
-  showComments: boolean = true;
+  showComments: boolean = false;
   currentImageIndex: number = 0;
 
   constructor() {
