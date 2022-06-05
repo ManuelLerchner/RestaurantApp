@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/models/Restaurant';
-import { RESTAURANTS } from './../../mockdata/Restaurants';
 import { LatLng } from 'leaflet';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-home',
@@ -9,34 +9,33 @@ import { LatLng } from 'leaflet';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  restaurants: Restaurant[];
   canPlacePersonMarker: boolean = false;
 
   currentRestaurant: Restaurant | null = null;
-  personMarkerLocation: LatLng | null = null;
 
-  constructor() {
-    this.restaurants = RESTAURANTS;
+  constructor(private mapService: MapService) {}
+
+  ngOnInit(): void {
+    this.mapService
+      .getSelectedRestaurant()
+      .subscribe((restaurant: Restaurant | null) => {
+        this.currentRestaurant = restaurant;
+      });
+
+    this.log();
   }
 
-  ngOnInit(): void {}
+  log() {
+    this.mapService
+      .getPersonMarkerLocation()
+      .subscribe((location: LatLng | null) => {
+        console.log('user-marker:', location);
+      });
 
-  selectedRestaurantEvent(restaurant: Restaurant | null): void {
-    this.currentRestaurant = restaurant;
-
-    console.log('Current restaurant selected: ', this.currentRestaurant);
-  }
-
-  personMarkerLocationEvent(canPlacePersonMarker: LatLng): void {
-    this.handleCanPlaceLocationMarkerEvent(false);
-    this.personMarkerLocation = canPlacePersonMarker;
-
-    console.log('Person marker location: ', this.personMarkerLocation);
-  }
-
-  handleCanPlaceLocationMarkerEvent(canPlaceLocationMarker: boolean): void {
-    this.canPlacePersonMarker = canPlaceLocationMarker;
-
-    console.log('Can place person marker: ', this.canPlacePersonMarker);
+    this.mapService
+      .getSelectedRestaurant()
+      .subscribe((restaurant: Restaurant | null) => {
+        console.log('selected-restaurant:', restaurant);
+      });
   }
 }

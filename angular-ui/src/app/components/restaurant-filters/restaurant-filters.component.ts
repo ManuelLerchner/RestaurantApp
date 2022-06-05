@@ -2,15 +2,13 @@ import { Options } from '@angular-slider/ngx-slider';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
+import { FilterService } from 'src/app/services/filter.service';
 @Component({
   selector: 'app-restaurant-filters',
   templateUrl: './restaurant-filters.component.html',
   styleUrls: ['./restaurant-filters.component.scss'],
 })
 export class RestaurantFiltersComponent implements OnInit {
-  @Output() canPlaceLocationMarkerEvent = new EventEmitter<boolean>();
-  @Input() canPlacePersonMarker!: boolean;
-
   filterExpanded: boolean = false;
   mouseOverStar = false;
 
@@ -62,7 +60,7 @@ export class RestaurantFiltersComponent implements OnInit {
     },
   };
 
-  constructor() {}
+  constructor(public filterService: FilterService) {}
 
   ngOnInit(): void {}
 
@@ -85,6 +83,7 @@ export class RestaurantFiltersComponent implements OnInit {
   }
 
   placeLocationMarkerEvent() {
-    this.canPlaceLocationMarkerEvent.emit(true);
+    this.filterService.canPlaceUserMarker =
+      !this.filterService.canPlaceUserMarker;
   }
 }

@@ -1,18 +1,18 @@
-import {Restaurant} from '../models/Restaurant';
-import {LatLng} from "leaflet";
-import {Location} from "../models/Location";
+import { Restaurant } from '../models/Restaurant';
+import { LatLng } from 'leaflet';
+import { Location } from '../models/Location';
 
 function randomLocation(latLng?: LatLng): Location {
   if (latLng == null) {
     return {
-      latitude: 48.135125 + (Math.random() - .5) / 10,
-      longitude: 11.581981 + (Math.random() - .5) / 10
+      latitude: 48.135125 + (Math.random() - 0.5) / 10,
+      longitude: 11.581981 + (Math.random() - 0.5) / 10,
     }; // default: munich center
   } else {
     return {
-      latitude: latLng.lat + (Math.random() - .5) / 10,
-      longitude: latLng.lng + (Math.random() - .5) / 10
-    }
+      latitude: latLng.lat + (Math.random() - 0.5) / 10,
+      longitude: latLng.lng + (Math.random() - 0.5) / 10,
+    };
   }
 }
 
@@ -24,13 +24,13 @@ export const RESTAURANTS: Restaurant[] = [
     rating: 1,
     type: 'italienisch',
     number_of_reviews: 1,
-    distance : 1,
+    distance: 1,
     location: randomLocation(),
     images: [
       'https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/slideshow/feature_-_Main_hall_1.jpg?1582043123',
       'https://www.collinsdictionary.com/images/full/restaurant_135621509_1000.jpg?version=4.0.257',
       'https://media0.faz.net/ppmedia/aktuell/rhein-main/1358939109/1.7957160/width610x580/leichte-vorspeise-eine.jpg',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Leuchtturm_Pellworm_%28Hochformat%29.jpg/640px-Leuchtturm_Pellworm_%28Hochformat%29.jpg'
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Leuchtturm_Pellworm_%28Hochformat%29.jpg/640px-Leuchtturm_Pellworm_%28Hochformat%29.jpg',
     ],
   },
   {
@@ -40,7 +40,7 @@ export const RESTAURANTS: Restaurant[] = [
     rating: 2,
     type: 'spanisch',
     number_of_reviews: 2,
-    distance : 2,
+    distance: 2,
     location: randomLocation(),
     images: [
       'https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/slideshow/feature_-_Main_hall_1.jpg?1582043123',

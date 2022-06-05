@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Restaurant } from '../../models/Restaurant';
-import { RESTAURANTS } from '../../mockdata/Restaurants';
 import { Comment } from 'src/app/models/Comment';
 import { COMMENTS } from 'src/app/mockdata/Comments';
 

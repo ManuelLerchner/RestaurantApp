@@ -37,7 +37,9 @@
 
   <button
     (click)="placeLocationMarkerEvent()"
-    [ngStyle]="{ 'background-color': canPlacePersonMarker ? 'green' : '' }"
+    [ngStyle]="{
+      'background-color': filterService.canPlaceUserMarker ? 'green' : ''
+    }"
   >
     Place Person Marker
   </button>

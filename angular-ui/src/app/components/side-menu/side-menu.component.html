@@ -2,12 +2,7 @@
   <div class="sidemenu" *ngIf="sideMenuExpanded">
     <h3>Filter</h3>
 
-    <app-restaurant-filters
-      (canPlaceLocationMarkerEvent)="
-        this.canPlaceLocationMarkerEvent.emit($event)
-      "
-      [canPlacePersonMarker]="canPlacePersonMarker"
-    ></app-restaurant-filters>
+    <app-restaurant-filters></app-restaurant-filters>
 
     <h3>Restaurants</h3>
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Restaurant } from 'src/app/models/Restaurant';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -7,13 +8,12 @@ import { Restaurant } from 'src/app/models/Restaurant';
   styleUrls: ['./side-menu.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
-  @Input() restaurants!: Restaurant[];
-  @Input() canPlacePersonMarker!: boolean;
-  @Output() canPlaceLocationMarkerEvent = new EventEmitter<boolean>();
-
+  restaurants!: Restaurant[];
   sideMenuExpanded: boolean = true;
 
-  constructor() {}
+  constructor(private restaurantService: RestaurantService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.restaurants = this.restaurantService.getRestaurants();
+  }
 }
