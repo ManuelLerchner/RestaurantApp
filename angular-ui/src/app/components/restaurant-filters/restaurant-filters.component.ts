@@ -1,5 +1,5 @@
 import { Options } from '@angular-slider/ngx-slider';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 import { FilterService } from 'src/app/services/filter.service';

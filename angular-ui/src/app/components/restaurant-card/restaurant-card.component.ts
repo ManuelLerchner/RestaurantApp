@@ -34,7 +34,7 @@ export class RestaurantCardComponent implements OnInit {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   }
 
-  getInitials(name: string){
+  getInitials(name: string) {
     return name[0];
   }
 }

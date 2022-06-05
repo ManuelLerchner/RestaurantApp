@@ -1,4 +1,4 @@
-import {Location} from "./Location";
+import { Location } from './Location';
 
 export interface Restaurant {
   id: number;
@@ -8,7 +8,7 @@ export interface Restaurant {
   rating: number;
   type: string;
 
-  distance:number;
+  distance: number;
   location: Location;
   number_of_reviews: number;
 

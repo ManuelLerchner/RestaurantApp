@@ -22,6 +22,4 @@ export class RestaurantListCardComponent implements OnInit {
   getPriceCategory(priceCategory: number): string {
     return '€'.repeat(priceCategory);
   }
-
-
 }

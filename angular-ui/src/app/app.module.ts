@@ -20,7 +20,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [

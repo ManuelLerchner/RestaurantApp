@@ -170,7 +170,7 @@ td:nth-child(2n) {
     font-size: 1.2em;
   }
 
-  .profile-picture{
+  .profile-picture {
     background-color: purple;
     height: 3em;
     aspect-ratio: 1/1;
@@ -180,13 +180,13 @@ td:nth-child(2n) {
     align-items: center;
   }
 
-  .profile-picture>span{
+  .profile-picture > span {
     color: white;
     font-size: 1.75em;
     font-weight: 200;
   }
 }
 
-.comment-content{
+.comment-content {
   padding: 0 0.5em;
 }

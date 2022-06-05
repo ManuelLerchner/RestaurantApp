@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/models/Restaurant';
 import { MapService } from 'src/app/services/map.service';
 import { RestaurantService } from 'src/app/services/restaurant.service';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-side-menu',
