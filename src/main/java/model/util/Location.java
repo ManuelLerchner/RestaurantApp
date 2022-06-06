@@ -1,8 +1,5 @@
 package model.util;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Location {
 
     private double longitude;
@@ -65,6 +62,18 @@ public class Location {
 
     public int getPostalCode() {
         return postalCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", streetName='" + streetName + '\'' +
+                ", houseNumber=" + houseNumber +
+                ", town='" + town + '\'' +
+                ", postalCode=" + postalCode +
+                '}';
     }
 
     public static void main(String[] args) {
