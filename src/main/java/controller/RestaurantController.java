@@ -25,6 +25,7 @@ public class RestaurantController {
             @RequestParam(name = "minRating", defaultValue = "1") int minRating,
             @RequestParam(name = "number", defaultValue = "50") int number,
             @RequestBody(required = false) Location userLocation
+            // TODO Zeifenster auswählen
     ) {
 
         if(!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, number)) {
