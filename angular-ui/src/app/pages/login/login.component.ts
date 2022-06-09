@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -12,7 +11,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   signUpForm!: FormGroup;
   forgotPasswordForm!: FormGroup;
-  state: AuthMode = AuthMode.SIGN_UP;
+  state: AuthMode = AuthMode.LOGIN;
 
   constructor(
     private accountService: AccountService,
@@ -28,6 +27,7 @@ export class LoginComponent implements OnInit {
 
     this.signUpForm = this.fb.group({
       email: this.fb.control(null, [Validators.required, Validators.email]),
+      username: this.fb.control(null, [Validators.required]),
       password: this.fb.control(null, [
         Validators.required,
         Validators.minLength(8),
@@ -61,6 +61,26 @@ export class LoginComponent implements OnInit {
 
   login() {
     console.log('login', this.loginForm.value);
+  }
+
+  signup() {
+    console.log('signup', this.signUpForm.value);
+  }
+
+  forgotPassword() {
+    console.log('forgot password', this.forgotPasswordForm.value);
+  }
+
+  showLogin() {
+    this.state = AuthMode.LOGIN;
+  }
+
+  showSignUp() {
+    this.state = AuthMode.SIGN_UP;
+  }
+
+  showForgotPassword() {
+    this.state = AuthMode.FORGOT_PASSWORD;
   }
 }
 
