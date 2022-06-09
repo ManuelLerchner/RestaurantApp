@@ -9,6 +9,7 @@ export const COMMENTS: Comment[] = [
     postedBy: {
       name: 'Manuel',
       email: 'test@gmail.com',
+      authToken: '1',
     },
   },
   {
@@ -19,6 +20,7 @@ export const COMMENTS: Comment[] = [
     postedBy: {
       name: 'Manuwetwetweel',
       email: 'test@wetewtgmail.com',
+      authToken: '2',
     },
   },
 ];
