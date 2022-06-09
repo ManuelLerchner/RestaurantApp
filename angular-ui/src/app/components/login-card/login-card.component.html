@@ -1,8 +1,10 @@
 <div class="login" *ngIf="accountService.userValue != null; else notLoggedIn">
-  <p>
-    Logged in as: <b> {{ accountService.userValue.name }}</b>
-  </p>
-  <button ngbDropdownItem (click)="onLogout()">Logout</button>
+  <div class="logged-in-wrapper">
+    <p class="welcome-text">
+      Welcome, <b> {{ accountService.userValue.name }}</b>
+    </p>
+    <button ngbDropdownItem (click)="onLogout()">Logout</button>
+  </div>
 </div>
 
 <ng-template #notLoggedIn>

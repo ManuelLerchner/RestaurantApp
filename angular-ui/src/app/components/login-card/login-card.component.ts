@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -8,9 +8,17 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./login-card.component.scss'],
 })
 export class LoginCardComponent implements OnInit {
-  constructor(public accountService: AccountService, private router: Router) {}
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const returnUrl =
+      this.route.snapshot.queryParamMap.get('returnUrl') || '/home';
+    this.accountService.keepSignedIn(returnUrl);
+  }
 
   onLogout(): void {
     this.accountService.logout();
