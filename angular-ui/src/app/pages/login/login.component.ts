@@ -111,6 +111,7 @@ export class LoginComponent implements OnInit {
   showForgotPassword() {
     this.state = AuthMode.FORGOT_PASSWORD;
   }
+
 }
 
 export enum AuthMode {
