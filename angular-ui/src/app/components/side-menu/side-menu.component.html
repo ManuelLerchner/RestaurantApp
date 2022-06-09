@@ -1,18 +1,20 @@
 <div class="content">
-  <div class="sidemenu" *ngIf="sideMenuExpanded">
-    <h3>Filter</h3>
+  <div class="sidemenuContainer">
+    <div class="sidemenu" *ngIf="sideMenuExpanded">
+      <h3>Filter</h3>
 
-    <app-restaurant-filters></app-restaurant-filters>
+      <app-restaurant-filters></app-restaurant-filters>
 
-    <h3>Restaurants</h3>
+      <h3>Restaurants</h3>
 
-    <div class="restaurant-list-container">
-      <app-restaurant-list-card
-        *ngFor="let restaurant of restaurants"
-        [restaurant]="restaurant"
-        [isSelected]="isSelectedRestaurant(restaurant)"
-        (click)="selectRestaurant(restaurant)"
-      ></app-restaurant-list-card>
+      <div class="restaurant-list-container">
+        <app-restaurant-list-card
+          *ngFor="let restaurant of restaurants"
+          [restaurant]="restaurant"
+          [isSelected]="isSelectedRestaurant(restaurant)"
+          (click)="selectRestaurant(restaurant)"
+        ></app-restaurant-list-card>
+      </div>
     </div>
   </div>
 
