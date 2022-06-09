@@ -19,6 +19,8 @@ router.post("/login", (req, res) => {
       authToken: authToken,
     });
 
+    user.authToken = authToken;
+
     console.log("login success");
 
     return;
@@ -27,6 +29,30 @@ router.post("/login", (req, res) => {
   console.log("login failure");
 
   res.status(401).send("Incorrect email or password.");
+});
+
+router.post("/keep-signed-in", (req, res) => {
+  let userData = req.body.user;
+
+  let user = db.users.find(
+    (user) => user.authToken === userData.authToken && user.email === userData.email
+  );
+
+  if (user) {
+    res.json({
+      username: user.username,
+      email: user.email,
+      authToken: user.authToken,
+    });
+
+    console.log("login with token success");
+
+    return;
+  }
+
+  console.log("login with token failure");
+
+  res.status(401).send("Incorrect token.");
 });
 
 module.exports = router;
