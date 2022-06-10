@@ -1,6 +1,6 @@
 package application.controller;
 
-import application.entity.Restaurant;
+import application.model.Restaurant;
 import application.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +23,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "createRestaurant", method = RequestMethod.POST)
     public String createRestaurant(@RequestBody Restaurant restaurant) {
+        System.out.println(restaurant.getId());
         return restaurantService.createRestaurant(restaurant);
     }
 
@@ -32,8 +33,8 @@ public class RestaurantController {
     }
 
     @RequestMapping(value = "updateRestaurant", method = RequestMethod.PUT)
-    public String updateRestaurant(@RequestBody Restaurant restaurant) {
-        return restaurantService.updateRestaurant(restaurant);
+    public String updateRestaurantName(@RequestBody Restaurant restaurant) {
+        return restaurantService.updateRestaurantName(restaurant);
     }
 
     @RequestMapping(value = "deleteRestaurant", method = RequestMethod.DELETE)

@@ -1,6 +1,6 @@
 package application.service;
 
-import application.entity.Restaurant;
+import application.model.Restaurant;
 import application.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class RestaurantService {
@@ -18,31 +17,21 @@ public class RestaurantService {
 
     @Transactional
     public String createRestaurant(Restaurant restaurant) {
-        try {
-            if (!restaurantRepository.existsByName(restaurant.getName())) {
-                restaurantRepository.save(restaurant);
-                return "Restaurant record created successfully";
-            } else {
-                return "Restaurant already exists";
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public List<Restaurant> readRestaurants() {
-        return restaurantRepository.findAll();
+        //if (!restaurantRepository.existsById(restaurant.getId())) {
+        restaurantRepository.save(restaurant);
+        return "Restaurant record created successfully";
+        //} else {
+        //  return "Restaurant already exists";
+        //}
     }
 
     @Transactional
     public String
-    updateRestaurant(Restaurant restaurant) {
-        try {
-            Restaurant restaurantToBeUpdate = restaurantRepository.findById(restaurant.getId()).get();
-            restaurantToBeUpdate.setName(restaurant.getName());
-            restaurantRepository.save(restaurantToBeUpdate);
+    updateRestaurantName(Restaurant restaurant) {
+        if (restaurantRepository.existsById(restaurant.getId())) {
+            restaurantRepository.save(restaurant);
             return "Restaurant record updated.";
-        } catch (NoSuchElementException e) {
+        } else {
             return "Restaurant not existent";
         }
     }
@@ -50,17 +39,19 @@ public class RestaurantService {
 
     @Transactional
     public String deleteRestaurant(Restaurant restaurant) {
-        if (restaurantRepository.existsByName(restaurant.getName())) {
+        if (restaurantRepository.existsById(restaurant.getId())) {
             try {
-                List<Restaurant> restaurants = restaurantRepository.findByName(restaurant.getName());
-                restaurantRepository.deleteAll(restaurants);
+                restaurantRepository.delete(restaurantRepository.findById(restaurant.getId()).get());
                 return "Restaurant record deleted successfully.";
             } catch (Exception e) {
                 throw e;
             }
-
         } else {
             return "Restaurant does not exist";
         }
+    }
+
+    public List<Restaurant> readRestaurants() {
+        return restaurantRepository.findAll();
     }
 }
