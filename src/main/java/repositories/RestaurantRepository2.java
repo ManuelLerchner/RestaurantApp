@@ -11,7 +11,7 @@ import java.util.List;
 
 public class RestaurantRepository2 {
 
-    private final String DATABASE_SOURCE = "jdbc:sqlite:src/main/resources/test.db";
+    private final String DATABASE_SOURCE = "jdbc:sqlite:src/main/resources/reservationAppDatabase.db";
 
 
     public boolean isExistingId(int restaurantId) {

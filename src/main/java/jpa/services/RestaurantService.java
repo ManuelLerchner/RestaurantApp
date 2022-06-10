@@ -1,7 +1,6 @@
-package jpa.service;
+package jpa.services;
 
 import jpa.model.restaurant.Restaurant;
-import jpa.model.restaurant.RestaurantType;
 import jpa.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +33,4 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
-    @Transactional
-    public List<Restaurant> retrieveByType(RestaurantType restaurantType) {
-        return restaurantRepository.findByType(restaurantType);
-    }
 }
