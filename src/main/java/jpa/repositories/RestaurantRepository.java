@@ -16,10 +16,10 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     public List<Restaurant> findByType(RestaurantType restaurantType);
 
-    @Query("SELECT r FROM Restaurant r WHERE r.getRestaurantType() = ?1 and r.getPriceCatergory = ?2")
+    @Query("SELECT r FROM Restaurant r WHERE r.restaurantType = ?1 and r.priceCategory = ?2")
     List<Restaurant> findRestaurants(RestaurantType restaurantType, PriceCategory priceCategory);
 
-    @Query("SELECT r FROM Restaurant r WHERE r.getRestaurantType() = :type and r.getPriceCategory = :category")
+    @Query("SELECT r FROM Restaurant r WHERE r.restaurantType = :type and r.priceCategory = :category")
     List<Restaurant> findRestaurantsNamedParams(
             @Param("type") RestaurantType restaurantType,
             @Param("category") PriceCategory priceCategory);
