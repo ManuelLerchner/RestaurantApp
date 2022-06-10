@@ -49,6 +49,10 @@ export class RestaurantCardComponent implements OnInit {
   }
 
   changeCurrentComment(newIndex: number) {
-    this.currentCommentIndex = newIndex;
+    if (newIndex == this.currentCommentIndex) {
+      this.currentCommentIndex = -1;
+    } else {
+      this.currentCommentIndex = newIndex;
+    }
   }
 }

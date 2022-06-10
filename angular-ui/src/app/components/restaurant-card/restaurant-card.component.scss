@@ -3,9 +3,8 @@
   border-radius: 10px;
   width: 35em;
   padding: 15px;
-  max-height: 60vh;
   overflow: hidden;
-  overflow-y: auto;
+  height: fit-content;
 }
 
 .content-top {
@@ -140,6 +139,12 @@ td:nth-child(2n) {
     padding: 2px 10px;
     font-weight: 600;
   }
+}
+
+.comments-section {
+  height: 10em;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .comment {
