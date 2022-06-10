@@ -73,7 +73,7 @@
   </div>
 
   <div class="comments-section" *ngIf="showComments">
-    <div class="comment" *ngFor="let comment of comments">
+    <div class="comment" *ngFor="let comment of comments; let i = index" (click)="changeCurrentComment(i)">
       <div class="comment-top">
         <div class="comment-top-left">
           <div>
@@ -91,7 +91,7 @@
       </div>
 
       <div class="comment-content">
-        {{ comment.text }}
+        {{ getCommentText(i) }}
       </div>
     </div>
   </div>

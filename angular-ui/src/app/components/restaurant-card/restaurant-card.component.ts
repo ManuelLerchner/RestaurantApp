@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Restaurant } from '../../models/Restaurant';
 import { Comment } from 'src/app/models/Comment';
 import { COMMENTS } from 'src/app/mockdata/Comments';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-restaurant-card',
@@ -13,6 +14,7 @@ export class RestaurantCardComponent implements OnInit {
   comments!: Comment[];
   showComments: boolean = false;
   currentImageIndex: number = 0;
+  currentCommentIndex: number = -1;
 
   constructor() {
     this.comments = COMMENTS;
@@ -36,5 +38,17 @@ export class RestaurantCardComponent implements OnInit {
 
   getInitials(name: string) {
     return name[0];
+  }
+
+  getCommentText(index: number) {
+    if (index != this.currentCommentIndex) {
+      return this.comments[index].text.substring(0, 50) + '...';
+    }
+
+    return this.comments[index].text;
+  }
+
+  changeCurrentComment(newIndex: number) {
+    this.currentCommentIndex = newIndex;
   }
 }
