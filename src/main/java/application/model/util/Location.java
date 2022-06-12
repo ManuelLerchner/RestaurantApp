@@ -63,6 +63,10 @@ public class Location {
     }
 
     public double getDistanceTo(Location otherLocation) {
+        if (otherLocation == null || this.longitude == null || this.latitude == null || otherLocation.getLatitude() == null || otherLocation.getLongitude() == null) {
+            return Double.MAX_VALUE;
+        }
+
         double earthRadiusKm = 6371;
 
         double dLat = degreesToRadians(otherLocation.getLatitude() - this.latitude);
@@ -74,19 +78,13 @@ public class Location {
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return (double) Math.round(earthRadiusKm * c * 100.0)/100.0;
+        return (double) Math.round(earthRadiusKm * c * 100.0) / 100.0;
     }
 
 
     private double degreesToRadians(double degrees) {
         return degrees * Math.PI / 180;
     }
-
-
-
-
-
-
 
 
 }

@@ -3,7 +3,7 @@ package application.model.util;
 import javax.persistence.*;
 import java.time.LocalTime;
 
-//@Embeddable
+@Entity
 public class TimeSlot {
 
     @Id
@@ -16,6 +16,11 @@ public class TimeSlot {
 
     @Column(name = "end_time")
     private LocalTime endTime;
+
+    public TimeSlot() {
+        this.startTime = LocalTime.MIN;
+        this.endTime = LocalTime.MAX;
+    }
 
     public TimeSlot(LocalTime startTime, LocalTime endTime) {
         this.startTime = startTime;

@@ -66,12 +66,12 @@ public class RestaurantService {
 
     @Transactional
     public String createRestaurant(Restaurant restaurant) {
-        //if (!restaurantRepository.existsById(restaurant.getId())) {
-        restaurantRepository.save(restaurant);
-        return "Restaurant record created successfully";
-        //} else {
-        //  return "Restaurant already exists";
-        //}
+        if (restaurant.getId() == null) {
+            restaurantRepository.save(restaurant);
+            return "Restaurant record created successfully";
+        } else {
+            return "Restaurant already exists";
+        }
     }
 
     @Transactional
@@ -87,13 +87,10 @@ public class RestaurantService {
 
     @Transactional
     public String deleteRestaurant(Restaurant restaurant) {
-        if (restaurantRepository.existsById(restaurant.getId())) {
-            try {
-                restaurantRepository.delete(restaurantRepository.findById(restaurant.getId()).get());
-                return "Restaurant record deleted successfully.";
-            } catch (Exception e) {
-                throw e;
-            }
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurant.getId());
+        if (optionalRestaurant.isPresent()) {
+            restaurantRepository.delete(optionalRestaurant.get());
+            return "Restaurant record deleted successfully.";
         } else {
             return "Restaurant does not exist";
         }
