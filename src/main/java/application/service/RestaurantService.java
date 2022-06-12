@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class RestaurantService {
@@ -27,7 +26,7 @@ public class RestaurantService {
 
     @Transactional
     public String
-    updateRestaurantName(Restaurant restaurant) {
+    updateRestaurant(Restaurant restaurant) {
         if (restaurantRepository.existsById(restaurant.getId())) {
             restaurantRepository.save(restaurant);
             return "Restaurant record updated.";

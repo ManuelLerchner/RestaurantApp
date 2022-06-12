@@ -1,6 +1,8 @@
 package application.repository;
 
 import application.model.Restaurant;
+import application.model.enums.PriceCategory;
+import application.model.enums.RestaurantType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,10 +13,12 @@ import java.util.List;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
-    @Transactional
-    @Modifying
-    @Query("update Restaurant r set r.name = ?1 where r.id = ?2")
-    void updateNameById(String name, long id);
+    @Query("""
+            select r from Restaurant r
+            where r.restaurantType = ?1 and r.priceCategory = ?2 and r.averageRating = ?3
+            order by r.averageRating""")
+    List<Restaurant> findByRestaurantTypeAndPriceCategoryAndAverageRatingOrderByAverageRatingAsc(RestaurantType restaurantType, PriceCategory priceCategory, Double averageRating);
+
 
 
 }
