@@ -28,7 +28,7 @@ public class Comment {
     @Column(name = "rating")
     private Integer rating;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

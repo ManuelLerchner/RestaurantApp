@@ -1,6 +1,8 @@
 package application.service;
 
 import application.model.Restaurant;
+import application.model.enums.PriceCategory;
+import application.model.enums.RestaurantType;
 import application.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,23 @@ public class RestaurantService {
         }
     }
 
+    @Transactional
     public List<Restaurant> readRestaurants() {
         return restaurantRepository.findAll();
     }
+
+    @Transactional
+    public List<Restaurant> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, double averageRating) {
+        return restaurantRepository.findByRestaurantTypeAndPriceCategoryAndAverageRatingOrderByAverageRatingAsc(restaurantType, priceCategory, averageRating);
+    }
+
+    @Transactional
+    public Restaurant retrieveRestaurant(Long id) {
+        if (restaurantRepository.existsById(id) && restaurantRepository.findById(id).isPresent()) {
+            return restaurantRepository.findById(id).get();
+        }
+        return null;
+    }
+
+
 }

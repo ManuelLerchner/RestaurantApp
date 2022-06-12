@@ -34,7 +34,7 @@ public class Restaurant {
     @Column(name = "link_to_website")
     private String linkToWebsite;
 
-    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     public List<Comment> getComments() {
