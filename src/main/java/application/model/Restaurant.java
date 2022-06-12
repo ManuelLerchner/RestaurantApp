@@ -2,12 +2,13 @@ package application.model;
 
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
+import application.model.util.Location;
+import application.model.util.WeekTimeSlot;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Restaurant {
@@ -36,6 +37,29 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @Embedded
+    private Location location;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "restaurant_id")
+    private List<WeekTimeSlot> openingTimes = new ArrayList<>();
+
+    public List<WeekTimeSlot> getOpeningTimes() {
+        return openingTimes;
+    }
+
+    public void setOpeningTimes(List<WeekTimeSlot> openingTimes) {
+        this.openingTimes = openingTimes;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public List<Comment> getComments() {
         return comments;

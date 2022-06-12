@@ -13,6 +13,39 @@ public class Location {
     @Column(name = "latitude")
     private Double latitude;
 
+    @Column(name = "street_name")
+    private String streetName;
+
+    @Column(name = "house_number")
+    private Integer houseNumber;
+
+    @Column(name = "town_name")
+    private String townName;
+
+    public String getTownName() {
+        return townName;
+    }
+
+    public void setTownName(String townName) {
+        this.townName = townName;
+    }
+
+    public Integer getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(Integer houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
     public Double getLatitude() {
         return latitude;
     }

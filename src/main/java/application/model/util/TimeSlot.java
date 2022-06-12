@@ -1,16 +1,20 @@
 package application.model.util;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalTime;
 
 //@Embeddable
 public class TimeSlot {
-//    @Column(name = "start_time")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "start_time")
     private LocalTime startTime;
 
-//    @Column(name = "end_time")
+    @Column(name = "end_time")
     private LocalTime endTime;
 
     public TimeSlot(LocalTime startTime, LocalTime endTime) {

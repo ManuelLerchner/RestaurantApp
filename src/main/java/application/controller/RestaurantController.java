@@ -17,6 +17,16 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
+
+    @GetMapping("restaurants/{restaurantId}")
+    public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Long restaurantId) {
+        Restaurant returnObject = restaurantService.retrieveRestaurant(restaurantId);
+        if(returnObject == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(returnObject);
+    }
+
     @GetMapping("restaurants")
     public ResponseEntity<List<Restaurant>> retrieveRestaurants(
             @RequestParam(name = "restaurantType", defaultValue = "DEFAULT") RestaurantType restaurantType,
@@ -32,7 +42,10 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.readFilteredRestaurants(
                 restaurantType,
                 priceCategory,
-                minRating
+                minRating,
+                maxDistance,
+                userLocation,
+                number
         ));
     }
 
@@ -61,14 +74,11 @@ public class RestaurantController {
         return true;
     }
 
-    @GetMapping("restaurants/{restaurantId}")
-    public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Long restaurantId) {
-        Restaurant returnObject = restaurantService.retrieveRestaurant(restaurantId);
-        if(returnObject == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(returnObject);
-    }
+
+
+    // **************************
+    // Test purpose
+    // **************************
 
     @RequestMapping(value = "info", method = RequestMethod.GET)
     public String info() {
