@@ -1,23 +1,19 @@
 package application.model.util;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 
-//@Embeddable
+@Entity
+@Table(name = "week_time_slot")
 public class WeekTimeSlot extends TimeSlot {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-//    @Column(name = "dayOfWeek")
+    @Enumerated
+    @Column(name = "day_of_week")
     private DayOfWeek dayOfWeek;
-    public WeekTimeSlot() {
-        super(LocalTime.of(12, 0), LocalTime.of(23, 59));
-    }
-
-    public WeekTimeSlot(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
-        super(startTime, endTime);
-        this.dayOfWeek = dayOfWeek;
-    }
 
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
@@ -27,18 +23,12 @@ public class WeekTimeSlot extends TimeSlot {
         this.dayOfWeek = dayOfWeek;
     }
 
-    @Override
-    public String toString() {
-        return "WeekTimeSlot{" +
-                "startTime=" + getStartTime() +
-                ", endTime=" + getEndTime() +
-                ", dayOfWeek=" + dayOfWeek +
-                '}';
+    public Long getId() {
+        return id;
     }
 
-    public static void main(String[] args) {
-        WeekTimeSlot weekTimeSlot = new WeekTimeSlot(LocalTime.of(18, 15), LocalTime.of(22,30), DayOfWeek.MONDAY);
-        System.out.println(weekTimeSlot);
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

@@ -6,12 +6,16 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-//@Embeddable
+@Embeddable
 public class DateTimeSlot extends TimeSlot {
-
 
     @Column(name = "date")
     private LocalDate date;
+
+    public DateTimeSlot() {
+        super();
+        this.date = null; //makes sense?
+    }
 
     public DateTimeSlot(LocalTime startTime, LocalTime endTime, LocalDate date) {
         super(startTime, endTime);
