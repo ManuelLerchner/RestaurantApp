@@ -35,10 +35,8 @@ public class RestaurantService {
         } else if (restaurantType != RestaurantType.DEFAULT) {
             restaurants = restaurantRepository.findByRestaurantType(restaurantType);
         } else if (priceCategory != PriceCategory.DEFAULT) {
-            System.out.println("TEST");
             restaurants = restaurantRepository.findByPriceCategory(priceCategory);
         } else if (minRating > 1) {
-            System.out.println("TEST");
             restaurants = restaurantRepository.findByAverageRating((double) minRating);
         } else {
             restaurants = restaurantRepository.findAll();
