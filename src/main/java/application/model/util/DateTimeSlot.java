@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Embeddable
+@Entity
 public class DateTimeSlot extends TimeSlot {
 
     @Column(name = "date")

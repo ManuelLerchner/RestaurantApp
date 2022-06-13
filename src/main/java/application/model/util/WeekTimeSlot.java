@@ -6,10 +6,6 @@ import java.time.DayOfWeek;
 @Entity
 @Table(name = "week_time_slot")
 public class WeekTimeSlot extends TimeSlot {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
 
     @Enumerated
     @Column(name = "day_of_week")
@@ -21,14 +17,6 @@ public class WeekTimeSlot extends TimeSlot {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }

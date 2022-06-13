@@ -4,7 +4,6 @@ import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
 import application.model.util.WeekTimeSlot;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,6 +43,8 @@ public class Restaurant {
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "restaurant_id")
     private List<WeekTimeSlot> openingTimes = new ArrayList<>();
+
+
 
     public List<WeekTimeSlot> getOpeningTimes() {
         return openingTimes;
