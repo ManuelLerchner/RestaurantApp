@@ -59,6 +59,7 @@ public class Restaurant {
         return distanceToUser;
     }
 
+
     public void setDistanceToUser(Double distanceToUser) {
         this.distanceToUser = distanceToUser;
     }
