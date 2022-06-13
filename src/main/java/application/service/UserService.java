@@ -2,10 +2,12 @@ package application.service;
 
 import application.model.User;
 import application.repository.UserRepository;
+import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -16,6 +18,7 @@ public class UserService {
     @Transactional
     public String createUser(User user) {
         if (user.getId() == null) {
+            user.setHashedPassword(Hashing.sha256().hashString(user.getName() + user.getHashedPassword(), StandardCharsets.UTF_8).toString());
             userRepository.save(user);
             return "User created successfully";
         }
