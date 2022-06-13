@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Restaurant {
@@ -44,6 +46,19 @@ public class Restaurant {
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "restaurant_id")
     private List<WeekTimeSlot> openingTimes = new ArrayList<>();
+
+    @ElementCollection
+    @Column(name = "picture")
+    @CollectionTable(name = "restaurant_pictures", joinColumns = @JoinColumn(name = "owner_id"))
+    private List<String> pictures = new ArrayList<>();
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
+    }
 
     public List<WeekTimeSlot> getOpeningTimes() {
         return openingTimes;
