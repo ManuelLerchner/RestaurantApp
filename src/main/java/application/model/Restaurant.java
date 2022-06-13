@@ -52,6 +52,17 @@ public class Restaurant {
     @CollectionTable(name = "restaurant_pictures", joinColumns = @JoinColumn(name = "owner_id"))
     private List<String> pictures = new ArrayList<>();
 
+    @Column(name = "distance_to_user")
+    private Double distanceToUser;
+
+    public Double getDistanceToUser() {
+        return distanceToUser;
+    }
+
+    public void setDistanceToUser(Double distanceToUser) {
+        this.distanceToUser = distanceToUser;
+    }
+
     public List<String> getPictures() {
         return pictures;
     }
@@ -59,6 +70,8 @@ public class Restaurant {
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
     }
+
+
 
     public List<WeekTimeSlot> getOpeningTimes() {
         return openingTimes;

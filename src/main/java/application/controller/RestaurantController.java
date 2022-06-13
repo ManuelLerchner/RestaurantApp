@@ -87,7 +87,6 @@ public class RestaurantController {
 
     @RequestMapping(value = "createRestaurant", method = RequestMethod.POST)
     public String createRestaurant(@RequestBody Restaurant restaurant) {
-        System.out.println(restaurant.getId());
         return restaurantService.createRestaurant(restaurant);
     }
 

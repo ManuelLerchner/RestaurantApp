@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +43,24 @@ public class RestaurantService {
             restaurants = restaurantRepository.findAll();
         }
 
+        // sorting for average Rating
+        restaurants = restaurants.stream().sorted(Comparator.comparingDouble(Restaurant::getAverageRating).reversed()).toList();
+
         // filter for maxDistance and Location
         if (maxDistance > 0 && userLocation != null && userLocation.getLongitude() != null && userLocation.getLatitude() != null) {
-            restaurants = restaurants.stream().filter(r -> r.getLocation() != null && r.getLocation().getDistanceTo(userLocation) <= maxDistance).toList();
+            restaurants = restaurants.stream().filter(r -> {
+                if(r.getLocation() != null && r.getLocation().getLatitude() != null && r.getLocation().getLongitude() != null) {
+                    double distance = r.getLocation().getDistanceTo(userLocation);
+                    if(r.getLocation().getDistanceTo(userLocation) <= maxDistance) {
+                        // value exists only in response -> not stored in database
+                        r.setDistanceToUser(distance);
+                        return true;
+                    }
+                }
+                return false;
+            }).toList();
+            // sorting for distanceToUser
+            restaurants = restaurants.stream().sorted(Comparator.comparingDouble(Restaurant::getDistanceToUser)).toList();
         }
 
         // Limit list of restaurants to number
