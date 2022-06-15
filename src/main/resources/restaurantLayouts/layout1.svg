@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="full" height="1000%" version="1.1" width="1000%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs />
+    <rect fill="rgb(0,0,0)" class="restaurantBackground" height="29.23076923076923" rx="3" ry="3" width="65" x="0" y="0" />
+    <rect fill="rgb(0,0,0)" class="restaurantBackground" height="26.76923076923077" rx="3" ry="3" width="38.0" x="30" y="23.23076923076923" />
+    <rect fill="rgb(0,0,0)" class="restaurantBackground" height="50" rx="3" ry="3" width="68.0" x="0" y="44.0" />
+    <ellipse cx="10" cy="5.314685314685314" fill="rgb(255,165,0)" class="table" id="table_1" onclick="console.log(1)" rx="8" ry="4" />
+    <ellipse cx="55" cy="4.871794871794871" fill="rgb(255,165,0)" class="table" id="table_2" onclick="console.log(2)" rx="8" ry="4" />
+    <ellipse cx="10" cy="15.314685314685313" fill="rgb(255,165,0)" class="table" id="table_3" onclick="console.log(3)" rx="8" ry="4" />
+    <ellipse cx="55" cy="14.871794871794872" fill="rgb(255,165,0)" class="table" id="table_4" onclick="console.log(4)" rx="8" ry="4" />
+    <ellipse cx="35" cy="34.87179487179487" fill="rgb(255,165,0)" class="table" id="table_5" onclick="console.log(5)" rx="3" ry="4" />
+    <ellipse cx="35" cy="44.87179487179487" fill="rgb(255,165,0)" class="table" id="table_6" onclick="console.log(6)" rx="3" ry="4" />
+    <ellipse cx="57.5" cy="44.87179487179487" fill="rgb(255,165,0)" class="table" id="table_7" onclick="console.log(7)" rx="8" ry="4" />
+    <ellipse cx="10" cy="54.871794871794876" fill="rgb(255,165,0)" class="table" id="table_8" onclick="console.log(8)" rx="8" ry="4" />
+    <ellipse cx="62.5" cy="54.871794871794876" fill="rgb(255,165,0)" class="table" id="table_9" onclick="console.log(9)" rx="3" ry="4" />
+    <ellipse cx="10" cy="64.87179487179488" fill="rgb(255,165,0)" class="table" id="table_10" onclick="console.log(10)" rx="8" ry="4" />
+    <ellipse cx="62.5" cy="64.87179487179488" fill="rgb(255,165,0)" class="table" id="table_11" onclick="console.log(11)" rx="3" ry="4" />
+    <ellipse cx="10" cy="74.87179487179488" fill="rgb(255,165,0)" class="table" id="table_12" onclick="console.log(12)" rx="8" ry="4" />
+    <ellipse cx="62.5" cy="74.87179487179488" fill="rgb(255,165,0)" class="table" id="table_13" onclick="console.log(13)" rx="3" ry="4" />
+    <ellipse cx="10" cy="84.87179487179488" fill="rgb(255,165,0)" class="table" id="table_14" onclick="console.log(14)" rx="8" ry="4" />
+    <ellipse cx="62.5" cy="84.87179487179488" fill="rgb(255,165,0)" class="table" id="table_15" onclick="console.log(15)" rx="3" ry="4" />
+</svg>

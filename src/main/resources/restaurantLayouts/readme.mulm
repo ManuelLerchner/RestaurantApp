@@ -1,0 +1,16 @@
+Die (sehr high quality) layouts haben alle Ellipsen mit einer id "table_{ZAHLVON1-N}" (weil man im Restaurant ja auch Tische von 1 ab zählt)
+Die ids werden immer horizontal von links nach rechts gezählt.
+
+Dass es einfacher wird, Sitzplatzzahlen zuzuweisen, habe ich alle Höhen gleich gelassen und nur die Länge zählt, die man gleich
+zur Berechnung der Sitzplätze nutzen kann ("rx" ist immer zwischen 3 und 9 -> Sitzplätze = rx + 1)
+
+Wenn dann alle Mock-Restaurants fertig sind, kann man ja einmal durchparsen und alle Tische mit Sitzplatzanzahl als Liste
+in die Restaurant-Datenbank aufnehmen.
+
+Außerdem sind sie mit einem onclick ausgestattet, das derzeit auf console.log(id) gesetzt ist, kann aber beliebig angepasst werden
+und einfach mit strg shift r mit einer anderen Funktion replaced werden
+
+
+CSS:
+Klasse der Tische: "table"
+Klasse des Hintergrunds: "restaurantBackground"

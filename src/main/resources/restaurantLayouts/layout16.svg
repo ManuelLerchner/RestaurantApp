@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="full" height="1000%" version="1.1" width="1000%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs />
+    <rect fill="rgb(0,0,0)" class="restaurantBackground" height="25.263157894736842" rx="3" ry="3" width="95" x="0" y="0" />
+    <rect fill="rgb(0,0,0)" class="restaurantBackground" height="30.736842105263158" rx="3" ry="3" width="48.0" x="40" y="19.263157894736842" />
+    <ellipse cx="11" cy="4.5933014354066986" fill="rgb(255,165,0)" class="table" id="table_1" onclick="console.log(1)" rx="9" ry="4" />
+    <ellipse cx="47.5" cy="4.5933014354066986" fill="rgb(255,165,0)" class="table" id="table_2" onclick="console.log(2)" rx="9" ry="4" />
+    <ellipse cx="83" cy="4.2105263157894735" fill="rgb(255,165,0)" class="table" id="table_3" onclick="console.log(3)" rx="10" ry="4" />
+    <ellipse cx="11" cy="14.593301435406698" fill="rgb(255,165,0)" class="table" id="table_4" onclick="console.log(4)" rx="9" ry="4" />
+    <ellipse cx="83" cy="14.210526315789473" fill="rgb(255,165,0)" class="table" id="table_5" onclick="console.log(5)" rx="10" ry="4" />
+    <ellipse cx="45" cy="34.21052631578947" fill="rgb(255,165,0)" class="table" id="table_6" onclick="console.log(6)" rx="3" ry="4" />
+    <ellipse cx="45" cy="44.21052631578947" fill="rgb(255,165,0)" class="table" id="table_7" onclick="console.log(7)" rx="3" ry="4" />
+    <ellipse cx="75.5" cy="44.21052631578947" fill="rgb(255,165,0)" class="table" id="table_8" onclick="console.log(8)" rx="10" ry="4" />
+</svg>
