@@ -129,11 +129,16 @@ button {
   color: black;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 5px;
+  padding: 7px;
   margin: 2px;
 }
 
+.selectedFilter {
+  background-color: #5ac007;
+  color: black;
+}
+
 button:hover {
-  background-color: rgb(238, 238, 238);
+  filter: brightness(0.9);
   color: black;
 }

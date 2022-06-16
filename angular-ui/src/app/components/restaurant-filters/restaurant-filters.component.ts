@@ -1,7 +1,8 @@
-import { Options } from '@angular-slider/ngx-slider';
+import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FilterService } from 'src/app/services/filter.service';
 @Component({
   selector: 'app-restaurant-filters',
@@ -60,15 +61,11 @@ export class RestaurantFiltersComponent implements OnInit {
     },
   };
 
+  personCount = 2;
+
   constructor(public filterService: FilterService) {}
 
   ngOnInit(): void {}
-
-  countStar(star: number) {
-    this.mouseOverStar = false;
-    this.selectedStar = star;
-    console.log(star);
-  }
 
   addClass(star: number) {
     if (this.mouseOverStar) {
@@ -85,5 +82,45 @@ export class RestaurantFiltersComponent implements OnInit {
   placeLocationMarkerEvent() {
     this.filterService.canPlaceUserMarker =
       !this.filterService.canPlaceUserMarker;
+  }
+
+  setRestaurantType(type: string) {
+    var next = type;
+    if (type === this.filterService.selectedRestaurant) {
+      next = '';
+    }
+    this.filterService.selectedRestaurant = next;
+  }
+
+  setPriceCategory(type: string) {
+    var next = type;
+    if (type === this.filterService.selectedPriceCategory) {
+      next = '';
+    }
+    this.filterService.selectedPriceCategory = next;
+  }
+
+  setStarCount(star: number) {
+    this.mouseOverStar = false;
+    this.selectedStar = star;
+
+    this.filterService.selectedStar = star;
+  }
+
+  setMaxDistance(distance: ChangeContext) {
+    this.filterService.selectedMaxDistance = distance.value;
+  }
+
+  setDate(date: MatDatepickerInputEvent<Date, any>) {
+    let newDate = new Date(date.value === null ? new Date() : date.value);
+    this.filterService.selectedDate = newDate;
+  }
+
+  setTimeWindow(window: ChangeContext) {
+    this.filterService.selectedTimeWindow = [window.value, window.highValue!];
+  }
+
+  setPersonCount(count: number) {
+    this.filterService.selectedPersonCount = count;
   }
 }
