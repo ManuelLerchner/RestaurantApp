@@ -5,7 +5,7 @@
       <span class="type">{{ restaurant.type }}</span>
       <span class="priceCategory">{{
         getPriceCategory(restaurant.price_category)
-      }}</span>
+        }}</span>
 
       <div class="rating-wrapper">
         <span class="rating">★{{ restaurant.rating }}</span>
@@ -18,14 +18,15 @@
   <div class="center-content">
     <div class="image-slider">
       <img
+        class="restaurant-image"
         [src]="restaurant.images[currentImageIndex]"
         alt="{{ restaurant.name }} image"
       />
       <button class="image-slider-btn-left" (click)="changeImage(1)">
-        &lt;
+        <img src="assets/icons/double_angle_left.svg" style="background: transparent;">
       </button>
       <button class="image-slider-btn-right" (click)="changeImage(-1)">
-        &gt;
+        <img src="assets/icons/double_angle_right.svg" style="background: transparent;">
       </button>
     </div>
 

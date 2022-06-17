@@ -51,7 +51,7 @@
   display: flex;
   align-content: center;
 
-  img {
+  .restaurant-image {
     width: 100%;
     aspect-ratio: 19/9;
     background-color: black;
@@ -60,13 +60,18 @@
 
   button {
     border: none;
-    font-size: 3em;
     color: white;
     height: 100%;
+    width: 15%;
     padding: 0;
     background: transparent;
     position: absolute;
     cursor: pointer;
+  }
+
+  button img{
+    filter: invert(1);
+    height: 15%;
   }
 
   .image-slider-btn-left {
