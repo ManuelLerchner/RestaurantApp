@@ -25,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './pages/login/login.component';
+import { RestaurantLayoutComponent } from './components/restaurant-layout/restaurant-layout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import { LoginComponent } from './pages/login/login.component';
     RestaurantListCardComponent,
     RestaurantCardComponent,
     LoginComponent,
+    RestaurantLayoutComponent,
   ],
   imports: [
     BrowserModule,
