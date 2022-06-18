@@ -1,8 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, timer } from 'rxjs';
-import { debounceTime, debounce } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, interval, Observable, timer } from 'rxjs';
+import { debounceTime, debounce, combineLatest } from 'rxjs/operators';
+import { RESTAURANTS } from '../mockdata/Restaurants';
 import { Restaurant } from '../models/Restaurant';
+import { RestaurantService } from './restaurant.service';
+import { merge } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,25 +23,23 @@ export class FilterService {
   private selectedDateObserver = new BehaviorSubject<Date>(new Date());
   private selectedPersonCountObserver = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) {
-    let observers: BehaviorSubject<any>[] = [
+  constructor(
+    private http: HttpClient,
+    private restaurantService: RestaurantService
+  ) {
+    merge(
       this.selectedRestaurantObserver,
       this.selectedPriceCategoryObserver,
       this.selectedStarObserver,
       this.selectedMaxDistanceObserver,
       this.selectedTimeWindowObserver,
       this.selectedDateObserver,
-      this.selectedPersonCountObserver,
-    ];
-
-    this.selectedRestaurantObserver.subscribe(() => {});
-
-    for (let observer of observers) {
-      let debouncedRequest = observer.pipe(debounceTime(50));
-      debouncedRequest.subscribe(() => {
+      this.selectedPersonCountObserver
+    )
+      .pipe(debounceTime(50))
+      .subscribe(() => {
         this.requestFilteredData();
       });
-    }
   }
 
   set selectedRestaurant(value: string) {
@@ -110,15 +111,21 @@ export class FilterService {
 
   private async requestFilteredData() {
     try {
-      let filteredRestaurants = this.http
+      console.log('requestFilteredData');
+      let filteredRestaurants = await this.http
         .get<Restaurant[]>('http://localhost:3000/restaurants', {
           params: this.collectQueryParameters(),
         })
         .toPromise();
 
-      console.log(filteredRestaurants);
+      this.restaurantService.updateRestaurants(filteredRestaurants);
     } catch (error: any) {
-      console.log(error.statusText);
+      //temporary error message
+      console.error(
+        '%cFetching new data failed, returning mockdata!\nMaybe the server is not running yet?',
+        'color:yellow;font-family:system-ui;font-size:2rem;-webkit-text-stroke: 1px black;font-weight:bold'
+      );
+      this.restaurantService.updateRestaurants(RESTAURANTS);
     }
   }
 }
