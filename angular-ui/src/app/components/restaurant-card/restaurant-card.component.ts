@@ -55,4 +55,12 @@ export class RestaurantCardComponent implements OnInit {
       this.currentCommentIndex = newIndex;
     }
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  close() {
+    this.mapService.selectedRestaurantObservable = of(null);
+  }
 }

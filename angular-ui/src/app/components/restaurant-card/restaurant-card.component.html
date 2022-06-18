@@ -1,11 +1,17 @@
 <div class="card-wrapper">
   <div class="content-top">
-    <h3>{{ restaurant.name }}</h3>
+    <div class="topRow">
+      <h3>{{ restaurant.name }}</h3>
+      <!-- closing button -->
+      <button class="close-button" (click)="close()">
+        <i class="fa fa-close" style="font-size: 22px"></i>
+      </button>
+    </div>
     <div class="info-grid">
       <span class="type">{{ restaurant.type }}</span>
       <span class="priceCategory">{{
         getPriceCategory(restaurant.price_category)
-        }}</span>
+      }}</span>
 
       <div class="rating-wrapper">
         <span class="rating">★{{ restaurant.rating }}</span>
@@ -23,10 +29,16 @@
         alt="{{ restaurant.name }} image"
       />
       <button class="image-slider-btn-left" (click)="changeImage(1)">
-        <img src="assets/icons/double_angle_left.svg" style="background: transparent;">
+        <img
+          src="assets/icons/double_angle_left.svg"
+          style="background: transparent"
+        />
       </button>
       <button class="image-slider-btn-right" (click)="changeImage(-1)">
-        <img src="assets/icons/double_angle_right.svg" style="background: transparent;">
+        <img
+          src="assets/icons/double_angle_right.svg"
+          style="background: transparent"
+        />
       </button>
     </div>
 
@@ -74,7 +86,11 @@
   </div>
 
   <div class="comments-section" *ngIf="showComments">
-    <div class="comment" *ngFor="let comment of comments; let i = index" (click)="changeCurrentComment(i)">
+    <div
+      class="comment"
+      *ngFor="let comment of comments; let i = index"
+      (click)="changeCurrentComment(i)"
+    >
       <div class="comment-top">
         <div class="comment-top-left">
           <div>
