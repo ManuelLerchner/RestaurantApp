@@ -1,12 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { RESTAURANTS } from '../mockdata/Restaurants';
 import { Restaurant } from '../models/Restaurant';
 import { RestaurantService } from './restaurant.service';
-import { environment } from 'src/environments/environment';
-import { merge } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,57 +25,54 @@ export class FilterService {
     private http: HttpClient,
     private restaurantService: RestaurantService
   ) {
-    merge(
+    combineLatest([
       this.restaurantTypeObserver,
       this.priceCategoryObserver,
       this.minRatingObserver,
       this.maxDistanceObserver,
       this.timeSlotObserver,
       this.dateObserver,
-      this.personCountObserver
-    )
+      this.personCountObserver,
+    ])
       .pipe(debounceTime(50))
-      .subscribe(() => {
-        this.requestFilteredData();
+      .pipe(
+        map((filterData: any[]) => {
+          return {
+            restaurant_type: filterData[0],
+            price_category: filterData[1],
+            min_rating: filterData[2],
+            max_distance: filterData[3],
+            time_slot: filterData[4],
+            date: filterData[5],
+            person_count: filterData[6],
+          };
+        })
+      )
+      .subscribe((filterParams: { [key: string]: any }) => {
+        this.requestFilteredData(filterParams);
       });
   }
 
-  private collectQueryParameters() {
+  private createQueryParams(filterParams: { [key: string]: any }) {
     let queryParams = new HttpParams();
 
-    let params: (string | any)[] = [
-      ['restaurant_type', this.restaurantTypeObserver.value],
-      ['price_category', this.priceCategoryObserver.value],
-      ['min_rating', this.minRatingObserver.value],
-      ['max_distance', this.maxDistanceObserver.value],
-      ['time_slot', this.timeSlotObserver.value],
-      ['date', this.dateObserver.value],
-      ['person_count', this.personCountObserver.value],
-    ];
-
-    params.forEach(([key, value]) => {
-      if (value) {
-        queryParams = queryParams.append(key, value);
-      }
+    filterParams.forEach((value: any, key: any) => {
+      if (value !== null) queryParams = queryParams.append(key, value);
     });
 
     return queryParams;
   }
 
-  private async requestFilteredData() {
+  private async requestFilteredData(filterParams: { [key: string]: any }) {
     try {
-      console.log('requestFilteredData');
       let filteredRestaurants = await this.http
         .get<Restaurant[]>(`${environment.apiUrl}/restaurants`, {
-          params: this.collectQueryParameters(),
+          params: this.createQueryParams(filterParams),
         })
         .toPromise();
 
-      console.log(filteredRestaurants);
-
       this.restaurantService.updateRestaurants(filteredRestaurants);
     } catch (error: any) {
-      //temporary error message
       console.error(
         '%cFetching new data failed, returning mockdata!\nMaybe the server is not running yet?',
         'color:yellow;font-family:system-ui;font-size:2rem;-webkit-text-stroke: 1px black;font-weight:bold'
