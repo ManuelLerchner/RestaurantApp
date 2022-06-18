@@ -9,6 +9,7 @@ app.use(Cors());
 app.use(bodyParser.json());
 
 app.use("/auth", require("./routes/auth"));
+app.use("/restaurants", require("./routes/restaurants"));
 
 app.listen(8080, () => {
   console.log("Server started on port 8080");
