@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Restaurant } from 'src/app/models/Restaurant';
-import { LatLng } from 'leaflet';
 import { MapService } from 'src/app/services/map.service';
 
 @Component({
@@ -9,33 +7,7 @@ import { MapService } from 'src/app/services/map.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  canPlacePersonMarker: boolean = false;
+  constructor(public mapService: MapService) {}
 
-  currentRestaurant: Restaurant | null = null;
-
-  constructor(private mapService: MapService) {}
-
-  ngOnInit(): void {
-    this.mapService.selectedRestaurant.subscribe(
-      (restaurant: Restaurant | null) => {
-        this.currentRestaurant = restaurant;
-      }
-    );
-
-    this.log();
-  }
-
-  log() {
-    this.mapService.personMarkerLocation.subscribe(
-      (location: LatLng | null) => {
-        console.log('user-marker:', location);
-      }
-    );
-
-    this.mapService.selectedRestaurant.subscribe(
-      (restaurant: Restaurant | null) => {
-        console.log('selected-restaurant:', restaurant);
-      }
-    );
-  }
+  ngOnInit(): void {}
 }
