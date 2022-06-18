@@ -24,6 +24,8 @@ export class MapService {
   private _personMarker = new BehaviorSubject<Marker<any> | null>(null);
   private _selectedRestaurant = new BehaviorSubject<Restaurant | null>(null);
 
+  private markers: Marker<any>[] = [];
+
   constructor(
     private restaurantService: RestaurantService,
     private filterService: FilterService
@@ -41,7 +43,16 @@ export class MapService {
     });
 
     this.initMap();
-    this.prepareRestaurantBehaiviour();
+
+    this.restaurantService.restaurants.subscribe((restaurants) => {
+      this.markers.forEach((marker: any) => {
+        this.map.removeLayer(marker);
+      });
+      this.markers = [];
+
+      this.prepareRestaurantBehaiviour(restaurants);
+    });
+
     this.prepareMovingUserMarker();
   }
 
@@ -59,9 +70,7 @@ export class MapService {
     tiles.addTo(this.map);
   }
 
-  private prepareRestaurantBehaiviour() {
-    const restaurants = this.restaurantService.getRestaurants();
-
+  private prepareRestaurantBehaiviour(restaurants: Restaurant[]) {
     for (let restaurant of restaurants) {
       const restaurantPosition = new LatLng(
         restaurant.location.latitude,
@@ -86,6 +95,7 @@ export class MapService {
         );
 
       restaurantMarker.addTo(this.map);
+      this.markers.push(restaurantMarker);
       restaurantPopup.openOn(this.map);
       restaurantMarker.bindPopup(restaurantPopup).closePopup();
 
@@ -186,4 +196,7 @@ export class MapService {
       this.selectedRestaurant = of(restaurant);
     }, durationSeconds * 1000);
   }
+}
+function markerClusterGroup() {
+  throw new Error('Function not implemented.');
 }

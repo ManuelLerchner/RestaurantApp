@@ -9,17 +9,14 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
   styleUrls: ['./side-menu.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
-  restaurants!: Restaurant[];
   sideMenuExpanded: boolean = true;
 
   constructor(
-    private restaurantService: RestaurantService,
+    public restaurantService: RestaurantService,
     private mapService: MapService
   ) {}
 
-  ngOnInit(): void {
-    this.restaurants = this.restaurantService.getRestaurants();
-  }
+  ngOnInit(): void {}
 
   selectRestaurant(restaurant: Restaurant): void {
     this.mapService.flyTo(restaurant, 1.5);

@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
-import { RESTAURANTS } from '../mockdata/Restaurants';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Restaurant } from '../models/Restaurant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestaurantService {
+  private restaurantObserver = new BehaviorSubject<Restaurant[]>([]);
+  private oldRestaurants: Restaurant[] = [];
+
   constructor() {}
 
-  getRestaurants(): Restaurant[] {
-    return RESTAURANTS;
+  public readonly restaurants: Observable<Restaurant[]> =
+    this.restaurantObserver.asObservable();
+
+  public updateRestaurants(restaurants: Restaurant[]) {
+    if (restaurants !== this.oldRestaurants) {
+      this.restaurantObserver.next(restaurants);
+    }
+    this.oldRestaurants = restaurants;
   }
 }
