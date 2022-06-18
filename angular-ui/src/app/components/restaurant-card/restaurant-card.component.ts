@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Restaurant } from '../../models/Restaurant';
-import { Comment } from 'src/app/models/Comment';
+import { Component, OnInit } from '@angular/core';
+import { of } from 'rxjs';
 import { COMMENTS } from 'src/app/mockdata/Comments';
-import { ThisReceiver } from '@angular/compiler';
+import { Comment } from 'src/app/models/Comment';
+import { MapService } from 'src/app/services/map.service';
+import { Restaurant } from '../../models/Restaurant';
 
 @Component({
   selector: 'app-restaurant-card',
@@ -10,17 +11,26 @@ import { ThisReceiver } from '@angular/compiler';
   styleUrls: ['./restaurant-card.component.scss'],
 })
 export class RestaurantCardComponent implements OnInit {
-  @Input() restaurant!: Restaurant;
+  restaurant!: Restaurant;
   comments!: Comment[];
   showComments: boolean = false;
   currentImageIndex: number = 0;
   currentCommentIndex: number = -1;
+  subscription: any;
 
-  constructor() {
+  constructor(private mapService: MapService) {
     this.comments = COMMENTS;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription = this.mapService.selectedRestaurantObservable.subscribe(
+      (restaurant: Restaurant | null) => {
+        if (restaurant) {
+          this.restaurant = restaurant;
+        }
+      }
+    );
+  }
 
   getPriceCategory(priceCategory: number): string {
     return '€'.repeat(priceCategory);

@@ -1,16 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  marker,
-  latLng,
-  popup,
-  tileLayer,
-  LatLngExpression,
-  Map,
-  icon,
-  LatLng,
-  Marker,
-} from 'leaflet';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { icon, LatLng, Map, marker, Marker, popup, tileLayer } from 'leaflet';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Restaurant } from '../models/Restaurant';
 import { FilterService } from './filter.service';
@@ -21,8 +11,12 @@ import { RestaurantService } from './restaurant.service';
 })
 export class MapService {
   private _map!: Map;
-  private _personMarker = new BehaviorSubject<Marker<any> | null>(null);
-  private _selectedRestaurant = new BehaviorSubject<Restaurant | null>(null);
+  private personMarkerObservable = new BehaviorSubject<Marker<any> | null>(
+    null
+  );
+  private selectedRestaurantObserver = new BehaviorSubject<Restaurant | null>(
+    null
+  );
 
   private markers: Marker<any>[] = [];
 
@@ -39,10 +33,11 @@ export class MapService {
     this._map = map;
 
     this.map.on('click', (e: any) => {
-      this.selectedRestaurant = of(null);
+      this.selectedRestaurantObservable = of(null);
     });
 
     this.initMap();
+    this.prepareMovingUserMarker();
 
     this.restaurantService.restaurants.subscribe((restaurants) => {
       this.markers.forEach((marker: any) => {
@@ -52,8 +47,6 @@ export class MapService {
 
       this.prepareRestaurantBehaiviour(restaurants);
     });
-
-    this.prepareMovingUserMarker();
   }
 
   private initMap(): void {
@@ -95,13 +88,14 @@ export class MapService {
         );
 
       restaurantMarker.addTo(this.map);
-      this.markers.push(restaurantMarker);
       restaurantPopup.openOn(this.map);
       restaurantMarker.bindPopup(restaurantPopup).closePopup();
 
+      this.markers.push(restaurantMarker);
+
       //select Restaurant
       restaurantMarker.on('click', () => {
-        this.flyTo(restaurant, 0);
+        this.selectAndFlyToRestaurant(restaurant, 0);
       });
 
       //Hover Preview
@@ -124,7 +118,7 @@ export class MapService {
   prepareMovingUserMarker() {
     this.map.on('click', (e: any) => {
       if (this.filterService.canPlaceUserMarker) {
-        const oldMarker = this._personMarker.getValue();
+        const oldMarker = this.personMarkerObservable.getValue();
         if (oldMarker) this.map.removeLayer(oldMarker);
 
         let newMarker = marker(e.latlng, {
@@ -145,10 +139,10 @@ export class MapService {
             draggable: 'true',
           });
 
-          this._personMarker.next(newMarker);
+          this.personMarkerObservable.next(newMarker);
         });
 
-        this._personMarker.next(newMarker);
+        this.personMarkerObservable.next(newMarker);
         this.filterService.canPlaceUserMarker = false;
 
         newMarker.addTo(this.map);
@@ -157,7 +151,7 @@ export class MapService {
   }
 
   get personMarkerLocation(): Observable<LatLng | null> {
-    return this._personMarker.pipe(
+    return this.personMarkerObservable.pipe(
       map((marker: Marker<any> | null) => {
         if (marker) {
           return marker.getLatLng();
@@ -168,17 +162,24 @@ export class MapService {
     );
   }
 
-  get selectedRestaurant(): Observable<Restaurant | null> {
-    return this._selectedRestaurant.asObservable();
+  get selectedRestaurantObservable(): Observable<Restaurant | null> {
+    return this.selectedRestaurantObserver.asObservable();
   }
 
-  set selectedRestaurant(restaurant: Observable<Restaurant | null>) {
+  get selectedRestaurant() {
+    return this.selectedRestaurantObserver.getValue();
+  }
+
+  set selectedRestaurantObservable(restaurant: Observable<Restaurant | null>) {
     restaurant.subscribe((restaurant) => {
-      this._selectedRestaurant.next(restaurant);
+      this.selectedRestaurantObserver.next(restaurant);
     });
   }
 
-  public flyTo(restaurant: Restaurant, durationSeconds: number) {
+  public selectAndFlyToRestaurant(
+    restaurant: Restaurant,
+    durationSeconds: number
+  ) {
     this.map.flyTo(
       new LatLng(restaurant.location.latitude, restaurant.location.longitude),
       15,
@@ -189,14 +190,11 @@ export class MapService {
     );
 
     if (durationSeconds > 0) {
-      this.selectedRestaurant = of(null);
+      this.selectedRestaurantObservable = of(null);
     }
 
     setTimeout(() => {
-      this.selectedRestaurant = of(restaurant);
+      this.selectedRestaurantObservable = of(restaurant);
     }, durationSeconds * 1000);
   }
-}
-function markerClusterGroup() {
-  throw new Error('Function not implemented.');
 }

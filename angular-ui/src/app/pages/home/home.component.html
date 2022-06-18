@@ -5,8 +5,7 @@
     <app-map></app-map>
 
     <app-restaurant-card
-      *ngIf="currentRestaurant"
-      [restaurant]="currentRestaurant"
+      *ngIf="mapService.selectedRestaurantObservable | async"
     ></app-restaurant-card>
   </div>
 </div>

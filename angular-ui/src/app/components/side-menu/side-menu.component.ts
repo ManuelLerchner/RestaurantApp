@@ -10,25 +10,20 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
 })
 export class SideMenuComponent implements OnInit {
   sideMenuExpanded: boolean = true;
+  subsciption: any;
 
   constructor(
     public restaurantService: RestaurantService,
-    private mapService: MapService
+    public mapService: MapService
   ) {}
 
   ngOnInit(): void {}
 
   selectRestaurant(restaurant: Restaurant): void {
-    this.mapService.flyTo(restaurant, 1.5);
+    this.mapService.selectAndFlyToRestaurant(restaurant, 1.5);
   }
 
-  isSelectedRestaurant(currentRestaurant: Restaurant) {
-    let selected = false;
-    this.mapService.selectedRestaurant.subscribe(
-      (restaurant: Restaurant | null) => {
-        selected = restaurant === currentRestaurant;
-      }
-    );
-    return selected;
+  ngOnDestroy(): void {
+    this.subsciption.unsubscribe();
   }
 }
