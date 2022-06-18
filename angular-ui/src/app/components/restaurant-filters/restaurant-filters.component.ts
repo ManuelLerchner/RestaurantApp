@@ -21,9 +21,9 @@ export class RestaurantFiltersComponent implements OnInit {
     'Mexican',
   ];
 
-  priceCategories: string[] = ['günstig', 'normal', 'teuer'];
+  priceCategories: number[] = [1, 2, 3];
 
-  selectedStar: number = 2;
+  selectedStar: number = 0;
   stars: number[] = [5, 4, 3, 2, 1];
 
   maxDistance: number = 0.8;
@@ -44,7 +44,7 @@ export class RestaurantFiltersComponent implements OnInit {
     },
   };
 
-  date = new FormControl(new Date());
+  date = new FormControl();
 
   hourSelectorOptions: Options = {
     floor: 10,
@@ -84,43 +84,43 @@ export class RestaurantFiltersComponent implements OnInit {
       !this.filterService.canPlaceUserMarker;
   }
 
-  setRestaurantType(type: string) {
+  setRestaurantType(type: string | null) {
     var next = type;
-    if (type === this.filterService.selectedRestaurant) {
-      next = '';
+    if (type === this.filterService.restaurantTypeObserver.value) {
+      next = null;
     }
-    this.filterService.selectedRestaurant = next;
+    this.filterService.restaurantTypeObserver.next(next);
   }
 
-  setPriceCategory(type: string) {
+  setPriceCategory(type: number | null) {
     var next = type;
-    if (type === this.filterService.selectedPriceCategory) {
-      next = '';
+    console.log(type);
+    if (type === this.filterService.priceCategoryObserver.value) {
+      next = null;
     }
-    this.filterService.selectedPriceCategory = next;
+    this.filterService.priceCategoryObserver.next(next);
   }
 
-  setStarCount(star: number) {
+  setStarCount(stars: number) {
     this.mouseOverStar = false;
-    this.selectedStar = star;
+    this.selectedStar = stars;
 
-    this.filterService.selectedStar = star;
+    this.filterService.minRatingObserver.next(stars);
   }
 
   setMaxDistance(distance: ChangeContext) {
-    this.filterService.selectedMaxDistance = distance.value;
+    this.filterService.maxDistanceObserver.next(distance.value);
   }
 
   setDate(date: MatDatepickerInputEvent<Date, any>) {
-    let newDate = new Date(date.value === null ? new Date() : date.value);
-    this.filterService.selectedDate = newDate;
+    this.filterService.dateObserver.next(date.value);
   }
 
-  setTimeWindow(window: ChangeContext) {
-    this.filterService.selectedTimeWindow = [window.value, window.highValue!];
+  setTimeSlot(window: ChangeContext) {
+    this.filterService.timeSlotObserver.next([window.value, window.highValue!]);
   }
 
   setPersonCount(count: number) {
-    this.filterService.selectedPersonCount = count;
+    this.filterService.personCountObserver.next(count);
   }
 }

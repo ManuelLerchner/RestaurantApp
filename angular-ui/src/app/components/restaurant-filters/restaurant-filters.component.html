@@ -13,7 +13,9 @@
   <div class="itemRow">
     <button
       *ngFor="let type of restaurantTypes"
-      [ngClass]="{ selectedFilter: type === filterService.selectedRestaurant }"
+      [ngClass]="{
+        selectedFilter: type === filterService.restaurantTypeObserver.value
+      }"
       (click)="setRestaurantType(type)"
     >
       {{ type }}
@@ -25,11 +27,11 @@
     <button
       *ngFor="let category of priceCategories"
       [ngClass]="{
-        selectedFilter: category === filterService.selectedPriceCategory
+        selectedFilter: category === filterService.priceCategoryObserver.value
       }"
       (click)="setPriceCategory(category)"
     >
-      {{ category }}
+      {{ "€".repeat(category) }}
     </button>
   </div>
 
@@ -86,7 +88,7 @@
       [(value)]="startHour"
       [(highValue)]="endHour"
       [options]="hourSelectorOptions"
-      (userChange)="setTimeWindow($event)"
+      (userChange)="setTimeSlot($event)"
     ></ngx-slider>
   </div>
   <div>
