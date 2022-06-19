@@ -13,6 +13,32 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Transactional
+    public Reservation reserveTable() {
+        // TODO
+        return null;
+    }
+
+    @Transactional
+    public Reservation confirmReservation(Long id) {
+        // TODO
+        // probably add attribute "confirmed" to reservation
+        return null;
+    }
+
+    @Transactional
+    public void cancelReservation(Long id) {
+        reservationRepository.deleteById(id);
+    }
+
+    @Transactional
+    public boolean isExistingReservation(Long id) {
+        return reservationRepository.existsById(id);
+    }
+
+    // **************************
+    // Test purpose
+    // **************************
 
     @Transactional
     public String createReservation(Reservation reservation) {

@@ -14,6 +14,41 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @PostMapping("reserveTable")
+    public ResponseEntity<Reservation> reserveTable() {
+        // TODO add necessary parameters (table, startTime, user, ...)
+        if(!isValidReservation()) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(reservationService.reserveTable());
+    }
+
+    private boolean isValidReservation() {
+        // TODO
+        return true;
+    }
+
+    @DeleteMapping("cancelReservation")
+    public ResponseEntity<String> cancelReservation(@RequestParam Long id) {
+        if (!reservationService.isExistingReservation(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        reservationService.cancelReservation(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("confirmReservation")
+    public ResponseEntity<Reservation> confirmReservation(@RequestParam Long id) {
+        if (!reservationService.isExistingReservation(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(reservationService.confirmReservation(id));
+    }
+
+    // **************************
+    // Test purpose
+    // **************************
+
     @RequestMapping(value = "createReservation", method = RequestMethod.POST)
     public String createReservation(@RequestBody Reservation reservation) {
         return reservationService.createReservation(reservation);
