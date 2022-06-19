@@ -5,6 +5,7 @@ import application.model.Restaurant;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
+import application.repository.CommentRepository;
 import application.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +22,9 @@ public class RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     /**
      * Filters all restaurants in the database by the given parameters
@@ -100,15 +104,34 @@ public class RestaurantService {
     }
 
     @Transactional
-    public String addCommentToRestaurant(Long restaurantId, Comment comment) {
+    public String addCommentToRestaurant(Comment comment) {
+        Long restaurantId = comment.getRestaurant().getId();
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
+            comment.setRestaurant(restaurant);
+            commentRepository.save(comment);
             restaurant.addComment(comment);
             restaurantRepository.save(restaurant);
+            updateRating(restaurantId);
             return "Comment added successfully to restaurant with ID: " + restaurantId;
         } else {
             return "Restaurant doesn't exist";
+        }
+    }
+
+
+    private void updateRating(Long restaurantId) {
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+        if (optionalRestaurant.isPresent()) {
+            Restaurant restaurant = optionalRestaurant.get();
+            double ratingSum = 0.0;
+            for (Comment comment : restaurant.getComments()) {
+                ratingSum += comment.getRating();
+            }
+            double averageRating = ratingSum / restaurant.getComments().size();
+            System.out.println("averageRating: " + averageRating + ", commentsSize: " + restaurant.getComments().size());
+            restaurantRepository.updateAverageRatingById(averageRating, restaurantId);
         }
     }
 
@@ -124,6 +147,16 @@ public class RestaurantService {
         } else {
             return "Restaurant already exists";
         }
+    }
+
+    @Transactional
+    public String createRestaurants(List<Restaurant> restaurants) {
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getId() == null) {
+                restaurantRepository.save(restaurant);
+            }
+        }
+        return "created restaurants";
     }
 
     @Transactional

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,6 +20,10 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
 
+    /**
+     * @param restaurantId
+     * @return
+     */
     @GetMapping("restaurants/{restaurantId}")
     public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.retrieveRestaurant(restaurantId);
@@ -28,6 +33,15 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurant);
     }
 
+    /**
+     * @param restaurantType
+     * @param priceCategory
+     * @param maxDistance
+     * @param minRating
+     * @param number
+     * @param userLocation
+     * @return
+     */
     @GetMapping("restaurants")
     public ResponseEntity<List<Restaurant>> retrieveRestaurants(
             @RequestParam(name = "restaurantType", defaultValue = "DEFAULT") RestaurantType restaurantType,
@@ -51,21 +65,22 @@ public class RestaurantController {
     }
 
     /**
-     * @param restaurantId
-     * @param comment required attributes for comment: headline, text, rating, user
+     * @param comment required attributes for comment: headline, text, rating, user, restaurant
      * @return
      */
-    @PostMapping(value = "restaurants/addComment/{restaurantId}")
-    public String addComment(@PathVariable Long restaurantId,  @RequestBody(required = true) Comment comment) {
+    @PostMapping(value = "restaurants/addComment")
+    public String addComment(@RequestBody(required = true) Comment comment) {
         if(!isValidComment(comment)) {
             return "no valid comment";
         }
-        return restaurantService.addCommentToRestaurant(restaurantId, comment);
+        Date date = new Date(System.currentTimeMillis());
+        comment.setDate(date);
+        return restaurantService.addCommentToRestaurant(comment);
     }
 
     private boolean isValidComment(Comment comment) {
         // check not null for comment, headline, rating, text and user
-        if (comment == null || comment.getHeadline() == null || comment.getRating() == null || comment.getText() == null || comment.getUser() == null) {
+        if (comment == null || comment.getHeadline() == null || comment.getRating() == null || comment.getText() == null || comment.getUser() == null || comment.getRestaurant() == null) {
             return false;
         }
         // check value of rating is in valid interval [1; 5]
@@ -117,6 +132,11 @@ public class RestaurantController {
     @RequestMapping(value = "createRestaurant", method = RequestMethod.POST)
     public String createRestaurant(@RequestBody Restaurant restaurant) {
         return restaurantService.createRestaurant(restaurant);
+    }
+
+    @RequestMapping(value = "createRestaurants", method = RequestMethod.POST)
+    public String createRestaurant(@RequestBody List<Restaurant> restaurants) {
+        return restaurantService.createRestaurants(restaurants);
     }
 
     @RequestMapping(value = "readRestaurants", method = RequestMethod.GET)

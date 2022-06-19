@@ -33,4 +33,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("select r from Restaurant r where r.restaurantType = ?1 and r.priceCategory = ?2 and r.averageRating >= ?3")
     List<Restaurant> findByRestaurantTypeAndPriceCategoryAndAverageRating(RestaurantType restaurantType, PriceCategory priceCategory, Double averageRating);
+
+    @Transactional
+    @Modifying
+    @Query("update Restaurant r set r.averageRating = ?1 where r.id = ?2")
+    int updateAverageRatingById(Double averageRating, Long id);
 }
