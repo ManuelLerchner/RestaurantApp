@@ -1,15 +1,17 @@
 package application.service;
 
+import application.model.Comment;
 import application.model.Restaurant;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
 import application.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +22,29 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    /**
+     * Filters all restaurants in the database by the given parameters
+     *
+     * If you don't want to filter for a parameter you have to set a corresponding value, these are:
+     * restaurantType: RestaurantType.DEFAULT
+     * priceCategory: PriceCategory.DEFAULT
+     * minRating: <= 1
+     * maxDistance: < 0
+     * userLocation: null
+     * number: Integer.MAX_VALUE
+     *
+     * @param restaurantType
+     * @param priceCategory
+     * @param minRating
+     * @param maxDistance
+     * @param userLocation
+     * @param number
+     * @return List of filtered restaurants
+     */
     @Transactional
     public List<Restaurant> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, int minRating, double maxDistance, Location userLocation, int number) {
-        List<Restaurant> restaurants = new ArrayList<>();
-        System.out.println(minRating);
-        // filter for restaurantType, priceCategory and minRating with database query
+        List<Restaurant> restaurants;
+        // filter by restaurantType, priceCategory and minRating with database query
         if (restaurantType != RestaurantType.DEFAULT && priceCategory != PriceCategory.DEFAULT && minRating > 1) {
             restaurants = restaurantRepository.findByRestaurantTypeAndPriceCategoryAndAverageRating(restaurantType, priceCategory, (double) minRating);
         } else if (restaurantType != RestaurantType.DEFAULT && priceCategory != PriceCategory.DEFAULT) {
@@ -43,10 +63,10 @@ public class RestaurantService {
             restaurants = restaurantRepository.findAll();
         }
 
-        // sorting for average Rating
+        // sorting by average Rating
         restaurants = restaurants.stream().sorted(Comparator.comparingDouble(Restaurant::getAverageRating).reversed()).toList();
 
-        // filter for maxDistance and Location
+        // filter by maxDistance and Location
         if (maxDistance > 0 && userLocation != null && userLocation.getLongitude() != null && userLocation.getLatitude() != null) {
             restaurants = restaurants.stream().filter(r -> {
                 if(r.getLocation() != null && r.getLocation().getLatitude() != null && r.getLocation().getLongitude() != null) {
@@ -59,7 +79,7 @@ public class RestaurantService {
                 }
                 return false;
             }).toList();
-            // sorting for distanceToUser
+            // sorting by distanceToUser
             restaurants = restaurants.stream().sorted(Comparator.comparingDouble(Restaurant::getDistanceToUser)).toList();
         }
 
@@ -67,12 +87,30 @@ public class RestaurantService {
         return restaurants.subList(0, Math.min(restaurants.size(), number));
     }
 
+    /**
+     * Searches for a restaurant with the given id
+     *
+     * @param id
+     * @return Restaurant object with the specified id or null if the id does not exist
+     */
     @Transactional
     public Restaurant retrieveRestaurant(Long id) {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
         return optionalRestaurant.orElse(null);
     }
 
+    @Transactional
+    public String addCommentToRestaurant(Long restaurantId, Comment comment) {
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+        if (optionalRestaurant.isPresent()) {
+            Restaurant restaurant = optionalRestaurant.get();
+            restaurant.addComment(comment);
+            restaurantRepository.save(restaurant);
+            return "Comment added successfully to restaurant with ID: " + restaurantId;
+        } else {
+            return "Restaurant doesn't exist";
+        }
+    }
 
     // **************************
     // Test purpose
@@ -89,8 +127,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public String
-    updateRestaurant(Restaurant restaurant) {
+    public String updateRestaurant(Restaurant restaurant) {
         if (restaurantRepository.existsById(restaurant.getId())) {
             restaurantRepository.save(restaurant);
             return "Restaurant record updated.";

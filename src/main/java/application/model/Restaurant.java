@@ -146,6 +146,9 @@ public class Restaurant {
         this.name = name;
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
     @Override
     public String toString() {
         return "Restaurant{" +

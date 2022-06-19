@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.model.Comment;
 import application.model.Restaurant;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
@@ -20,11 +21,11 @@ public class RestaurantController {
 
     @GetMapping("restaurants/{restaurantId}")
     public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Long restaurantId) {
-        Restaurant returnObject = restaurantService.retrieveRestaurant(restaurantId);
-        if(returnObject == null) {
+        Restaurant restaurant = restaurantService.retrieveRestaurant(restaurantId);
+        if(restaurant == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(returnObject);
+        return ResponseEntity.ok(restaurant);
     }
 
     @GetMapping("restaurants")
@@ -49,6 +50,34 @@ public class RestaurantController {
         ));
     }
 
+    /**
+     * @param restaurantId
+     * @param comment required attributes for comment: headline, text, rating, user
+     * @return
+     */
+    @PostMapping(value = "restaurants/addComment/{restaurantId}")
+    public String addComment(@PathVariable Long restaurantId,  @RequestBody(required = true) Comment comment) {
+        if(!isValidComment(comment)) {
+            return "no valid comment";
+        }
+        return restaurantService.addCommentToRestaurant(restaurantId, comment);
+    }
+
+    private boolean isValidComment(Comment comment) {
+        // check not null for comment, headline, rating, text and user
+        if (comment == null || comment.getHeadline() == null || comment.getRating() == null || comment.getText() == null || comment.getUser() == null) {
+            return false;
+        }
+        // check value of rating is in valid interval [1; 5]
+        if (comment.getRating() < 1 || comment.getRating() > 5) {
+            return false;
+        }
+        // check id is not specified yet
+        if (comment.getId() != null) {
+            return false;
+        }
+        return true;
+    }
 
     private boolean isValidParameters(RestaurantType restaurantType, PriceCategory priceCategory, double maxDistance, Location userLocation, int minRating, int number) {
 
