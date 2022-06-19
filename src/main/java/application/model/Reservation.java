@@ -27,6 +27,19 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JsonIgnoreProperties("reservations")
+    @JoinColumn(name = "restaurant_table_id")
+    private RestaurantTable restaurantTable;
+
+    public RestaurantTable getRestaurantTable() {
+        return restaurantTable;
+    }
+
+    public void setRestaurantTable(RestaurantTable restaurantTable) {
+        this.restaurantTable = restaurantTable;
+    }
+
     public User getUser() {
         return user;
     }

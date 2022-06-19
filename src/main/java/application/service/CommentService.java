@@ -1,6 +1,7 @@
 package application.service;
 
 import application.model.Comment;
+import application.model.Restaurant;
 import application.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,16 @@ public class CommentService {
             return "Comment created successfully";
         }
         return "Comment exists already";
+    }
+
+    @Transactional
+    public String createComments(List<Comment> comments) {
+        for (Comment comment : comments) {
+            if (comment.getId() == null) {
+                commentRepository.save(comment);
+            }
+        }
+        return "created comments";
     }
 
     @Transactional

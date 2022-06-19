@@ -24,6 +24,11 @@ public class CommentController {
         return commentService.createComment(comment);
     }
 
+    @RequestMapping(value = "createComments", method = RequestMethod.POST)
+    public String createComments(@RequestBody List<Comment> comments) {
+        return commentService.createComments(comments);
+    }
+
     @RequestMapping(value = "deleteComment", method = RequestMethod.DELETE)
     public String deleteComment(@RequestParam Long id) {
         return commentService.deleteComment(id);

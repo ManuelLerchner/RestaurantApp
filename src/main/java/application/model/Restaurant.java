@@ -61,6 +61,18 @@ public class Restaurant {
     @Column(name = "distance_to_user")
     private Double distanceToUser;
 
+    @JsonIgnoreProperties("restaurant")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
+    private List<RestaurantTable> restaurantTables = new ArrayList<>();
+
+    public List<RestaurantTable> getRestaurantTables() {
+        return restaurantTables;
+    }
+
+    public void setRestaurantTables(List<RestaurantTable> restaurantTables) {
+        this.restaurantTables = restaurantTables;
+    }
+
     public Double getDistanceToUser() {
         return distanceToUser;
     }

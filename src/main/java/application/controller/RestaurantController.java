@@ -50,6 +50,7 @@ public class RestaurantController {
             @RequestParam(name = "minRating", defaultValue = "1") int minRating,
             @RequestParam(name = "number", defaultValue = "50") int number,
             @RequestBody(required = false) Location userLocation
+            // TODO filter by free time slots for reservations for specified dates and number of visitors (parameters: DateTimeSlot, int)
     ) {
         if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, number)) {
             return ResponseEntity.badRequest().build();
@@ -135,7 +136,7 @@ public class RestaurantController {
     }
 
     @RequestMapping(value = "createRestaurants", method = RequestMethod.POST)
-    public String createRestaurant(@RequestBody List<Restaurant> restaurants) {
+    public String createRestaurants(@RequestBody List<Restaurant> restaurants) {
         return restaurantService.createRestaurants(restaurants);
     }
 

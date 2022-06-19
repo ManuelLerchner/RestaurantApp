@@ -7,6 +7,8 @@ import application.model.enums.RestaurantType;
 import application.model.util.Location;
 import application.repository.CommentRepository;
 import application.repository.RestaurantRepository;
+import application.repository.RestaurantTableRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,6 +27,9 @@ public class RestaurantService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private RestaurantTableRepository tableRepository;
 
     /**
      * Filters all restaurants in the database by the given parameters
@@ -144,6 +149,7 @@ public class RestaurantService {
         if (restaurant.getId() == null) {
             Restaurant restaurantEntity = restaurantRepository.save(restaurant);
             updateRating(restaurantEntity.getId());
+
             return "Restaurant record created successfully";
         } else {
             return "Restaurant already exists";
