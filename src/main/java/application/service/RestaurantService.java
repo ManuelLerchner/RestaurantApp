@@ -147,31 +147,34 @@ public class RestaurantService {
 
     @Transactional
     public String createRestaurant(Restaurant restaurant) {
-        if (restaurant.getId() == null) {
-            for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
-                weekTimeSlotRepository.save(weekTimeSlot);
-            }
-            Restaurant restaurantEntity = restaurantRepository.save(restaurant);
-            updateRating(restaurantEntity.getId());
-
+        if (addRestaurantToDatabase(restaurant)) {
             return "Restaurant record created successfully";
-        } else {
-            return "Restaurant already exists";
         }
+        return "Restaurant already exists";
     }
 
     @Transactional
     public String createRestaurants(List<Restaurant> restaurants) {
         for (Restaurant restaurant : restaurants) {
-            if (restaurant.getId() == null) {
-                for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
-                    weekTimeSlotRepository.save(weekTimeSlot);
-                }
-                Restaurant restaurantEntity = restaurantRepository.save(restaurant);
-                updateRating(restaurantEntity.getId());
-            }
+            addRestaurantToDatabase(restaurant);
         }
         return "created restaurants";
+    }
+
+    private boolean addRestaurantToDatabase(Restaurant restaurant) {
+        if (restaurant.getId() == null) {
+            for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
+                weekTimeSlotRepository.save(weekTimeSlot);
+            }
+            Restaurant restaurantEntity = restaurantRepository.save(restaurant);
+            for (Comment comment : restaurant.getComments()) {
+                comment.setRestaurant(restaurantEntity);
+                commentRepository.save(comment);
+            }
+            updateRating(restaurantEntity.getId());
+            return true;
+        }
+        return false;
     }
 
     @Transactional
