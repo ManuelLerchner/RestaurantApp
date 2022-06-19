@@ -14,7 +14,6 @@ public class DateTimeSlot extends TimeSlot {
 
     public DateTimeSlot() {
         super();
-        this.date = null; //makes sense?
     }
 
     public DateTimeSlot(LocalTime startTime, LocalTime endTime, LocalDate date) {
