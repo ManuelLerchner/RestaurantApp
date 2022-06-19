@@ -142,7 +142,8 @@ public class RestaurantService {
     @Transactional
     public String createRestaurant(Restaurant restaurant) {
         if (restaurant.getId() == null) {
-            restaurantRepository.save(restaurant);
+            Restaurant restaurantEntity = restaurantRepository.save(restaurant);
+            updateRating(restaurantEntity.getId());
             return "Restaurant record created successfully";
         } else {
             return "Restaurant already exists";
@@ -153,7 +154,8 @@ public class RestaurantService {
     public String createRestaurants(List<Restaurant> restaurants) {
         for (Restaurant restaurant : restaurants) {
             if (restaurant.getId() == null) {
-                restaurantRepository.save(restaurant);
+                Restaurant restaurantEntity = restaurantRepository.save(restaurant);
+                updateRating(restaurantEntity.getId());
             }
         }
         return "created restaurants";
