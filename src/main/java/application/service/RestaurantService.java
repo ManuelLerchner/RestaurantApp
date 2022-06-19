@@ -5,15 +5,13 @@ import application.model.Restaurant;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
+import application.model.util.WeekTimeSlot;
 import application.repository.CommentRepository;
 import application.repository.RestaurantRepository;
 import application.repository.RestaurantTableRepository;
-import org.checkerframework.checker.units.qual.A;
+import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
@@ -30,6 +28,9 @@ public class RestaurantService {
 
     @Autowired
     private RestaurantTableRepository tableRepository;
+
+    @Autowired
+    private WeekTimeSlotRepository weekTimeSlotRepository;
 
     /**
      * Filters all restaurants in the database by the given parameters
@@ -147,6 +148,9 @@ public class RestaurantService {
     @Transactional
     public String createRestaurant(Restaurant restaurant) {
         if (restaurant.getId() == null) {
+            for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
+                weekTimeSlotRepository.save(weekTimeSlot);
+            }
             Restaurant restaurantEntity = restaurantRepository.save(restaurant);
             updateRating(restaurantEntity.getId());
 
@@ -160,6 +164,9 @@ public class RestaurantService {
     public String createRestaurants(List<Restaurant> restaurants) {
         for (Restaurant restaurant : restaurants) {
             if (restaurant.getId() == null) {
+                for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
+                    weekTimeSlotRepository.save(weekTimeSlot);
+                }
                 Restaurant restaurantEntity = restaurantRepository.save(restaurant);
                 updateRating(restaurantEntity.getId());
             }

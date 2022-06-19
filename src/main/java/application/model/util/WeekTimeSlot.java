@@ -22,4 +22,10 @@ public class WeekTimeSlot extends TimeSlot {
         this.dayOfWeek = dayOfWeek;
     }
 
+    @Override
+    public String toString() {
+        return "WeekTimeSlot{" +
+                "dayOfWeek=" + dayOfWeek +
+                '}';
+    }
 }
