@@ -32,9 +32,11 @@ public class User {
     @Column(name = "auth_token")
     private String authToken;
 
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 

@@ -22,6 +22,7 @@ public class Reservation {
     @JoinColumn(name = "date_time_slot_id")
     private DateTimeSlot dateTimeSlot;
 
+    @JsonIgnoreProperties("reservations")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -36,10 +36,12 @@ public class Comment {
     @Column(name = "rating")
     private Integer rating;
 
+    @JsonIgnoreProperties("comments")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @JsonIgnoreProperties("comments")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

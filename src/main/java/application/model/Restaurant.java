@@ -42,6 +42,7 @@ public class Restaurant {
     @Column(name = "link_to_website")
     private String linkToWebsite;
 
+    @JsonIgnoreProperties("restaurant")
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
