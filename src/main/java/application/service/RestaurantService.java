@@ -2,6 +2,7 @@ package application.service;
 
 import application.model.Comment;
 import application.model.Restaurant;
+import application.model.RestaurantTable;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
@@ -13,12 +14,16 @@ import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.io.*;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RestaurantService {
+
+    private static final String PATH_TO_LAYOUTS = "src/main/resources/restaurantLayouts";
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -136,7 +141,7 @@ public class RestaurantService {
                 ratingSum += comment.getRating();
             }
             double averageRating = ratingSum / restaurant.getComments().size();
-            System.out.println("averageRating: " + averageRating + ", commentsSize: " + restaurant.getComments().size());
+            // System.out.println("averageRating: " + averageRating + ", commentsSize: " + restaurant.getComments().size());
             restaurantRepository.updateAverageRatingById(averageRating, restaurantId);
         }
     }
@@ -171,10 +176,54 @@ public class RestaurantService {
                 comment.setRestaurant(restaurantEntity);
                 commentRepository.save(comment);
             }
+            if (restaurantEntity.getLayoutId() != null) {
+                String layoutPath = PATH_TO_LAYOUTS + "/layout" + restaurant.getLayoutId() + ".svg";
+                if (Paths.get(layoutPath).toFile().isFile()) {
+                    createTables(restaurantEntity, layoutPath);
+                } else {
+                    System.out.println("Layout" + restaurantEntity.getLayoutId() + " does not exist");
+                }
+
+
+
+            }
             updateRating(restaurantEntity.getId());
             return true;
         }
         return false;
+    }
+
+    private void createTables(Restaurant restaurant, String layoutPath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(layoutPath))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                   if (line.contains("ellipse")) {
+                       RestaurantTable table = createTable(line);
+                       table.setRestaurant(restaurant);
+                       tableRepository.save(table);
+                   }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private RestaurantTable createTable(String line) {
+        int tableNumber = 0;
+        int capacity = 0;
+
+        // get capacity
+        int rxIndex = line.indexOf("rx=\"");
+        int startRxValue = rxIndex + 4;
+        int endRxValue = startRxValue + line.substring(startRxValue).indexOf("\"");
+        capacity = Integer.valueOf(line.substring(startRxValue, endRxValue));
+
+        // get tableNumber (id)
+        int idIndex = line.indexOf("id=\"table_");
+        int startIdIndex = idIndex + 10;
+        int endIdIndex = startIdIndex + line.substring(startIdIndex).indexOf("\"");
+        tableNumber = Integer.valueOf(line.substring(startIdIndex, endIdIndex));
+
+        return new RestaurantTable(tableNumber, capacity);
     }
 
     @Transactional

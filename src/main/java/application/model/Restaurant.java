@@ -42,6 +42,8 @@ public class Restaurant {
     @Column(name = "link_to_website")
     private String linkToWebsite;
 
+
+
     @JsonIgnoreProperties("restaurant")
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
@@ -64,6 +66,17 @@ public class Restaurant {
     @JsonIgnoreProperties("restaurant")
     @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<RestaurantTable> restaurantTables = new ArrayList<>();
+
+    @Column(name = "layout_id")
+    private Integer layoutId;
+
+    public Integer getLayoutId() {
+        return layoutId;
+    }
+
+    public void setLayoutId(Integer layoutId) {
+        this.layoutId = layoutId;
+    }
 
     public List<RestaurantTable> getRestaurantTables() {
         return restaurantTables;

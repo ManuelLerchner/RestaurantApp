@@ -32,6 +32,14 @@ public class RestaurantTable {
     @Column(name = "capacity")
     private Integer capacity;
 
+    public RestaurantTable() {
+    }
+
+    public RestaurantTable(Integer tableNumber, Integer capacity) {
+        this.tableNumber = tableNumber;
+        this.capacity = capacity;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
@@ -73,7 +81,12 @@ public class RestaurantTable {
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "RestaurantTable{" +
+                "id=" + id +
+                ", tableNumber=" + tableNumber +
+                ", capacity=" + capacity +
+                '}';
+    }
 }
