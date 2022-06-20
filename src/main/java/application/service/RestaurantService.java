@@ -1,10 +1,12 @@
 package application.service;
 
 import application.model.Comment;
+import application.model.Reservation;
 import application.model.Restaurant;
 import application.model.RestaurantTable;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
+import application.model.util.DateTimeSlot;
 import application.model.util.Location;
 import application.model.util.WeekTimeSlot;
 import application.repository.CommentRepository;
@@ -57,7 +59,7 @@ public class RestaurantService {
      * @return List of filtered restaurants
      */
     @Transactional
-    public List<Restaurant> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, int minRating, double maxDistance, Location userLocation, int number) {
+    public List<Restaurant> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, int minRating, double maxDistance, Location userLocation, int number, DateTimeSlot freeTimeSlot, int requiredCapacity) {
         List<Restaurant> restaurants;
         // filter by restaurantType, priceCategory and minRating with database query
         if (restaurantType != RestaurantType.DEFAULT && priceCategory != PriceCategory.DEFAULT && minRating > 1) {
@@ -98,8 +100,39 @@ public class RestaurantService {
             restaurants = restaurants.stream().sorted(Comparator.comparingDouble(Restaurant::getDistanceToUser)).toList();
         }
 
+        // filter by freeTimeSlot and capacity
+        if(requiredCapacity > 0 && freeTimeSlot != null) {
+            // set endTime if not already specified
+            if (freeTimeSlot.getEndTime() == null) {
+                freeTimeSlot.setEndTime(freeTimeSlot.getStartTime().plusHours(2)); // TODO could be another date
+            }
+            restaurants = restaurants.stream().filter(restaurant -> {
+                List<RestaurantTable> tables = restaurant.getRestaurantTables();
+                for (RestaurantTable table : tables) {
+                    if (requiredCapacity > table.getCapacity()) {
+                        return false;
+                    }
+                    if (hasFreeTimeSlot(table, freeTimeSlot)) {
+                        return true;
+                    }
+                }
+                return false;
+            }).toList();
+        }
+
         // Limit list of restaurants to number
         return restaurants.subList(0, Math.min(restaurants.size(), number));
+    }
+
+    private boolean hasFreeTimeSlot(RestaurantTable table, DateTimeSlot freeTimeSlot) {
+        List<Reservation> reservationsForSpecifiedDate = table.getReservations().stream().filter(reservation -> reservation.getDateTimeSlot().getDate().equals(freeTimeSlot.getDate())).toList();
+        // detect potential collision
+        for (Reservation reservation : reservationsForSpecifiedDate) {
+            if (reservation.getDateTimeSlot().isCollision(freeTimeSlot)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -151,11 +184,8 @@ public class RestaurantService {
     // **************************
 
     @Transactional
-    public String createRestaurant(Restaurant restaurant) {
-        if (addRestaurantToDatabase(restaurant)) {
-            return "Restaurant record created successfully";
-        }
-        return "Restaurant already exists";
+    public Restaurant createRestaurant(Restaurant restaurant) {
+        return addRestaurantToDatabase(restaurant);
     }
 
     @Transactional
@@ -166,7 +196,7 @@ public class RestaurantService {
         return "created restaurants";
     }
 
-    private boolean addRestaurantToDatabase(Restaurant restaurant) {
+    private Restaurant addRestaurantToDatabase(Restaurant restaurant) {
         if (restaurant.getId() == null) {
             for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
                 weekTimeSlotRepository.save(weekTimeSlot);
@@ -183,14 +213,11 @@ public class RestaurantService {
                 } else {
                     System.out.println("Layout" + restaurantEntity.getLayoutId() + " does not exist");
                 }
-
-
-
             }
             updateRating(restaurantEntity.getId());
-            return true;
+            return restaurantEntity;
         }
-        return false;
+        return null;
     }
 
     private void createTables(Restaurant restaurant, String layoutPath) {

@@ -1,7 +1,9 @@
 package application.service;
 
 import application.model.Reservation;
+import application.repository.DateTimeSlotRepository;
 import application.repository.ReservationRepository;
+import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -12,6 +14,9 @@ public class ReservationService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private DateTimeSlotRepository dateTimeSlotRepository;
 
     @Transactional
     public Reservation reserveTable() {
@@ -43,6 +48,7 @@ public class ReservationService {
     @Transactional
     public String createReservation(Reservation reservation) {
         if (reservation.getId() == null) {
+            dateTimeSlotRepository.save(reservation.getDateTimeSlot());
             reservationRepository.save(reservation);
             return "Reservation created successfully";
         }

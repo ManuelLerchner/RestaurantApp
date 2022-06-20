@@ -38,6 +38,16 @@ public class DateTimeSlot extends TimeSlot {
                 '}';
     }
 
+    public boolean isCollision(DateTimeSlot other) {
+        if (!this.getDate().equals(other.getDate())) {
+            return false;
+        }
+        if (this.getEndTime().compareTo(other.getStartTime()) < 0 || this.getStartTime().compareTo(other.getEndTime()) > 0) {
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         DateTimeSlot dateTimeSlot = new DateTimeSlot(LocalTime.of(18, 15), LocalTime.of(22,30), LocalDate.of(2022,5,23));
         System.out.println(dateTimeSlot);

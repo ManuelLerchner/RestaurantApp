@@ -4,9 +4,12 @@ import application.model.Comment;
 import application.model.Restaurant;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
+import application.model.util.DateTimeSlot;
 import application.model.util.Location;
 import application.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +52,12 @@ public class RestaurantController {
             @RequestParam(name = "maxDistance", defaultValue = "-1") double maxDistance,
             @RequestParam(name = "minRating", defaultValue = "1") int minRating,
             @RequestParam(name = "number", defaultValue = "50") int number,
-            @RequestBody(required = false) Location userLocation
-            // TODO filter by free time slots for reservations for specified dates and number of visitors (parameters: DateTimeSlot, int)
+            @RequestParam(name = "capacity", defaultValue = "-1") int capacity,
+            //@RequestBody(required = false) Location userLocation, TODO does not work with two RequestBody's
+            @RequestBody(required = false) DateTimeSlot freeTimeSlot
     ) {
-        if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, number)) {
+        Location userLocation = null;
+        if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, number, freeTimeSlot, capacity)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(restaurantService.readFilteredRestaurants(
@@ -61,7 +66,9 @@ public class RestaurantController {
                 minRating,
                 maxDistance,
                 userLocation,
-                number
+                number,
+                freeTimeSlot,
+                capacity
         ));
     }
 
@@ -95,7 +102,7 @@ public class RestaurantController {
         return true;
     }
 
-    private boolean isValidParameters(RestaurantType restaurantType, PriceCategory priceCategory, double maxDistance, Location userLocation, int minRating, int number) {
+    private boolean isValidParameters(RestaurantType restaurantType, PriceCategory priceCategory, double maxDistance, Location userLocation, int minRating, int number, DateTimeSlot dateTimeSlot, int capacity) {
 
         boolean isValidRestaurantType = false;
         for (RestaurantType t : RestaurantType.values()) {
@@ -116,6 +123,13 @@ public class RestaurantController {
         if (number < 1 || minRating < 1 || (maxDistance > 0 && userLocation == null) || !isValidRestaurantType || !isValidPriceCategory) {
             return false;
         }
+
+        if (dateTimeSlot != null && (dateTimeSlot.getDate() == null || dateTimeSlot.getStartTime() == null || dateTimeSlot.getStartTime().compareTo(dateTimeSlot.getEndTime()) > 0)) {
+            return false;
+        }
+        if (dateTimeSlot != null && capacity < 1) {
+            return false;
+        }
         return true;
     }
 
@@ -131,8 +145,24 @@ public class RestaurantController {
     }
 
     @RequestMapping(value = "createRestaurant", method = RequestMethod.POST)
-    public String createRestaurant(@RequestBody Restaurant restaurant) {
-        return restaurantService.createRestaurant(restaurant);
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
+        if (!isValidRestaurant(restaurant)) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("ErrorMessage", "Required parameters are missing");
+            return new ResponseEntity<>(restaurant, headers, HttpStatus.BAD_REQUEST);
+        }
+        Restaurant restaurantEntity = restaurantService.createRestaurant(restaurant);
+        if(restaurantEntity != null) {
+            return ResponseEntity.ok(restaurantEntity);
+        }
+        return ResponseEntity.badRequest().build(); // id already exists
+    }
+
+    private boolean isValidRestaurant(Restaurant restaurant) {
+        if (restaurant.getName() == null || restaurant.getLocation() == null || restaurant.getOpeningTimes() == null || restaurant.getLinkToWebsite() == null || restaurant.getPriceCategory() == null || restaurant.getRestaurantType() == null || restaurant.getLayoutId() == null) {
+            return false;
+        }
+        return true;
     }
 
     @RequestMapping(value = "createRestaurants", method = RequestMethod.POST)
