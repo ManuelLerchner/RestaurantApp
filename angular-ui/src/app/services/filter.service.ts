@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Marker } from 'leaflet';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { map, throttleTime } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { RESTAURANTS } from '../mockdata/Restaurants';
-import { Restaurant } from '../models/Restaurant';
+import { Restaurant } from '../models/restaurant/Restaurant';
 import { RestaurantService } from './restaurant.service';
 
 @Injectable({
@@ -13,38 +13,44 @@ import { RestaurantService } from './restaurant.service';
 export class FilterService {
   public canPlaceUserMarker = false;
 
-  public restaurantTypeObserver = new BehaviorSubject<string | null>(null);
-  public priceCategoryObserver = new BehaviorSubject<number | null>(null);
-  public minRatingObserver = new BehaviorSubject<number | null>(null);
-  public maxDistanceObserver = new BehaviorSubject<number | null>(null);
-  public timeSlotObserver = new BehaviorSubject<[number, number] | null>(null);
-  public dateObserver = new BehaviorSubject<Date | null>(null);
-  public personCountObserver = new BehaviorSubject<number | null>(null);
+  public restaurantType$ = new BehaviorSubject<string | null>(null);
+  public priceCategory$ = new BehaviorSubject<number | null>(null);
+  public minRating$ = new BehaviorSubject<number | null>(null);
+  public maxDistance$ = new BehaviorSubject<number | null>(null);
+  public timeSlot$ = new BehaviorSubject<[number, number] | null>(null);
+  public date$ = new BehaviorSubject<Date | null>(null);
+  public personCount$ = new BehaviorSubject<number | null>(null);
+  public personMarker$ = new BehaviorSubject<Marker<any> | null>(null);
 
   constructor(
     private http: HttpClient,
     private restaurantService: RestaurantService
   ) {
     combineLatest([
-      this.restaurantTypeObserver,
-      this.priceCategoryObserver,
-      this.minRatingObserver,
-      this.maxDistanceObserver,
-      this.timeSlotObserver,
-      this.dateObserver,
-      this.personCountObserver,
+      this.restaurantType$,
+      this.priceCategory$,
+      this.minRating$,
+      this.maxDistance$,
+      this.timeSlot$,
+      this.date$,
+      this.personCount$,
+      this.personMarker$,
     ])
-      .pipe(debounceTime(50))
+      .pipe(throttleTime(100))
       .pipe(
         map((filterData: any[]) => {
+          let position = filterData[7]?.getLatLng();
           return {
-            restaurant_type: filterData[0],
-            price_category: filterData[1],
-            min_rating: filterData[2],
-            max_distance: filterData[3],
-            time_slot: filterData[4],
+            restaurantType: filterData[0],
+            priceCategory: filterData[1],
+            minRating: filterData[2],
+            maxDistance: filterData[3],
+            timeSlot: filterData[4],
             date: filterData[5],
-            person_count: filterData[6],
+            capacity: filterData[6],
+            longitude: position?.lng,
+            latitude: position?.lat,
+            number: 75,
           };
         })
       )
@@ -53,11 +59,13 @@ export class FilterService {
       });
   }
 
-  private createQueryParams(filterParams: { [key: string]: any }) {
+  private createQueryParams(filterParams: any) {
     let queryParams = new HttpParams();
 
-    filterParams.forEach((value: any, key: any) => {
-      if (value !== null) queryParams = queryParams.append(key, value);
+    Object.entries(filterParams).forEach(([key, value]: [string, any]) => {
+      if (value) {
+        queryParams = queryParams.append(key, value);
+      }
     });
 
     return queryParams;
@@ -71,13 +79,13 @@ export class FilterService {
         })
         .toPromise();
 
-      this.restaurantService.updateRestaurants(filteredRestaurants);
+      this.restaurantService.restaurants$.next(filteredRestaurants);
     } catch (error: any) {
-      console.error(
-        '%cFetching new data failed, returning mockdata!\nMaybe the server is not running yet?',
-        'color:yellow;font-family:system-ui;font-size:2rem;-webkit-text-stroke: 1px black;font-weight:bold'
-      );
-      this.restaurantService.updateRestaurants(RESTAURANTS);
+      console.log(error);
+
+      setTimeout(() => {
+        this.requestFilteredData(filterParams);
+      }, 1000);
     }
   }
 }

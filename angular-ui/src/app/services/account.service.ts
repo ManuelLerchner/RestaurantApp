@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/User';
-
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -11,20 +10,14 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AccountService {
-  private userSubject!: BehaviorSubject<User>;
-  public user!: Observable<User>;
+  public user$: BehaviorSubject<User>;
 
-  get userValue(): User {
-    return this.userSubject.value;
+  constructor(private http: HttpClient, private router: Router) {
+    this.user$ = new BehaviorSubject<User>(null as unknown as User);
   }
 
   get isLoggedIn(): boolean {
-    return !!this.userValue;
-  }
-
-  constructor(private http: HttpClient, private router: Router) {
-    this.userSubject = new BehaviorSubject<User>(null as unknown as User);
-    this.user = this.userSubject.asObservable();
+    return !!this.user$.value;
   }
 
   async keepSignedIn(returnUrl: string) {
@@ -40,8 +33,7 @@ export class AccountService {
           })
           .toPromise();
 
-        this.userSubject.next(user as User);
-        this.user = this.userSubject.asObservable();
+        this.user$.next(user as User);
 
         this.router.navigate([returnUrl]);
       } catch (error: any) {
@@ -62,7 +54,7 @@ export class AccountService {
           if (rememberMe) {
             localStorage.setItem('user', JSON.stringify(user));
           }
-          this.userSubject.next(user as User);
+          this.user$.next(user as User);
           return user;
         })
       );
@@ -78,6 +70,6 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('user');
-    this.userSubject.next(null as unknown as User);
+    this.user$.next(null as unknown as User);
   }
 }

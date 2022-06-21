@@ -1,7 +1,8 @@
-<div class="login" *ngIf="accountService.userValue != null; else notLoggedIn">
+<div class="login" *ngIf="accountService.isLoggedIn; else notLoggedIn">
   <div class="logged-in-wrapper">
     <p class="welcome-text">
-      Welcome, <span class="username"> {{ accountService.userValue.username }}</span>
+      Welcome,
+      <span class="username"> {{ accountService.user$.value.name }}</span>
     </p>
     <button ngbDropdownItem (click)="onLogout()">Logout</button>
   </div>

@@ -9,7 +9,7 @@
 
       <div class="restaurant-list-container">
         <app-restaurant-list-card
-          *ngFor="let restaurant of restaurantService.restaurants | async"
+          *ngFor="let restaurant of restaurantService.restaurants$ | async"
           [restaurant]="restaurant"
           [isSelected]="mapService.selectedRestaurant === restaurant"
           (click)="selectRestaurant(restaurant)"

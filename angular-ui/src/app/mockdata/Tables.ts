@@ -1,4 +1,4 @@
-import { TableState } from '../models/TableState';
+import { TableState } from '../models/restaurant/TableState';
 
 export const TABLESTATES: TableState[] = [
   {

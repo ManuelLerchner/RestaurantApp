@@ -8,16 +8,14 @@
       </button>
     </div>
     <div class="info-grid">
-      <span class="type">{{ restaurant.type }}</span>
-      <span class="priceCategory">{{
-        getPriceCategory(restaurant.price_category)
-      }}</span>
+      <span class="type">{{ restaurant.restaurantType }}</span>
+      <span class="priceCategory">{{ restaurant.priceCategory }}</span>
 
       <div class="rating-wrapper">
-        <span class="rating">★{{ restaurant.rating }}</span>
-        <span class="reviews">({{ restaurant.number_of_reviews }})</span>
+        <span class="rating">★{{ restaurant.averageRating }}</span>
+        <span class="reviews">({{ "//////////////" }})</span>
       </div>
-      <span class="distance">{{ restaurant.distance }} km</span>
+      <span class="distance">{{ restaurant.distanceToUser }} km</span>
     </div>
   </div>
 
@@ -25,7 +23,7 @@
     <div class="image-slider">
       <img
         class="restaurant-image"
-        [src]="restaurant.images[currentImageIndex]"
+        [src]="restaurant.pictures[currentImageIndex]"
         alt="{{ restaurant.name }} image"
       />
       <button class="image-slider-btn-left" (click)="changeImage(1)">
@@ -102,7 +100,7 @@
 
         <div>
           <div class="profile-picture">
-            <span>{{ getInitials(comment.postedBy.username) }}</span>
+            <span>{{ getInitials(comment.postedBy.name) }}</span>
           </div>
         </div>
       </div>

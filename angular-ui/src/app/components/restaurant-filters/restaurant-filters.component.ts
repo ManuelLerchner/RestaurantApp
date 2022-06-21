@@ -86,41 +86,41 @@ export class RestaurantFiltersComponent implements OnInit {
 
   setRestaurantType(type: string | null) {
     var next = type;
-    if (type === this.filterService.restaurantTypeObserver.value) {
+    if (type === this.filterService.restaurantType$.value) {
       next = null;
     }
-    this.filterService.restaurantTypeObserver.next(next);
+    this.filterService.restaurantType$.next(next);
   }
 
   setPriceCategory(type: number | null) {
     var next = type;
     console.log(type);
-    if (type === this.filterService.priceCategoryObserver.value) {
+    if (type === this.filterService.priceCategory$.value) {
       next = null;
     }
-    this.filterService.priceCategoryObserver.next(next);
+    this.filterService.priceCategory$.next(next);
   }
 
   setStarCount(stars: number) {
     this.mouseOverStar = false;
     this.selectedStar = stars;
 
-    this.filterService.minRatingObserver.next(stars);
+    this.filterService.minRating$.next(stars);
   }
 
   setMaxDistance(distance: ChangeContext) {
-    this.filterService.maxDistanceObserver.next(distance.value);
+    this.filterService.maxDistance$.next(distance.value);
   }
 
   setDate(date: MatDatepickerInputEvent<Date, any>) {
-    this.filterService.dateObserver.next(date.value);
+    this.filterService.date$.next(date.value);
   }
 
   setTimeSlot(window: ChangeContext) {
-    this.filterService.timeSlotObserver.next([window.value, window.highValue!]);
+    this.filterService.timeSlot$.next([window.value, window.highValue!]);
   }
 
   setPersonCount(count: number) {
-    this.filterService.personCountObserver.next(count);
+    this.filterService.personCount$.next(count);
   }
 }

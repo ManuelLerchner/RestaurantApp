@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
-import { COMMENTS } from 'src/app/mockdata/Comments';
-import { Comment } from 'src/app/models/Comment';
+import { Comment } from 'src/app/models/restaurant/Comment';
 import { MapService } from 'src/app/services/map.service';
-import { Restaurant } from '../../models/Restaurant';
+import { Restaurant } from '../../models/restaurant/Restaurant';
 
 @Component({
   selector: 'app-restaurant-card',
@@ -18,12 +16,10 @@ export class RestaurantCardComponent implements OnInit {
   currentCommentIndex: number = -1;
   subscription: any;
 
-  constructor(private mapService: MapService) {
-    this.comments = COMMENTS;
-  }
+  constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
-    this.subscription = this.mapService.selectedRestaurantObservable.subscribe(
+    this.subscription = this.mapService.selectedRestaurant$.subscribe(
       (restaurant: Restaurant | null) => {
         if (restaurant) {
           this.restaurant = restaurant;
@@ -37,7 +33,7 @@ export class RestaurantCardComponent implements OnInit {
   }
 
   changeImage(delta: number) {
-    const amountOfImages: number = this.restaurant.images.length;
+    const amountOfImages: number = this.restaurant.pictures.length;
     this.currentImageIndex =
       (this.currentImageIndex + delta + amountOfImages) % amountOfImages;
   }
@@ -71,6 +67,6 @@ export class RestaurantCardComponent implements OnInit {
   }
 
   close() {
-    this.mapService.selectedRestaurantObservable = of(null);
+    this.mapService.selectedRestaurant$.next(null);
   }
 }

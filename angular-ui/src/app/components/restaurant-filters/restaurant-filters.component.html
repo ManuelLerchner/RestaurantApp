@@ -14,7 +14,7 @@
     <button
       *ngFor="let type of restaurantTypes"
       [ngClass]="{
-        selectedFilter: type === filterService.restaurantTypeObserver.value
+        selectedFilter: type === filterService.restaurantType$.value
       }"
       (click)="setRestaurantType(type)"
     >
@@ -27,7 +27,7 @@
     <button
       *ngFor="let category of priceCategories"
       [ngClass]="{
-        selectedFilter: category === filterService.priceCategoryObserver.value
+        selectedFilter: category === filterService.priceCategory$.value
       }"
       (click)="setPriceCategory(category)"
     >

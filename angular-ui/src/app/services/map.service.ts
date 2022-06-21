@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { icon, LatLng, Map, marker, Marker, popup, tileLayer } from 'leaflet';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Restaurant } from '../models/Restaurant';
+import { BehaviorSubject } from 'rxjs';
+import { Restaurant } from '../models/restaurant/Restaurant';
 import { FilterService } from './filter.service';
 import { RestaurantService } from './restaurant.service';
 
@@ -11,19 +10,18 @@ import { RestaurantService } from './restaurant.service';
 })
 export class MapService {
   private _map!: Map;
-  private personMarkerObservable = new BehaviorSubject<Marker<any> | null>(
-    null
-  );
-  private selectedRestaurantObserver = new BehaviorSubject<Restaurant | null>(
-    null
-  );
-
   private markers: Marker<any>[] = [];
+
+  public selectedRestaurant$ = new BehaviorSubject<Restaurant | null>(null);
 
   constructor(
     private restaurantService: RestaurantService,
     private filterService: FilterService
   ) {}
+
+  get selectedRestaurant() {
+    return this.selectedRestaurant$.getValue();
+  }
 
   get map(): Map {
     return this._map;
@@ -33,13 +31,13 @@ export class MapService {
     this._map = map;
 
     this.map.on('click', (e: any) => {
-      this.selectedRestaurantObservable = of(null);
+      this.selectedRestaurant$.next(null);
     });
 
     this.initMap();
     this.prepareMovingUserMarker();
 
-    this.restaurantService.restaurants.subscribe((restaurants) => {
+    this.restaurantService.restaurants$.subscribe((restaurants) => {
       this.markers.forEach((marker: any) => {
         this.map.removeLayer(marker);
       });
@@ -84,7 +82,7 @@ export class MapService {
         .setLatLng(restaurantPosition)
         .setContent(
           `<h2>${restaurant.name}</h2>
-          <img style="width:280px" src=${restaurant.images[0]}</img>`
+          <img style="width:280px" src=${restaurant.pictures[0]}</img>`
         );
 
       restaurantMarker.addTo(this.map);
@@ -118,7 +116,7 @@ export class MapService {
   prepareMovingUserMarker() {
     this.map.on('click', (e: any) => {
       if (this.filterService.canPlaceUserMarker) {
-        const oldMarker = this.personMarkerObservable.getValue();
+        const oldMarker = this.filterService.personMarker$.getValue();
         if (oldMarker) this.map.removeLayer(oldMarker);
 
         let newMarker = marker(e.latlng, {
@@ -139,40 +137,14 @@ export class MapService {
             draggable: 'true',
           });
 
-          this.personMarkerObservable.next(newMarker);
+          this.filterService.personMarker$.next(newMarker);
         });
 
-        this.personMarkerObservable.next(newMarker);
+        this.filterService.personMarker$.next(newMarker);
         this.filterService.canPlaceUserMarker = false;
 
         newMarker.addTo(this.map);
       }
-    });
-  }
-
-  get personMarkerLocation(): Observable<LatLng | null> {
-    return this.personMarkerObservable.pipe(
-      map((marker: Marker<any> | null) => {
-        if (marker) {
-          return marker.getLatLng();
-        } else {
-          return null;
-        }
-      })
-    );
-  }
-
-  get selectedRestaurantObservable(): Observable<Restaurant | null> {
-    return this.selectedRestaurantObserver.asObservable();
-  }
-
-  get selectedRestaurant() {
-    return this.selectedRestaurantObserver.getValue();
-  }
-
-  set selectedRestaurantObservable(restaurant: Observable<Restaurant | null>) {
-    restaurant.subscribe((restaurant) => {
-      this.selectedRestaurantObserver.next(restaurant);
     });
   }
 
@@ -190,11 +162,11 @@ export class MapService {
     );
 
     if (durationSeconds > 0) {
-      this.selectedRestaurantObservable = of(null);
+      this.selectedRestaurant$.next(null);
     }
 
     setTimeout(() => {
-      this.selectedRestaurantObservable = of(restaurant);
+      this.selectedRestaurant$.next(restaurant);
     }, durationSeconds * 1000);
   }
 }

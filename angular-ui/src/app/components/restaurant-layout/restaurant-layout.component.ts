@@ -1,7 +1,7 @@
 import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
 import { TABLESTATES } from 'src/app/mockdata/Tables';
-import { TableState } from 'src/app/models/TableState';
+import { TableState } from 'src/app/models/restaurant/TableState';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class RestaurantLayoutComponent implements OnInit {
       next: (tableStates) => (this.tableStates = tableStates),
     });
 
-    this.tableService.timeSlotObserver$.subscribe((time) => {
+    this.tableService.timeSlot$.subscribe((time) => {
       if (time) {
         let [startTime, endTime] = time;
         this.startTime = this.formatTime(startTime);
@@ -52,7 +52,7 @@ export class RestaurantLayoutComponent implements OnInit {
   }
 
   private formatTime(time: number) {
-    console.log(time)
+    console.log(time);
     const hour = Math.round(time).toString().padStart(2, '0');
     const minutes = Math.round(60 * (time - Math.floor(time)))
       .toString()
@@ -67,6 +67,6 @@ export class RestaurantLayoutComponent implements OnInit {
   }
 
   setTimeSlot(window: ChangeContext) {
-    this.tableService.timeSlotObserver$.next([window.value, window.highValue!]);
+    this.tableService.timeSlot$.next([window.value, window.highValue!]);
   }
 }

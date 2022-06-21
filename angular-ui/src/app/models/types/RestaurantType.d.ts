@@ -1,0 +1,15 @@
+export type RestaurantType =
+  | 'DEFAULT'
+  | 'ITALIAN'
+  | 'CHINESE'
+  | 'INDIAN'
+  | 'JAPANESE'
+  | 'THAI'
+  | 'MEXICAN'
+  | 'GERMAN'
+  | 'ASIAN'
+  | 'VIETNAMESE'
+  | 'GREEK'
+  | 'AMERICAN'
+  | 'KOREAN'
+  | 'TURKISH';
