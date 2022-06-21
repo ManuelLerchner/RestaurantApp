@@ -31,7 +31,7 @@ public class RestaurantController {
     @GetMapping("restaurants/{restaurantId}")
     public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.retrieveRestaurant(restaurantId);
-        if(restaurant == null) {
+        if (restaurant == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(restaurant);
@@ -54,10 +54,19 @@ public class RestaurantController {
             @RequestParam(name = "minRating", defaultValue = "1") int minRating,
             @RequestParam(name = "number", defaultValue = "50") int number,
             @RequestParam(name = "capacity", defaultValue = "-1") int capacity,
-            //@RequestBody(required = false) Location userLocation, TODO does not work with two RequestBody's
+            @RequestParam(name = "longitude", defaultValue = "999.0") double longitude,
+            @RequestParam(name = "latitude", defaultValue = "999.0") double latitude,
             @RequestBody(required = false) DateTimeSlot freeTimeSlot
     ) {
-        Location userLocation = null;
+        Location userLocation;
+        if (longitude <= -180.0 || longitude > 180.0 || latitude < -90.0 || latitude > 90.0) {
+            userLocation = null;
+        } else {
+            userLocation = new Location();
+            userLocation.setLongitude(longitude);
+            userLocation.setLatitude(latitude);
+        }
+
         if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, number, freeTimeSlot, capacity)) {
             return ResponseEntity.badRequest().build();
         }
@@ -79,7 +88,7 @@ public class RestaurantController {
      */
     @PostMapping(value = "restaurants/addComment")
     public String addComment(@RequestBody(required = true) Comment comment) {
-        if(!isValidComment(comment)) {
+        if (!isValidComment(comment)) {
             return "no valid comment";
         }
         Date date = new Date(System.currentTimeMillis());
@@ -135,7 +144,6 @@ public class RestaurantController {
     }
 
 
-
     // **************************
     // Test purpose
     // **************************
@@ -153,7 +161,7 @@ public class RestaurantController {
             return new ResponseEntity<>(restaurant, headers, HttpStatus.BAD_REQUEST);
         }
         Restaurant restaurantEntity = restaurantService.createRestaurant(restaurant);
-        if(restaurantEntity != null) {
+        if (restaurantEntity != null) {
             return ResponseEntity.ok(restaurantEntity);
         }
         return ResponseEntity.badRequest().build(); // id already exists
