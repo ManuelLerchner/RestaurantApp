@@ -37,6 +37,18 @@
 
       transform: translate(-50%, -50%);
       z-index: 500;
+      max-height: 100%;
+      overflow: auto;
     }
   }
+}
+
+::ng-deep app-restaurant-card::-webkit-scrollbar {
+  transform: translateX(-10px);
+}
+::ng-deep app-restaurant-card::-webkit-scrollbar-track {
+  transform: translateX(-10px);
+}
+::ng-deep app-restaurant-card::-webkit-scrollbar-thumb {
+  transform: translateX(-10px);
 }
