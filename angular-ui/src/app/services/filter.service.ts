@@ -50,7 +50,6 @@ export class FilterService {
             capacity: filterData[6],
             longitude: position?.lng,
             latitude: position?.lat,
-            number: 75,
           };
         })
       )
