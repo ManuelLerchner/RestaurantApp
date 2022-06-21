@@ -1,86 +1,88 @@
 <div class="card-wrapper">
-  <div class="content-top">
-    <div class="topRow">
-      <h3>{{ restaurant.name }}</h3>
-      <!-- closing button -->
-      <button class="close-button" (click)="close()">
-        <i class="fa fa-close" style="font-size: 22px"></i>
-      </button>
-    </div>
-    <div class="info-grid">
-      <span class="type">{{ restaurant.restaurantType }}</span>
-      <span class="priceCategory">{{ restaurant.priceCategory }}</span>
-
-      <div class="rating-wrapper">
-        <span class="rating">★{{ restaurant.averageRating }}</span>
-        <span class="reviews">({{ "//////////////" }})</span>
+  <div class="top">
+    <div class="content-top">
+      <div class="topRow">
+        <h3>{{ restaurant.name }}</h3>
+        <!-- closing button -->
+        <button class="close-button" (click)="close()">
+          <i class="fa fa-close" style="font-size: 22px"></i>
+        </button>
       </div>
-      <span class="distance">{{ restaurant.distanceToUser }} km</span>
-    </div>
-  </div>
+      <div class="info-grid">
+        <span class="type">{{ restaurant.restaurantType }}</span>
+        <span class="priceCategory">{{ restaurant.priceCategory }}</span>
 
-  <div class="center-content">
-    <div class="image-slider">
-      <img
-        class="restaurant-image"
-        [src]="restaurant.pictures[currentImageIndex]"
-        alt="{{ restaurant.name }} image"
-      />
-      <button class="image-slider-btn-left" (click)="changeImage(1)">
+        <div class="rating-wrapper">
+          <span class="rating">★{{ restaurant.averageRating }}</span>
+          <span class="reviews">({{ "//////////////" }})</span>
+        </div>
+        <span class="distance">{{ restaurant.distanceToUser }} km</span>
+      </div>
+    </div>
+
+    <div class="center-content">
+      <div class="image-slider">
         <img
-          src="assets/icons/double_angle_left.svg"
-          style="background: transparent"
+          class="restaurant-image"
+          [src]="restaurant.pictures[currentImageIndex]"
+          alt="{{ restaurant.name }} image"
         />
-      </button>
-      <button class="image-slider-btn-right" (click)="changeImage(-1)">
-        <img
-          src="assets/icons/double_angle_right.svg"
-          style="background: transparent"
-        />
-      </button>
+        <button class="image-slider-btn-left" (click)="changeImage(1)">
+          <img
+            src="assets/icons/double_angle_left.svg"
+            style="background: transparent"
+          />
+        </button>
+        <button class="image-slider-btn-right" (click)="changeImage(-1)">
+          <img
+            src="assets/icons/double_angle_right.svg"
+            style="background: transparent"
+          />
+        </button>
+      </div>
+
+      <div class="opening-times">
+        <h4>Opening Times</h4>
+        <table>
+          <tr>
+            <td>MON</td>
+            <td>13:00-23:00</td>
+          </tr>
+          <tr>
+            <td>TUE</td>
+            <td>13:00-23:00</td>
+          </tr>
+          <tr>
+            <td>WED</td>
+            <td>13:00-23:00</td>
+          </tr>
+          <tr>
+            <td>THU</td>
+            <td>13:00-23:00</td>
+          </tr>
+          <tr>
+            <td>FRI</td>
+            <td>13:00-23:00</td>
+          </tr>
+          <tr>
+            <td>SAT</td>
+            <td>13:00-23:00</td>
+          </tr>
+          <tr>
+            <td>SUN</td>
+            <td>13:00-23:00</td>
+          </tr>
+        </table>
+        <a href="" class="website-link">Website</a>
+      </div>
     </div>
 
-    <div class="opening-times">
-      <h4>Opening Times</h4>
-      <table>
-        <tr>
-          <td>MON</td>
-          <td>13:00-23:00</td>
-        </tr>
-        <tr>
-          <td>TUE</td>
-          <td>13:00-23:00</td>
-        </tr>
-        <tr>
-          <td>WED</td>
-          <td>13:00-23:00</td>
-        </tr>
-        <tr>
-          <td>THU</td>
-          <td>13:00-23:00</td>
-        </tr>
-        <tr>
-          <td>FRI</td>
-          <td>13:00-23:00</td>
-        </tr>
-        <tr>
-          <td>SAT</td>
-          <td>13:00-23:00</td>
-        </tr>
-        <tr>
-          <td>SUN</td>
-          <td>13:00-23:00</td>
-        </tr>
-      </table>
-      <a href="" class="website-link">Website</a>
+    <div class="bottom-content">
+      <button class="comments-btn" (click)="showComments = !showComments">
+        Comments
+      </button>
+      <button class="reserve-btn">Reserve</button>
     </div>
-  </div>
-
-  <div class="bottom-content">
-    <button class="comments-btn" (click)="showComments = !showComments">
-      Comments
-    </button>
-    <button class="reserve-btn">Reserve</button>
   </div>
 
   <div class="comments-section" *ngIf="showComments">
