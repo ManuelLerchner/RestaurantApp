@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum RestaurantType {
-    DEFAULT, ITALIAN, CHINESE, INDIAN, JAPANESE, THAI, MEXICAN, GERMAN, ASIAN, VIETNAMESE, GREEK, AMERICAN, KOREAN;
+    DEFAULT, ITALIAN, CHINESE, INDIAN, JAPANESE, THAI, MEXICAN, GERMAN, ASIAN, VIETNAMESE, GREEK, AMERICAN, KOREAN, TURKISH;
 
 //    private static final List<RestaurantType> VALUES =
 //            Collections.unmodifiableList(Arrays.asList(values()));
