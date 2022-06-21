@@ -10,7 +10,6 @@ import { Restaurant } from '../../models/restaurant/Restaurant';
 })
 export class RestaurantCardComponent implements OnInit {
   restaurant!: Restaurant;
-  comments!: Comment[];
   showComments: boolean = false;
   currentImageIndex: number = 0;
   currentCommentIndex: number = -1;
@@ -47,11 +46,15 @@ export class RestaurantCardComponent implements OnInit {
   }
 
   getCommentText(index: number) {
-    if (index != this.currentCommentIndex) {
-      return this.comments[index].text.substring(0, 50) + '...';
+    if(index<0 || index>=this.restaurant.comments.length){
+      return "";
     }
 
-    return this.comments[index].text;
+    if (index != this.currentCommentIndex) {
+      return this.restaurant.comments[index].text.substring(0, 50) + '...';
+    }
+
+    return this.restaurant.comments[index].text;
   }
 
   changeCurrentComment(newIndex: number) {
