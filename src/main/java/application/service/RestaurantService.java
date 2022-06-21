@@ -279,4 +279,19 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
+/*
+    //Nico for Restaurant creation:
+    public static void main(String[] args) {
+//        double longleftD= 48.19399973850018;
+//        double lathighD= 11.495876054070346;
+//        double distancelong = -0.100271256049204;
+//        double distancelat = 0.1089696284475;
+//        System.out.println("\"restaurantType\" : \"" + RestaurantType.randomRestaurantType() + "\",");
+//        System.out.println("\"priceCategory\" : \"" + PriceCategory.randomPriceCategory() + "\",");
+          String s = "";
+
+    }
+*/
+
+
 }
