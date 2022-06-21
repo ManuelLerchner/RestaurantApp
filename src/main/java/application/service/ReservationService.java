@@ -3,7 +3,6 @@ package application.service;
 import application.model.Reservation;
 import application.repository.DateTimeSlotRepository;
 import application.repository.ReservationRepository;
-import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;

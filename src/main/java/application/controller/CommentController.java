@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class CommentController {
 
@@ -42,7 +43,7 @@ public class CommentController {
     @RequestMapping(value = "readComment", method = RequestMethod.GET)
     public ResponseEntity<Comment> readComment(@RequestParam Long id) {
         Comment comment = commentService.readComment(id);
-        if(comment == null) {
+        if (comment == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(comment);
