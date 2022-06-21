@@ -1,11 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Marker } from 'leaflet';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, throttleTime } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { Restaurant } from '../models/restaurant/Restaurant';
-import { RestaurantService } from './restaurant.service';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Marker} from 'leaflet';
+import {BehaviorSubject, combineLatest} from 'rxjs';
+import {map, throttleTime} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {Restaurant} from '../models/restaurant/Restaurant';
+import {RestaurantService} from './restaurant.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +16,8 @@ export class FilterService {
   public restaurantType$ = new BehaviorSubject<string | null>(null);
   public priceCategory$ = new BehaviorSubject<number | null>(null);
   public minRating$ = new BehaviorSubject<number | null>(null);
-  public maxDistance$ = new BehaviorSubject<number | null>(null);
-  public timeSlot$ = new BehaviorSubject<[number, number] | null>(null);
+  public maxDistance$ = new BehaviorSubject<number | null>(5.0);
+  public timeSlot$ = new BehaviorSubject<[number, number] | null>([10.0, 24.0]);
   public date$ = new BehaviorSubject<Date | null>(null);
   public personCount$ = new BehaviorSubject<number | null>(null);
   public personMarker$ = new BehaviorSubject<Marker<any> | null>(null);
@@ -48,8 +48,7 @@ export class FilterService {
             timeSlot: filterData[4],
             date: filterData[5],
             capacity: filterData[6],
-            longitude: position?.lng,
-            latitude: position?.lat,
+            userPosition: position?[position?.lng, position?.lat]:null
           };
         })
       )

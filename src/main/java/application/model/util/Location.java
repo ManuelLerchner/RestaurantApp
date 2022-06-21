@@ -46,8 +46,10 @@ public class Location {
         this.streetName = streetName;
     }
 
+
+    //TODO switch latitude and longitude again
     public Double getLatitude() {
-        return latitude;
+        return longitude;
     }
 
     public void setLatitude(Double latitude) {
@@ -55,7 +57,7 @@ public class Location {
     }
 
     public Double getLongitude() {
-        return longitude;
+        return latitude;
     }
 
     public void setLongitude(Double longitude) {

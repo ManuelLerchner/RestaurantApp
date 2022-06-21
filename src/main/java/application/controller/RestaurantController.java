@@ -42,8 +42,9 @@ public class RestaurantController {
      * @param priceCategory
      * @param maxDistance
      * @param minRating
-     * @param number
-     * @param userLocation
+     * @param listSize
+     * @param longitude
+     * @param latitude
      * @return
      */
     @GetMapping("restaurants")
@@ -52,22 +53,26 @@ public class RestaurantController {
             @RequestParam(name = "priceCategory", defaultValue = "DEFAULT") PriceCategory priceCategory,
             @RequestParam(name = "maxDistance", defaultValue = "-1") double maxDistance,
             @RequestParam(name = "minRating", defaultValue = "1") int minRating,
-            @RequestParam(name = "number", defaultValue = "50") int number,
+            @RequestParam(name = "listSize", defaultValue = "50") int listSize,
             @RequestParam(name = "capacity", defaultValue = "-1") int capacity,
-            @RequestParam(name = "longitude", defaultValue = "999.0") double longitude,
-            @RequestParam(name = "latitude", defaultValue = "999.0") double latitude,
-            @RequestBody(required = false) DateTimeSlot freeTimeSlot
+            @RequestParam(name = "userPosition", defaultValue = "11.5755203, 48.1372264") List<Double> userPosition,
+            @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> times
     ) {
+
         Location userLocation;
-        if (longitude <= -180.0 || longitude > 180.0 || latitude < -90.0 || latitude > 90.0) {
+        double longitude = userPosition.get(0);
+        double latitude = userPosition.get(1);
+        if (userPosition.get(0) <= -180.0 || longitude > 180.0 || latitude < -90.0 || latitude > 90.0) {
             userLocation = null;
         } else {
             userLocation = new Location();
             userLocation.setLongitude(longitude);
             userLocation.setLatitude(latitude);
         }
+        System.out.println(maxDistance + "  " + times + "   " + userLocation);
+        DateTimeSlot freeTimeSlot = null;
 
-        if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, number, freeTimeSlot, capacity)) {
+        if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, listSize, freeTimeSlot, capacity)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(restaurantService.readFilteredRestaurants(
@@ -76,7 +81,7 @@ public class RestaurantController {
                 minRating,
                 maxDistance,
                 userLocation,
-                number,
+                listSize,
                 freeTimeSlot,
                 capacity
         ));

@@ -26,14 +26,14 @@ export class RestaurantFiltersComponent implements OnInit {
   selectedStar: number = 0;
   stars: number[] = [5, 4, 3, 2, 1];
 
-  maxDistance: number = 0.8;
+  maxDistance: number = 5.0;
 
-  startHour: number = 19;
-  endHour: number = 23;
+  startHour: number = 10.0;
+  endHour: number = 24.0;
 
   distanceOptions: Options = {
     floor: 0,
-    ceil: 3,
+    ceil: 20,
     step: 0.05,
     translate: (value: number): string => {
       if (value < 1) {
