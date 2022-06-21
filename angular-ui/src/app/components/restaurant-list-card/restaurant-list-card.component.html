@@ -4,14 +4,14 @@
 >
   <h3>{{ restaurant.name }}</h3>
   <div class="row">
-    <p class="type">{{ restaurant.restaurantType }}</p>
+    <p class="type">{{ getRestaurantType(restaurant.restaurantType) }}</p>
     <p class="priceCategory">
-      {{ restaurant.priceCategory }}
+      {{ getPriceCategory(restaurant.priceCategory) }}
     </p>
   </div>
   <div class="row">
     <p class="rating">{{ getRating(restaurant.averageRating) }}</p>
-    <p class="rewiews">({{ "///////" }})</p>
+    <p class="rewiews">({{ "#reviews" }})</p>
     <p class="distance">{{ restaurant.distanceToUser }} km</p>
   </div>
 </div>

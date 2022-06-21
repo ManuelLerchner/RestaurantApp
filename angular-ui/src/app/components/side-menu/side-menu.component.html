@@ -8,6 +8,14 @@
       <h3>Restaurants</h3>
 
       <div class="restaurant-list-container">
+        <ngx-loading
+          *ngIf="!filterService.hasLoadedRestaurants"
+          [show]="!filterService.hasLoadedRestaurants"
+          [config]="{
+            backdropBorderRadius: '3px'
+          }"
+        >
+        </ngx-loading>
         <app-restaurant-list-card
           *ngFor="let restaurant of restaurantService.restaurants$ | async"
           [restaurant]="restaurant"

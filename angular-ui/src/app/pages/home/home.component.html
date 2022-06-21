@@ -4,6 +4,15 @@
   <div class="content-wrapper">
     <app-map></app-map>
 
+    <ngx-loading
+      [show]="!filterService.hasLoadedRestaurants"
+      [config]="{
+        primaryColour: '#333333',
+        secondaryColour: '#333333',
+        tertiaryColour: '#333333'
+      }"
+    ></ngx-loading>
+
     <app-restaurant-card
       *ngIf="mapService.selectedRestaurant"
     ></app-restaurant-card>

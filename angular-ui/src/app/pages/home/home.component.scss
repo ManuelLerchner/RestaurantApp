@@ -52,3 +52,15 @@
 ::ng-deep app-restaurant-card::-webkit-scrollbar-thumb {
   transform: translateX(-10px);
 }
+
+::ng-deep {
+  .backdrop {
+    z-index: -1 !important;
+    display: none;
+  }
+}
+::ng-deep {
+  .spinner-three-bounce {
+    position: relative !important;
+  }
+}
