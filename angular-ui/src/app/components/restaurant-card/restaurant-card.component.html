@@ -86,7 +86,7 @@
   <div class="comments-section" *ngIf="showComments">
     <div
       class="comment"
-      *ngFor="let comment of comments; let i = index"
+      *ngFor="let comment of restaurant.comments; let i = index"
       (click)="changeCurrentComment(i)"
     >
       <div class="comment-top">
@@ -100,7 +100,7 @@
 
         <div>
           <div class="profile-picture">
-            <span>{{ getInitials(comment.postedBy.name) }}</span>
+            <span>{{ getInitials(comment.postedBy?.name ?? "") }}</span>
           </div>
         </div>
       </div>
