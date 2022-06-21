@@ -3,6 +3,8 @@ package application.service;
 import application.model.Reservation;
 import application.repository.DateTimeSlotRepository;
 import application.repository.ReservationRepository;
+import application.repository.RestaurantTableRepository;
+import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -15,11 +17,19 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
 
     @Autowired
+    private RestaurantTableRepository tableRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private DateTimeSlotRepository dateTimeSlotRepository;
 
     @Transactional
-    public Reservation reserveTable() {
-        // TODO
+    public Reservation reserveTable(Reservation reservation) {
+        if (tableRepository.existsById(reservation.getRestaurantTable().getId()) && userRepository.existsById(reservation.getUser().getId())) {
+            reservationRepository.save(reservation);
+        }
         return null;
     }
 

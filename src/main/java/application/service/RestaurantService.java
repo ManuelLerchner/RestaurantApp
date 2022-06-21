@@ -279,6 +279,13 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
+    @Transactional
+    public void updateAverageRating() {
+        for (Restaurant restaurant : restaurantRepository.findAll()) {
+            updateRating(restaurant.getId());
+        }
+    }
+
 /*
     //Nico for Restaurant creation:
     public static void main(String[] args) {

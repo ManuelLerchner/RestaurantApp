@@ -198,4 +198,10 @@ public class RestaurantController {
     public String deleteRestaurant(@RequestBody Restaurant restaurant) {
         return restaurantService.deleteRestaurant(restaurant);
     }
+
+    @PutMapping("updateAverageRating")
+    public String updateAverageRatings() {
+        restaurantService.updateAverageRating();
+        return "averageRating updated";
+    }
 }

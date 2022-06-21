@@ -15,16 +15,18 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping("reserveTable")
-    public ResponseEntity<Reservation> reserveTable() {
+    public ResponseEntity<Reservation> reserveTable(@RequestBody Reservation reservation) {
         // TODO add necessary parameters (table, startTime, user, ...)
-        if(!isValidReservation()) {
+        if(!isValidReservation(reservation)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(reservationService.reserveTable());
+        return ResponseEntity.ok(reservationService.reserveTable(reservation));
     }
 
-    private boolean isValidReservation() {
-        // TODO
+    private boolean isValidReservation(Reservation reservation) {
+        if (reservation.getUser() == null || reservation.getDateTimeSlot() == null || reservation.getRestaurantTable() == null) {
+            return false;
+        }
         return true;
     }
 
