@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -114,4 +115,55 @@ public class Comment {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public static void main(String[] args) {
+        int id = 205 ;
+        for (int i = 0; i < 10; i++) {
+
+            String[] headlineStringGoodStart = {"Amazing ", "Wholesome ", "Good ", "Fun ", "Relaxing ", "Remarkable ", "Outstanding ", "Terrific "};
+            String[] headlinePArt2Good = {"Day ", "Time ", "Food ", "Experience ", "Service "};
+            String[] GoodPart3 = {"in Munich", "in this restaurant", "in this awesome place", "here", "for us", "in this hidden treasure"};
+
+            String[] textStringGoodStart = {"We really liked the ", "We were surprised by the ", "A lucky find in Munich where we enjoyed the ", "Fun ", "Fantastic ", "Hyped by the "};
+            String[] textPArt2Good = {"great food in this restaurant. ", "meal of the day in this awesome place. ", "recommendations of the cook for us. ", "welcoming ambience here. ", "professional service. ", "kind servers. "};
+            String[] text3 = {"The background music was great too!", "So happy!", "Yummy!", "Loved it!", "Great for our kids too!"};
+
+            int[] goodRating = {3, 4, 5};
+
+            String[] headlineStringBadStart = {"Worst ", "Unwelcoming ", "Unprofessional ", "Disappointing "};
+            String[] headlinePArt2Bad = {"service ", "ambience ", "Food ", "Experience "};
+            String[] badPart3 = {"", "in this restaurant", "in this hellhole", "here", "for us", "in this joke of a dinner place"};
+
+            String[] textStringBadStart = {"We were disappointed by the ", "We were negatively surprised by the ", "A mistake to enjoy lunch here in Munich where we experienced a ", "Horrible "};
+            String[] textPArt2Bad = {"mildly convincing food. ", "server who ignored us for hours. ", "bad hygiene in the entire place. ", "weird and rude service of everyone in this place. "};
+            String[] textBad3 = {"Will never come back!", "Maybe this was an exception, but really bad!", "We had looked forward to going here and was totally disappointed.  We will never go back.", "For tourists an ugly experiencie", "Hope you don’t have such a bad time!"};
+
+            int[] badRating = {1, 2, 3};
+
+            String[] dateMonth = {"01", "02", "03", "04", "05", "06", "07"};
+            String[] dateDay = {"01", "02", "03", "04", "05", "06", "07","08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"};
+
+            String date = "2022-" + dateMonth[(int) (Math.random() * 6)] + "-" + dateDay[(int) (Math.random() * 28)];
+            String headline;
+            String text;
+            int rating;
+            if (Math.random() < 0.1) {
+                headline = headlineStringBadStart[(int) (Math.random() * 3)] + headlinePArt2Bad[(int) (Math.random() * 3)] + badPart3[(int) (Math.random() * 4)];
+                rating = badRating[(int) (Math.random() * 2)];
+                text = textStringBadStart[(int) (Math.random() * 3)] + textPArt2Bad[(int) (Math.random() * 3)] + textBad3[(int) (Math.random() * 3)];
+            } else {
+                headline = headlineStringGoodStart[(int) (Math.random() * 7)] + headlinePArt2Good[(int) (Math.random() * 4)] + GoodPart3[(int) (Math.random() * 5)];
+                rating = goodRating[(int) (Math.random() * 2)];
+                text = textStringGoodStart[(int) (Math.random() * 5)] + textPArt2Good[(int) (Math.random() * 5)] + text3[(int) (Math.random() * 4)];
+            }
+
+
+            System.out.println("{ \"date\" : \"" + date + "\",\n" +
+                    "\"headline\" : \"" + headline + "\", \"text\" : \"" + text + "\",\n" +
+                    "\"rating\" : " + rating + ",\n" +
+                    "\"restaurant\" : {\"id\" : " + id + "}},");
+        }
+    }
+
+
 }
