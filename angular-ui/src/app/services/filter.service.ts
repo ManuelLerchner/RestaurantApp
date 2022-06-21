@@ -1,17 +1,18 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Marker} from 'leaflet';
-import {BehaviorSubject, combineLatest} from 'rxjs';
-import {map, throttleTime} from 'rxjs/operators';
-import {environment} from 'src/environments/environment';
-import {Restaurant} from '../models/restaurant/Restaurant';
-import {RestaurantService} from './restaurant.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Marker } from 'leaflet';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, throttleTime } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { Restaurant } from '../models/restaurant/Restaurant';
+import { RestaurantService } from './restaurant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
   public canPlaceUserMarker = false;
+  public hasLoadedRestaurants = false;
 
   public restaurantType$ = new BehaviorSubject<string | null>(null);
   public priceCategory$ = new BehaviorSubject<number | null>(null);
@@ -21,6 +22,7 @@ export class FilterService {
   public date$ = new BehaviorSubject<Date | null>(null);
   public personCount$ = new BehaviorSubject<number | null>(null);
   public personMarker$ = new BehaviorSubject<Marker<any> | null>(null);
+  public refresh$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -35,6 +37,7 @@ export class FilterService {
       this.date$,
       this.personCount$,
       this.personMarker$,
+      this.refresh$,
     ])
       .pipe(throttleTime(100))
       .pipe(
@@ -48,13 +51,19 @@ export class FilterService {
             timeSlot: filterData[4],
             date: filterData[5],
             capacity: filterData[6],
-            userPosition: position?[position?.lng, position?.lat]:null
+            userPosition: position ? [position?.lng, position?.lat] : null,
           };
         })
       )
       .subscribe((filterParams: { [key: string]: any }) => {
         this.requestFilteredData(filterParams);
       });
+
+    setInterval(() => {
+      if (!this.hasLoadedRestaurants) {
+        this.refresh$.next(true);
+      }
+    }, 2500);
   }
 
   private createQueryParams(filterParams: any) {
@@ -78,12 +87,9 @@ export class FilterService {
         .toPromise();
 
       this.restaurantService.restaurants$.next(filteredRestaurants);
+      this.hasLoadedRestaurants = true;
     } catch (error: any) {
-      console.log(error);
-
-      setTimeout(() => {
-        this.requestFilteredData(filterParams);
-      }, 1000);
+      this.hasLoadedRestaurants = false;
     }
   }
 }

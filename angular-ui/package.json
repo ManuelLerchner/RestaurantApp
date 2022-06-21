@@ -25,6 +25,7 @@
     "@asymmetrik/ngx-leaflet": "^13.0.2",
     "leaflet": "^1.8.0",
     "moment": "^2.29.3",
+    "ngx-loading": "^13.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

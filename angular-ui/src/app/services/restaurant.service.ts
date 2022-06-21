@@ -7,7 +7,6 @@ import { Restaurant } from '../models/restaurant/Restaurant';
 })
 export class RestaurantService {
   public restaurants$ = new BehaviorSubject<Restaurant[]>([]);
-  private oldRestaurants: Restaurant[] = [];
 
   constructor() {}
 }
