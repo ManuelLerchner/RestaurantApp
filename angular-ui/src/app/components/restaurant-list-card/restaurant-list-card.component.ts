@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { PriceCategory } from 'src/app/models/types/PriceCategory';
+import { RestaurantType } from 'src/app/models/types/RestaurantType';
 import { MapService } from 'src/app/services/map.service';
 
 @Component({
@@ -16,10 +18,23 @@ export class RestaurantListCardComponent implements OnInit {
   ngOnInit(): void {}
 
   getRating(rating: number): string {
-    return '★'.repeat(rating);
+    return '★'.repeat(Math.round(rating));
   }
 
-  getPriceCategory(priceCategory: number): string {
-    return '€'.repeat(priceCategory);
+  getPriceCategory(priceCategory: PriceCategory): string {
+    switch (priceCategory) {
+      case 'CHEAP':
+        return '€';
+      case 'NORMAL':
+        return '€€';
+      case 'COSTLY':
+        return '€€€';
+      default:
+        return '-';
+    }
+  }
+
+  getRestaurantType(restaurantType: RestaurantType): string {
+    return restaurantType.toLowerCase();
   }
 }

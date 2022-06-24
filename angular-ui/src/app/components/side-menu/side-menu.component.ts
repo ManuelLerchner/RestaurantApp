@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { FilterService } from 'src/app/services/filter.service';
 import { MapService } from 'src/app/services/map.service';
 import { RestaurantService } from 'src/app/services/restaurant.service';
 
@@ -14,7 +15,8 @@ export class SideMenuComponent implements OnInit {
 
   constructor(
     public restaurantService: RestaurantService,
-    public mapService: MapService
+    public mapService: MapService,
+    public filterService: FilterService
   ) {}
 
   ngOnInit(): void {}

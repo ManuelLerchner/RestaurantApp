@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +46,10 @@ public class RestaurantController {
      * @param maxDistance
      * @param minRating
      * @param listSize
-     * @param longitude
-     * @param latitude
+     * @param capacity
+     * @param userPosition
+     * @param date
+     * @param timeSlot
      * @return
      */
     @GetMapping("restaurants")
@@ -56,8 +61,13 @@ public class RestaurantController {
             @RequestParam(name = "listSize", defaultValue = "50") int listSize,
             @RequestParam(name = "capacity", defaultValue = "-1") int capacity,
             @RequestParam(name = "userPosition", defaultValue = "11.5755203, 48.1372264") List<Double> userPosition,
-            @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> times
+            @RequestParam(name = "date", defaultValue = "null") String date,
+            @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> timeSlot
     ) {
+
+        System.out.println(date + "   " + timeSlot);
+        DateTimeSlot dateTimeSlot = convertToDateTimeSlot(date, timeSlot.get(0), timeSlot.get(1));
+        System.out.println(dateTimeSlot);
 
         Location userLocation;
         double longitude = userPosition.get(0);
@@ -69,10 +79,8 @@ public class RestaurantController {
             userLocation.setLongitude(longitude);
             userLocation.setLatitude(latitude);
         }
-        System.out.println(maxDistance + "  " + times + "   " + userLocation);
-        DateTimeSlot freeTimeSlot = null;
 
-        if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, listSize, freeTimeSlot, capacity)) {
+        if (!isValidParameters(restaurantType, priceCategory, maxDistance, userLocation, minRating, listSize, dateTimeSlot, capacity)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(restaurantService.readFilteredRestaurants(
@@ -82,9 +90,26 @@ public class RestaurantController {
                 maxDistance,
                 userLocation,
                 listSize,
-                freeTimeSlot,
+                dateTimeSlot,
                 capacity
         ));
+    }
+
+    private DateTimeSlot convertToDateTimeSlot(String date, double startTime, double endTime) {
+        LocalDate localDate;
+        try {
+            localDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+
+        int startHour = (int) startTime;
+        int startMinute = (int) ((startTime - startHour) * 60);
+
+        int endHour = Math.max(0, Math.min(23, (int) endTime));
+        int endMinute = Math.max(0, Math.min(59, (int) ((endTime - endHour) * 60)));
+
+        return new DateTimeSlot(LocalTime.of(startHour, startMinute), LocalTime.of(endHour, endMinute), localDate);
     }
 
     /**
@@ -142,9 +167,11 @@ public class RestaurantController {
         if (dateTimeSlot != null && (dateTimeSlot.getDate() == null || dateTimeSlot.getStartTime() == null || dateTimeSlot.getStartTime().compareTo(dateTimeSlot.getEndTime()) > 0)) {
             return false;
         }
-        if (dateTimeSlot != null && capacity < 1) {
-            return false;
-        }
+
+        //TODO: wirklich invalide?
+//        if (dateTimeSlot != null && capacity < 1) {
+//            return false;
+//        }
         return true;
     }
 
