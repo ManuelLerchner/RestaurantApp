@@ -1,0 +1,193 @@
+.page {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  height: calc(100% - 56px);
+  width: 100%;
+  overflow: hidden;
+}
+
+.restaurant-sidebar {
+  background-color: #212529;
+  color: hsla(0, 0%, 100%, 0.5);
+
+  width: 40%;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 1px 4px 4px rgba(65, 65, 65, 0.616);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1em;
+  margin-bottom: 0.75em;
+}
+
+.restaurant-info {
+  font-size: 1.35em;
+
+  h3 {
+    text-align: center;
+    color: white;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    line-height: 1.2em;
+  }
+
+  .rating-wrapper:first-child {
+    color: rgb(255, 225, 0);
+  }
+}
+
+.image-slider {
+  position: relative;
+  display: flex;
+  align-content: center;
+
+  .restaurant-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: black;
+    object-fit: cover;
+  }
+
+  button {
+    border: none;
+    color: white;
+    height: 100%;
+    width: 15%;
+    padding: 0;
+    background: transparent;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  button img {
+    filter: invert(1);
+    height: 15%;
+  }
+
+  .image-slider-btn-left {
+    left: 0;
+    padding-left: 10px;
+  }
+
+  .image-slider-btn-right {
+    right: 0;
+    padding-right: 10px;
+  }
+}
+
+.comments {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.comment {
+  margin: 5px 0;
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  color: black;
+  width: 90%;
+  box-sizing:content-box;
+}
+
+.comment-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5em;
+  margin-bottom: 0.35em;
+
+  h4 {
+    margin: 0;
+    display: inline;
+    margin-right: 0.5em;
+    font-weight: 500;
+    font-size: 1.2em;
+  }
+
+  .comment-top-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comment-top-left > div > span {
+    color: rgb(255, 225, 0);
+    font-size: 1.2em;
+  }
+
+  .profile-picture {
+    background-color: purple;
+    height: 3em;
+    aspect-ratio: 1/1;
+    border-radius: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-picture > span {
+    color: white;
+    font-size: 1.75em;
+    font-weight: 200;
+  }
+}
+
+.comment-content {
+  padding: 0 0.5em;
+}
+
+.layout{
+  box-sizing: border-box;
+  padding: 30px;
+  width: 100%;
+}
+
+.layout > svg{
+  width: 100%;
+  height: 90%;
+}
+
+::ng-deep {
+  .custom-slider {
+    width: 70%;
+    margin-top: 5px;
+  }
+  .custom-slider .ngx-slider .ngx-slider-bar {
+    background: #8eb4fc;
+    height: 2px;
+  }
+  .custom-slider .ngx-slider .ngx-slider-selection {
+    background: rgb(255, 136, 0);
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer {
+    width: 8px;
+    height: 18px;
+    top: auto; /* to remove the default positioning */
+    bottom: 0;
+    background-color: #333;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer:after {
+    display: none;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-limit {
+    font-weight: 500;
+  }
+}

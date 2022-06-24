@@ -29,7 +29,9 @@ export class MapService {
   constructor(
     private restaurantService: RestaurantService,
     private filterService: FilterService
-  ) {}
+  ) {
+    this.selectedRestaurant$.subscribe(console.log);
+  }
 
   get selectedRestaurant() {
     return this.selectedRestaurant$.getValue();
@@ -199,7 +201,9 @@ export class MapService {
     this.updateIcons(restaurant);
 
     setTimeout(() => {
-      this.selectedRestaurant$.next(restaurant);
+      if(restaurant){
+        this.selectedRestaurant$.next(restaurant);
+      }      
     }, durationSeconds * 1000);
   }
 }

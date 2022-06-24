@@ -17,7 +17,7 @@ import { LoginCardComponent } from './components/login-card/login-card.component
 import { MapComponent } from './components/map/map.component';
 import { RestaurantCardComponent } from './components/restaurant-card/restaurant-card.component';
 import { RestaurantFiltersComponent } from './components/restaurant-filters/restaurant-filters.component';
-import { RestaurantLayoutComponent } from './components/restaurant-layout/restaurant-layout.component';
+import { RestaurantLayoutComponent } from './pages/restaurant-layout/restaurant-layout.component';
 import { RestaurantListCardComponent } from './components/restaurant-list-card/restaurant-list-card.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { TopbarComponent } from './components/topbar/topbar.component';

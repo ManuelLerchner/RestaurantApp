@@ -11,7 +11,7 @@ import { FilterService } from './filter.service';
 })
 export class TableService {
   public timeSlot$ = new BehaviorSubject<[number, number] | null>(null);
-  public restaurantId$ = new BehaviorSubject<string | null>(null);
+  public restaurantId$ = new BehaviorSubject<number | null>(null);
 
   constructor(private http: HttpClient, private filterService: FilterService) {
     this.timeSlot$
