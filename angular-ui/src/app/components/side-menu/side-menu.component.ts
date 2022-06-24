@@ -26,6 +26,8 @@ export class SideMenuComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subsciption.unsubscribe();
+    if(this.subsciption){
+      this.subsciption.unsubscribe();
+    }
   }
 }
