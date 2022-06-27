@@ -100,11 +100,12 @@
           <span>{{ comment.date | date: "longDate" }}</span>
         </div>
 
-        <div>
-          <div class="profile-picture">
-            <span>{{ getInitials(comment.postedBy?.name ?? "") }}</span>
-          </div>
-        </div>
+        <img class="profile-picture"
+          src="https://avatars.dicebear.com/api/initials/{{
+            comment.postedBy?.name ?? 'erzerz'
+          }}.svg"
+          alt="Profile picture of {{ comment.postedBy?.name ?? '' }}"
+        />
       </div>
 
       <div class="comment-content">

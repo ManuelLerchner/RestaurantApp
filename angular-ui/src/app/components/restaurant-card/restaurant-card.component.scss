@@ -208,13 +208,9 @@ td:nth-child(2n) {
   }
 
   .profile-picture {
-    background-color: purple;
     height: 3em;
     aspect-ratio: 1/1;
     border-radius: 1.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .profile-picture > span {
