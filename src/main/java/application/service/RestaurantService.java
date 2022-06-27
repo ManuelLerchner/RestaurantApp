@@ -289,16 +289,11 @@ public class RestaurantService {
     }
 
     @Transactional
-    public String deleteRestaurants(List<Restaurant> restaurants) {
-        for (Restaurant restaurant : restaurants) {
-            Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurant.getId());
-            if (optionalRestaurant.isPresent()) {
-                restaurantRepository.delete(optionalRestaurant.get());
-            }
-        }
+    public String deleteAllRestaurants() {
+        restaurantRepository.deleteAll();
         return "deleted restaurants";
     }
-    
+
     @Transactional
     public List<Restaurant> readRestaurants() {
         return restaurantRepository.findAll();
