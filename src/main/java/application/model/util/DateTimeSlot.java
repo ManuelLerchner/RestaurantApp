@@ -5,6 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 @Entity
 public class DateTimeSlot extends TimeSlot {
@@ -46,6 +47,23 @@ public class DateTimeSlot extends TimeSlot {
             return false;
         }
         return true;
+    }
+
+    public static DateTimeSlot convertToDateTimeSlot(String date, double startTime, double endTime) {
+        LocalDate localDate;
+        try {
+            localDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+
+        int startHour = (int) startTime;
+        int startMinute = (int) ((startTime - startHour) * 60);
+
+        int endHour = Math.max(0, Math.min(23, (int) endTime));
+        int endMinute = Math.max(0, Math.min(59, (int) ((endTime - endHour) * 60)));
+
+        return new DateTimeSlot(LocalTime.of(startHour, startMinute), LocalTime.of(endHour, endMinute), localDate);
     }
 
     public static void main(String[] args) {

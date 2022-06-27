@@ -9,11 +9,48 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Transactional
+    public User signUp(User user) {
+        if (user.getId() == null) {
+            user.setHashedPassword(Hashing.sha256().hashString(user.getEmail() + user.getHashedPassword(), StandardCharsets.UTF_8).toString());
+            return userRepository.save(user);
+        }
+        return null;
+    }
+
+    @Transactional
+    public String login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return null;
+        }
+        String loginHash = Hashing.sha256().hashString(user.getEmail() + password, StandardCharsets.UTF_8).toString();
+        String userHash = user.getHashedPassword();
+        if (loginHash.equals(userHash)) {
+            Random random = new Random();
+            StringBuffer sb = new StringBuffer();
+            while(sb.length() < 50){
+                sb.append(Integer.toHexString(random.nextInt()));
+            }
+            String token = sb.toString();
+            user.setAuthToken(token);
+            return token;
+        }
+        return null;
+    }
+
+
+
+    // **************************
+    // Test purpose
+    // **************************
 
     @Transactional
     public String createUser(User user) {

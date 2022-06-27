@@ -66,7 +66,7 @@ public class RestaurantController {
     ) {
 
         System.out.println(date + "   " + timeSlot);
-        DateTimeSlot dateTimeSlot = convertToDateTimeSlot(date, timeSlot.get(0), timeSlot.get(1));
+        DateTimeSlot dateTimeSlot = DateTimeSlot.convertToDateTimeSlot(date, timeSlot.get(0), timeSlot.get(1));
         System.out.println(dateTimeSlot);
 
         Location userLocation;
@@ -95,22 +95,7 @@ public class RestaurantController {
         ));
     }
 
-    private DateTimeSlot convertToDateTimeSlot(String date, double startTime, double endTime) {
-        LocalDate localDate;
-        try {
-            localDate = LocalDate.parse(date);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
 
-        int startHour = (int) startTime;
-        int startMinute = (int) ((startTime - startHour) * 60);
-
-        int endHour = Math.max(0, Math.min(23, (int) endTime));
-        int endMinute = Math.max(0, Math.min(59, (int) ((endTime - endHour) * 60)));
-
-        return new DateTimeSlot(LocalTime.of(startHour, startMinute), LocalTime.of(endHour, endMinute), localDate);
-    }
 
     /**
      * @param comment required attributes for comment: headline, text, rating, user, restaurant

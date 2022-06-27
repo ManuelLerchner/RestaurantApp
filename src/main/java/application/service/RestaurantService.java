@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -105,7 +106,10 @@ public class RestaurantService {
         if (requiredCapacity > 0 && freeTimeSlot != null) {
             // set endTime if not already specified
             if (freeTimeSlot.getEndTime() == null) {
-                freeTimeSlot.setEndTime(freeTimeSlot.getStartTime().plusHours(2)); // TODO could be another date
+                freeTimeSlot.setEndTime(freeTimeSlot.getStartTime().plusHours(2));
+                if (freeTimeSlot.getEndTime().compareTo(freeTimeSlot.getStartTime()) < 0) {
+                    freeTimeSlot.setEndTime(LocalTime.of(23, 59));
+                }
             }
             restaurants = restaurants.stream().filter(restaurant -> {
                 List<RestaurantTable> tables = restaurant.getRestaurantTables();

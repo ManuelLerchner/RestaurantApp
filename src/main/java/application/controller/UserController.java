@@ -15,6 +15,37 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("signUp")
+    public ResponseEntity<User> signUp(User user) {
+        if (isValidUser(user)) {
+            return ResponseEntity.ok(userService.signUp(user));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("login")
+    public ResponseEntity<String> login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
+        if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok(userService.login(email, password));
+    }
+
+
+    private boolean isValidUser(User user) {
+        if (user.getId() != null) {
+            return false;
+        }
+        if (user.getName() == null || user.getEmail() == null || user.getReservations() != null) {
+            return false;
+        }
+        return true;
+    }
+
+
+    // **************************
+    // Test purpose
+    // **************************
 
     @RequestMapping(value = "createUser", method = RequestMethod.POST)
     public String createUser(@RequestBody User user) {

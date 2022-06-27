@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.model.Reservation;
+import application.model.User;
 import application.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,27 +16,39 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping("reserveTable")
-    public ResponseEntity<Reservation> reserveTable(@RequestBody Reservation reservation) {
-        // TODO add necessary parameters (table, startTime, user, ...)
-        if(!isValidReservation(reservation)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(reservationService.reserveTable(reservation));
+    public ResponseEntity<Reservation> reserveTable(
+            @RequestParam(name = "authToken") String authToken, // User
+            @RequestParam(name = "tableId") Long tableId, // Table & Restaurant implizit
+            @RequestParam(name = "date", defaultValue = "null") String date, // Date
+            @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> timeSlot // TimeSlot
+    ) {
+         User user = reservationService.isAuthorized(authToken);
+         if (user == null) {
+             return ResponseEntity.notFound().build();
+         }
+         if (tableId == null || date == null || timeSlot == null) {
+             return ResponseEntity.badRequest().build();
+         }
+         return ResponseEntity.ok(reservationService.reserveTable(user, tableId, date, timeSlot));
     }
 
-    private boolean isValidReservation(Reservation reservation) {
-        if (reservation.getUser() == null || reservation.getDateTimeSlot() == null || reservation.getRestaurantTable() == null) {
-            return false;
-        }
-        return true;
-    }
 
     @DeleteMapping("cancelReservation")
-    public ResponseEntity<String> cancelReservation(@RequestParam Long id) {
+    public ResponseEntity<String> cancelReservation(
+            @RequestParam(name = "authToken") String authToken,
+            @RequestParam Long id)
+    {
+        User user = reservationService.isAuthorized(authToken);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
         if (!reservationService.isExistingReservation(id)) {
             return ResponseEntity.notFound().build();
         }
-        reservationService.cancelReservation(id);
+        boolean canceled = reservationService.cancelReservation(user, id);
+        if (!canceled) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.noContent().build();
     }
 

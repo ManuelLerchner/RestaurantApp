@@ -32,6 +32,17 @@ public class Reservation {
     @JoinColumn(name = "restaurant_table_id")
     private RestaurantTable restaurantTable;
 
+    @Column(name = "confirmed")
+    private Boolean confirmed;
+
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
     public RestaurantTable getRestaurantTable() {
         return restaurantTable;
     }
