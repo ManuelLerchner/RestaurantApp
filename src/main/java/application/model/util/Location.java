@@ -47,9 +47,8 @@ public class Location {
     }
 
 
-    //TODO switch latitude and longitude again
     public Double getLatitude() {
-        return longitude;
+        return latitude;
     }
 
     public void setLatitude(Double latitude) {
@@ -57,7 +56,7 @@ public class Location {
     }
 
     public Double getLongitude() {
-        return latitude;
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {

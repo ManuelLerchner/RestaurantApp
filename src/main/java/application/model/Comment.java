@@ -117,12 +117,11 @@ public class Comment {
     }
 
     public static void main(String[] args) {
-        int id = 205 ;
-        for (int i = 0; i < 10; i++) {
+        int repeat = 3 ;
 
-            String[] headlineStringGoodStart = {"Amazing ", "Wholesome ", "Good ", "Fun ", "Relaxing ", "Remarkable ", "Outstanding ", "Terrific "};
+            String[] headlineStringGoodStart = {"Amazing ", "Wholesome ", "Good ", "Fun ", "Relaxing ", "Remarkable ", "Outstanding ", "Terrific ", "Impeccable "};
             String[] headlinePArt2Good = {"Day ", "Time ", "Food ", "Experience ", "Service "};
-            String[] GoodPart3 = {"in Munich", "in this restaurant", "in this awesome place", "here", "for us", "in this hidden treasure"};
+            String[] GoodPart3 = {"in Munich", "in this restaurant", "in this awesome place", "","in this hidden treasure", "here", "for us"};
 
             String[] textStringGoodStart = {"We really liked the ", "We were surprised by the ", "A lucky find in Munich where we enjoyed the ", "Fun ", "Fantastic ", "Hyped by the "};
             String[] textPArt2Good = {"great food in this restaurant. ", "meal of the day in this awesome place. ", "recommendations of the cook for us. ", "welcoming ambience here. ", "professional service. ", "kind servers. "};
@@ -143,6 +142,7 @@ public class Comment {
             String[] dateMonth = {"01", "02", "03", "04", "05", "06", "07"};
             String[] dateDay = {"01", "02", "03", "04", "05", "06", "07","08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"};
 
+            for (int i = 0; i < repeat; i++) {
             String date = "2022-" + dateMonth[(int) (Math.random() * 6)] + "-" + dateDay[(int) (Math.random() * 28)];
             String headline;
             String text;
@@ -152,16 +152,21 @@ public class Comment {
                 rating = badRating[(int) (Math.random() * 2)];
                 text = textStringBadStart[(int) (Math.random() * 3)] + textPArt2Bad[(int) (Math.random() * 3)] + textBad3[(int) (Math.random() * 3)];
             } else {
-                headline = headlineStringGoodStart[(int) (Math.random() * 7)] + headlinePArt2Good[(int) (Math.random() * 4)] + GoodPart3[(int) (Math.random() * 5)];
+                headline = headlineStringGoodStart[(int) (Math.random() * 8)] + headlinePArt2Good[(int) (Math.random() * 4)] + GoodPart3[(int) (Math.random() * 6)];
                 rating = goodRating[(int) (Math.random() * 2)];
                 text = textStringGoodStart[(int) (Math.random() * 5)] + textPArt2Good[(int) (Math.random() * 5)] + text3[(int) (Math.random() * 4)];
             }
 
-
-            System.out.println("{ \"date\" : \"" + date + "\",\n" +
-                    "\"headline\" : \"" + headline + "\", \"text\" : \"" + text + "\",\n" +
-                    "\"rating\" : " + rating + ",\n" +
-                    "\"restaurant\" : {\"id\" : " + id + "}},");
+            if (i < repeat-1) {
+                System.out.println("{ \"date\" : \"" + date + "\",\n" +
+                        "\"headline\" : \"" + headline + "\", \"text\" : \"" + text + "\",\n" +
+                        "\"rating\" : " + rating + "},");
+            }
+            else {
+                System.out.println("{ \"date\" : \"" + date + "\",\n" +
+                        "\"headline\" : \"" + headline + "\", \"text\" : \"" + text + "\",\n" +
+                        "\"rating\" : " + rating + "}");
+            }
         }
     }
 
