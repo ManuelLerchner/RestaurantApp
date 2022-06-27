@@ -15,6 +15,7 @@ import application.repository.RestaurantTableRepository;
 import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Paths;
@@ -41,7 +42,7 @@ public class RestaurantService {
 
     /**
      * Filters all restaurants in the database by the given parameters
-     *
+     * <p>
      * If you don't want to filter for a parameter you have to set a corresponding value, these are:
      * restaurantType: RestaurantType.DEFAULT
      * priceCategory: PriceCategory.DEFAULT
@@ -86,9 +87,9 @@ public class RestaurantService {
         // filter by maxDistance and Location
         if (maxDistance > 0 && userLocation != null && userLocation.getLongitude() != null && userLocation.getLatitude() != null) {
             restaurants = restaurants.stream().filter(r -> {
-                if(r.getLocation() != null && r.getLocation().getLatitude() != null && r.getLocation().getLongitude() != null) {
+                if (r.getLocation() != null && r.getLocation().getLatitude() != null && r.getLocation().getLongitude() != null) {
                     double distance = r.getLocation().getDistanceTo(userLocation);
-                    if(r.getLocation().getDistanceTo(userLocation) <= maxDistance) {
+                    if (r.getLocation().getDistanceTo(userLocation) <= maxDistance) {
                         // value exists only in response -> not stored in database
                         r.setDistanceToUser(distance);
                         return true;
@@ -101,7 +102,7 @@ public class RestaurantService {
         }
 
         // filter by freeTimeSlot and capacity
-        if(requiredCapacity > 0 && freeTimeSlot != null) {
+        if (requiredCapacity > 0 && freeTimeSlot != null) {
             // set endTime if not already specified
             if (freeTimeSlot.getEndTime() == null) {
                 freeTimeSlot.setEndTime(freeTimeSlot.getStartTime().plusHours(2)); // TODO could be another date
@@ -158,6 +159,7 @@ public class RestaurantService {
             restaurant.addComment(comment);
             restaurantRepository.save(restaurant);
             updateRating(restaurantId);
+            updateCommentCount(restaurantId);
             return "Comment added successfully to restaurant with ID: " + restaurantId;
         } else {
             return "Restaurant doesn't exist";
@@ -176,6 +178,14 @@ public class RestaurantService {
             double averageRating = ratingSum / restaurant.getComments().size();
             // System.out.println("averageRating: " + averageRating + ", commentsSize: " + restaurant.getComments().size());
             restaurantRepository.updateAverageRatingById(averageRating, restaurantId);
+        }
+    }
+
+    private void updateCommentCount(Long restaurantId) {
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+        if (optionalRestaurant.isPresent()) {
+            Restaurant restaurant = optionalRestaurant.get();
+            restaurantRepository.updateCommentCountById((double) restaurant.getComments().size(), restaurantId);
         }
     }
 
@@ -223,11 +233,11 @@ public class RestaurantService {
     private void createTables(Restaurant restaurant, String layoutPath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(layoutPath))) {
             for (String line; (line = reader.readLine()) != null; ) {
-                   if (line.contains("ellipse")) {
-                       RestaurantTable table = createTable(line);
-                       table.setRestaurant(restaurant);
-                       tableRepository.save(table);
-                   }
+                if (line.contains("ellipse")) {
+                    RestaurantTable table = createTable(line);
+                    table.setRestaurant(restaurant);
+                    tableRepository.save(table);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

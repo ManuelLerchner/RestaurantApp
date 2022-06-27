@@ -38,4 +38,11 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Modifying
     @Query("update Restaurant r set r.averageRating = ?1 where r.id = ?2")
     int updateAverageRatingById(Double averageRating, Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update Restaurant r set r.commentCount = ?1 where r.id = ?2")
+    int updateCommentCountById(Double commentCount, Long id);
+
+
 }

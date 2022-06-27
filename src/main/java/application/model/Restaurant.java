@@ -70,6 +70,17 @@ public class Restaurant {
     @Column(name = "layout_id")
     private Integer layoutId;
 
+    @Column(name = "comment_count")
+    private Double commentCount;
+
+    public Double getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Double commentCount) {
+        this.commentCount = commentCount;
+    }
+
     public Integer getLayoutId() {
         return layoutId;
     }
