@@ -211,6 +211,11 @@ public class RestaurantController {
         return restaurantService.deleteRestaurant(restaurant);
     }
 
+    @RequestMapping(value = "deleteRestaurants", method = RequestMethod.DELETE)
+    public String deleteRestaurants(@RequestBody List<Restaurant> restaurants) {
+        return restaurantService.deleteRestaurants(restaurants);
+    }
+
     @PutMapping("updateAverageRating")
     public String updateAverageRatings() {
         restaurantService.updateAverageRating();
