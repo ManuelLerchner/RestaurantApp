@@ -57,7 +57,7 @@ public class UserService {
             return null;
         }
 
-        return List.of(user.getEmail(), user.getUsername());
+        return List.of(user.getEmail(), user.getUsername(), authToken);
     }
 
 
