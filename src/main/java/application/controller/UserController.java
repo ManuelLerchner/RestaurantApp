@@ -17,11 +17,11 @@ public class UserController {
 
     @PostMapping("signUp")
     public ResponseEntity<List<String>> signUp(@RequestBody User user) {
-        if (user.getEmail() == null || user.getPassword() == null || user.getName() == null) {
+        if (user.getEmail() == null || user.getPassword() == null || user.getUsername() == null) {
             return ResponseEntity.status(401).build();
         }
 
-        List<String> returnEntity = userService.signUp(user.getEmail(), user.getPassword(), user.getName());
+        List<String> returnEntity = userService.signUp(user.getEmail(), user.getPassword(), user.getUsername());
         if (returnEntity != null) {
             return ResponseEntity.ok(returnEntity);
         }
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("loginWithAuthToken")
-    public ResponseEntity<List<String>> loginWithAuthToken(@RequestParam(name = "authToken") String authToken) {
+    public ResponseEntity<List<String>> loginWithAuthToken(@RequestParam(name = "authtoken") String authToken) {
         if (authToken == null) {
             return ResponseEntity.status(401).build();
         }

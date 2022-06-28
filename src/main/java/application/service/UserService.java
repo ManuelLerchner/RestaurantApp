@@ -21,7 +21,7 @@ public class UserService {
         if (userRepository.findByEmail(email) == null) {
             User newUser = new User();
             newUser.setEmail(email);
-            newUser.setName(userName);
+            newUser.setUsername(userName);
             newUser.setPassword(Hashing.sha256().hashString(email + password, StandardCharsets.UTF_8).toString());
             userRepository.save(newUser);
             return List.of(email, password, userName);
@@ -45,7 +45,7 @@ public class UserService {
             }
             String token = sb.toString();
             user.setAuthToken(token);
-            return List.of(email, user.getName(), token);
+            return List.of(email, user.getUsername(), token);
         }
         return null;
     }
@@ -57,7 +57,7 @@ public class UserService {
             return null;
         }
 
-        return List.of(user.getEmail(), user.getName());
+        return List.of(user.getEmail(), user.getUsername());
     }
 
 
@@ -68,7 +68,7 @@ public class UserService {
     @Transactional
     public String createUser(User user) {
         if (user.getId() == null) {
-            user.setPassword(Hashing.sha256().hashString(user.getName() + user.getPassword(), StandardCharsets.UTF_8).toString());
+            user.setPassword(Hashing.sha256().hashString(user.getUsername() + user.getPassword(), StandardCharsets.UTF_8).toString());
             userRepository.save(user);
             return "User created successfully";
         }
