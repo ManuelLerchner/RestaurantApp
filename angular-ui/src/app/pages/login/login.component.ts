@@ -67,13 +67,9 @@ export class LoginComponent implements OnInit {
     let loginData = this.loginForm.value;
 
     try {
-      let user = await this.accountService
+      await this.accountService
         .login(loginData.email, loginData.password, loginData.rememberMe)
         .toPromise();
-
-      if (!user) {
-        throw new Error('User not found');
-      }
 
       this.responseStatus = 'Success';
       this.responseText = 'Login successful';
@@ -97,22 +93,19 @@ export class LoginComponent implements OnInit {
   async signup() {
     let signupData = this.signUpForm.value;
 
-
     try {
       let user = await this.accountService
         .register(signupData.email, signupData.username, signupData.password)
         .toPromise();
-
-      if (!user) {
-        throw new Error('User not found');
-      }
 
       this.responseStatus = 'Success';
       this.responseText = 'Register successful';
 
       await sleep(500);
 
-      this.accountService.login(signupData.email, signupData.password, false);
+      await this.accountService
+        .login(signupData.email, signupData.password, true)
+        .toPromise();
 
       this.router.navigate(['/home']);
     } catch (error: any) {
