@@ -5,7 +5,6 @@ import application.repository.UserRepository;
 import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.List;

@@ -1,6 +1,5 @@
 package application.controller;
 
-import application.model.Comment;
 import application.model.User;
 import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
