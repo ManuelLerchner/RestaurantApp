@@ -58,7 +58,6 @@ form {
   width: 60%;
   height: 2em;
   border-radius: 1em;
-  margin-bottom: 1.5em;
   border: 1px solid hsl(0, 0%, 60%);
   background-color: #343a40;
   color: white;
@@ -81,4 +80,31 @@ button {
   background-color: #343a40;
   color: white;
   box-shadow: none;
+}
+
+.serverResponse {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 10px;
+
+  p {
+    margin: 0px;
+  }
+
+  .Error {
+    color: red;
+    font-size: 1.2em;
+  }
+
+  .Success {
+    color: green;
+    font-size: 1.2em;
+  }
+
+  .responseText {
+    color: black;
+    font-size: 1.1em;
+  }
 }

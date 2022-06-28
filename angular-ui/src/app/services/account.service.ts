@@ -28,7 +28,7 @@ export class AccountService {
 
       try {
         let user = await this.http
-          .post<User>(`${environment.apiUrl}/auth/keep-signed-in`, {
+          .post<User>(`${environment.apiUrl}/keep-signed-in`, {
             user: localUserDataJson,
           })
           .toPromise();
@@ -44,16 +44,18 @@ export class AccountService {
 
   login(email: string, password: string, rememberMe: boolean) {
     return this.http
-      .post<User>(`${environment.apiUrl}/auth/login`, {
-        email,
-        password,
-        rememberMe,
+      .get<User>(`${environment.apiUrl}/login`, {
+        params: {
+          email,
+          password,
+        },
       })
       .pipe(
         map((user: User) => {
           if (rememberMe) {
             localStorage.setItem('user', JSON.stringify(user));
           }
+
           this.user$.next(user as User);
           return user;
         })
@@ -61,7 +63,7 @@ export class AccountService {
   }
 
   register(email: string, username: string, password: string) {
-    return this.http.post(`${environment.apiUrl}/auth/register`, {
+    return this.http.post(`${environment.apiUrl}/signUp`, {
       email,
       username,
       password,
