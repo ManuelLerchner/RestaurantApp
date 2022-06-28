@@ -100,7 +100,7 @@
   cursor: pointer;
   color: black;
   width: 90%;
-  box-sizing:content-box;
+  box-sizing: content-box;
 }
 
 .comment-top {
@@ -149,13 +149,13 @@
   padding: 0 0.5em;
 }
 
-.layout{
+.layout {
   box-sizing: border-box;
   padding: 30px;
   width: 100%;
 }
 
-.layout > svg{
+.layout > svg {
   width: 100%;
   height: 90%;
 }
@@ -190,4 +190,34 @@
   .custom-slider .ngx-slider .ngx-slider-limit {
     font-weight: 500;
   }
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.person-input {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 2.5em;
+  max-width: 50%;
+  width: fit-content;
+}
+
+.person-input > span {
+  margin-right: 0.25em;
+}
+
+.person-input > input[type="number"] {
+  max-width: 40%;
+  padding: 5px;
+  margin-left: 5px;
+  margin: 10px;
+
+  font-size: 1.2em;
+
+  border-radius: 5px;
+  border: 1px solid rgb(189, 189, 189);
 }
