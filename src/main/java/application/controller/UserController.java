@@ -1,6 +1,5 @@
 package application.controller;
 
-import application.model.Comment;
 import application.model.User;
 import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("signUp")
-    public ResponseEntity<List<String>> signUp(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password, @RequestParam(name = "userName") String userName) {
-        if (email == null || password == null) {
+    public ResponseEntity<List<String>> signUp(@RequestBody User user) {
+        if (user.getEmail() == null || user.getPassword() == null || user.getName() == null) {
             return ResponseEntity.status(401).build();
         }
 
-        List<String> returnEntity = userService.signUp(email, password, userName);
+        List<String> returnEntity = userService.signUp(user.getEmail(), user.getPassword(), user.getName());
         if (returnEntity != null) {
             return ResponseEntity.ok(returnEntity);
         }
@@ -35,6 +34,18 @@ public class UserController {
             return ResponseEntity.status(401).build();
         }
         List<String> returnEntity = userService.login(email, password);
+        if (returnEntity == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(returnEntity);
+    }
+
+    @GetMapping("loginWithAuthToken")
+    public ResponseEntity<List<String>> loginWithAuthToken(@RequestParam(name = "authToken") String authToken) {
+        if (authToken == null) {
+            return ResponseEntity.status(401).build();
+        }
+        List<String> returnEntity = userService.loginWithAuthToken(authToken);
         if (returnEntity == null) {
             return ResponseEntity.badRequest().build();
         }

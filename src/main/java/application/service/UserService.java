@@ -22,7 +22,7 @@ public class UserService {
             User newUser = new User();
             newUser.setEmail(email);
             newUser.setName(userName);
-            newUser.setHashedPassword(Hashing.sha256().hashString(email + password, StandardCharsets.UTF_8).toString());
+            newUser.setPassword(Hashing.sha256().hashString(email + password, StandardCharsets.UTF_8).toString());
             userRepository.save(newUser);
             return List.of(email, password, userName);
         }
@@ -36,7 +36,7 @@ public class UserService {
             return null;
         }
         String loginHash = Hashing.sha256().hashString(user.getEmail() + password, StandardCharsets.UTF_8).toString();
-        String userHash = user.getHashedPassword();
+        String userHash = user.getPassword();
         if (loginHash.equals(userHash)) {
             Random random = new Random();
             StringBuffer sb = new StringBuffer();
@@ -45,9 +45,19 @@ public class UserService {
             }
             String token = sb.toString();
             user.setAuthToken(token);
-            return List.of(token, email, user.getName());
+            return List.of(email, user.getName(), token);
         }
         return null;
+    }
+
+    @Transactional
+    public List<String> loginWithAuthToken(String authToken) {
+        User user = userRepository.findByAuthToken(authToken);
+        if (user == null) {
+            return null;
+        }
+
+        return List.of(user.getEmail(), user.getName());
     }
 
 
@@ -58,7 +68,7 @@ public class UserService {
     @Transactional
     public String createUser(User user) {
         if (user.getId() == null) {
-            user.setHashedPassword(Hashing.sha256().hashString(user.getName() + user.getHashedPassword(), StandardCharsets.UTF_8).toString());
+            user.setPassword(Hashing.sha256().hashString(user.getName() + user.getPassword(), StandardCharsets.UTF_8).toString());
             userRepository.save(user);
             return "User created successfully";
         }

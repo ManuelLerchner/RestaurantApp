@@ -1,10 +1,6 @@
 package application.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,7 +23,7 @@ public class User {
     private String email;
 
     @Column(name = "hashed_password")
-    private String hashedPassword;
+    private String password;
 
     @Column(name = "auth_token")
     private String authToken;
@@ -48,12 +44,12 @@ public class User {
         this.reservations = reservations;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAuthToken() {
