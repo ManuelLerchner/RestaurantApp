@@ -27,17 +27,25 @@ export class AccountService {
       let localUserDataJson = JSON.parse(localUserData);
 
       try {
-        let user = await this.http
-          .post<User>(`${environment.apiUrl}/keep-signed-in`, {
-            user: localUserDataJson,
+        let list = await this.http
+          .get<string[]>(`${environment.apiUrl}/loginWithAuthToken`, {
+            params: {
+              authtoken: localUserDataJson.authToken,
+            },
           })
           .toPromise();
+
+        let user: User = {
+          email: list[0],
+          name: list[1],
+          authToken: list[2],
+        };
 
         this.user$.next(user as User);
 
         this.router.navigate([returnUrl]);
       } catch (error: any) {
-        console.log(error.statusText);
+        console.log(error);
       }
     }
   }
@@ -51,7 +59,15 @@ export class AccountService {
         },
       })
       .pipe(
-        map((user: User) => {
+        map((list: any) => {
+          console.log(list);
+
+          let user: User = {
+            email: list[0],
+            name: list[1],
+            authToken: list[2],
+          };
+
           if (rememberMe) {
             localStorage.setItem('user', JSON.stringify(user));
           }

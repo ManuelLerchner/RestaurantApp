@@ -35,7 +35,7 @@
           {{ responseStatus }}
         </span>
 
-        <p class="responseText">
+        <p class="responseText" *ngIf="responseStatus=='Error'">
           {{ responseText }}
         </p>
       </div>
@@ -93,7 +93,7 @@
           {{ responseStatus }}
         </span>
 
-        <p class="responseText">
+        <p class="responseText" *ngIf="responseStatus=='Error'">
           {{ responseText }}
         </p>
       </div>
