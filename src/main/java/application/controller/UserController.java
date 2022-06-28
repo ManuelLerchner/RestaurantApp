@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin
 @RestController
 public class UserController {
@@ -16,30 +17,28 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("signUp")
-    public ResponseEntity<User> signUp(User user) {
-        if (isValidUser(user)) {
-            return ResponseEntity.ok(userService.signUp(user));
+    public ResponseEntity<List<String>> signUp(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password, @RequestParam(name = "userName") String userName) {
+        if (email == null || password == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        List<String> returnEntity = userService.signUp(email, password, userName);
+        if (returnEntity != null) {
+            return ResponseEntity.ok(returnEntity);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("login")
-    public ResponseEntity<String> login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
+    public ResponseEntity<List<String>> login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.ok(userService.login(email, password));
-    }
-
-
-    private boolean isValidUser(User user) {
-        if (user.getId() != null) {
-            return false;
+        List<String> returnEntity = userService.login(email, password);
+        if (returnEntity == null) {
+            return ResponseEntity.badRequest().build();
         }
-        if (user.getName() == null || user.getEmail() == null || user.getReservations() != null) {
-            return false;
-        }
-        return true;
+        return ResponseEntity.ok(returnEntity);
     }
 
 

@@ -17,16 +17,20 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional
-    public User signUp(User user) {
-        if (user.getId() == null) {
-            user.setHashedPassword(Hashing.sha256().hashString(user.getEmail() + user.getHashedPassword(), StandardCharsets.UTF_8).toString());
-            return userRepository.save(user);
+    public List<String> signUp(String email, String password, String userName) {
+        if (userRepository.findByEmail(email) == null) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setName(userName);
+            newUser.setHashedPassword(Hashing.sha256().hashString(email + password, StandardCharsets.UTF_8).toString());
+            userRepository.save(newUser);
+            return List.of(email, password, userName);
         }
         return null;
     }
 
     @Transactional
-    public String login(String email, String password) {
+    public List<String> login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             return null;
@@ -36,16 +40,15 @@ public class UserService {
         if (loginHash.equals(userHash)) {
             Random random = new Random();
             StringBuffer sb = new StringBuffer();
-            while(sb.length() < 50){
+            while (sb.length() < 50) {
                 sb.append(Integer.toHexString(random.nextInt()));
             }
             String token = sb.toString();
             user.setAuthToken(token);
-            return token;
+            return List.of(token, email, user.getName());
         }
         return null;
     }
-
 
 
     // **************************
