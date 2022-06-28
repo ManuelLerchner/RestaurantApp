@@ -71,7 +71,6 @@ export class FilterService {
         })
       )
       .subscribe((filterParams: { [key: string]: any }) => {
-        this.hasLoadedRestaurants = false;
         this.requestFilteredData(filterParams);
       });
   }
