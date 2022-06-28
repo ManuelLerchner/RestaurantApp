@@ -9,14 +9,14 @@
         </button>
       </div>
       <div class="info-grid">
-        <span class="type">{{ restaurant.restaurantType }}</span>
-        <span class="priceCategory">{{ restaurant.priceCategory }}</span>
+        <span class="type">{{ formatRestaurantName(restaurant.restaurantType )}}</span>
+        <span class="priceCategory">{{ formatPriceCategory(restaurant.priceCategory) }}</span>
 
         <div class="rating-wrapper">
-          <span class="rating">★{{ restaurant.averageRating }}</span>
-          <span class="reviews">({{ "//////////////" }})</span>
+          <span class="rating">★ {{ restaurant.averageRating | number : '1.0-1' }}</span>
+          <span class="reviews">({{ restaurant.commentCount}})</span>
         </div>
-        <span class="distance">{{ restaurant.distanceToUser }} km</span>
+        <span class="distance">{{ restaurant.distanceToUser | number : '1.1-2' }} km</span>
       </div>
     </div>
 

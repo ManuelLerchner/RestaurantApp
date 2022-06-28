@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/restaurant/Comment';
+import { PriceCategory } from 'src/app/models/types/PriceCategory';
+import { RestaurantType } from 'src/app/models/types/RestaurantType';
 import { MapService } from 'src/app/services/map.service';
 import { Restaurant } from '../../models/restaurant/Restaurant';
 
@@ -25,6 +27,24 @@ export class RestaurantCardComponent implements OnInit {
         }
       }
     );
+  }
+
+  formatRestaurantName(restaurantType: RestaurantType): string {
+    let lower = restaurantType.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+
+  formatPriceCategory(priceCategory: PriceCategory): string {
+    switch (priceCategory) {
+      case 'CHEAP':
+        return '€'.repeat(1);
+      case 'NORMAL':
+        return '€'.repeat(2);
+      case 'COSTLY':
+        return '€'.repeat(3);
+      default:
+        return '-';
+    }
   }
 
   getPriceCategory(priceCategory: number): string {

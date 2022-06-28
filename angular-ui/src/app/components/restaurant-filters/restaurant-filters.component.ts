@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { PriceCategory } from 'src/app/models/types/PriceCategory';
+import { RestaurantType } from 'src/app/models/types/RestaurantType';
 import { FilterService } from 'src/app/services/filter.service';
 @Component({
   selector: 'app-restaurant-filters',
@@ -13,17 +15,25 @@ export class RestaurantFiltersComponent implements OnInit {
   filterExpanded: boolean = false;
   mouseOverStar = false;
 
-  restaurantTypes: string[] = [
-    'Italian',
-    'Chinese',
-    'Japanese',
-    'Thai',
-    'Mexican',
+  restaurantTypes: RestaurantType[] = [
+    'ITALIAN',
+    'CHINESE',
+    'INDIAN',
+    'JAPANESE',
+    'THAI',
+    'MEXICAN',
+    'GERMAN',
+    'ASIAN',
+    'VIETNAMESE',
+    'GREEK',
+    'AMERICAN',
+    'KOREAN',
+    'TURKISH',
   ];
 
-  priceCategories: number[] = [1, 2, 3];
+  priceCategories: PriceCategory[] = ['CHEAP', 'NORMAL', 'COSTLY'];
 
-  selectedStar: number = 0;
+  selectedStar: number = 1;
   stars: number[] = [5, 4, 3, 2, 1];
 
   maxDistance: number = 5.0;
@@ -79,12 +89,7 @@ export class RestaurantFiltersComponent implements OnInit {
     }
   }
 
-  placeLocationMarkerEvent() {
-    this.filterService.canPlaceUserMarker =
-      !this.filterService.canPlaceUserMarker;
-  }
-
-  setRestaurantType(type: string | null) {
+  setRestaurantType(type: RestaurantType | null) {
     var next = type;
     if (type === this.filterService.restaurantType$.value) {
       next = null;
@@ -92,9 +97,8 @@ export class RestaurantFiltersComponent implements OnInit {
     this.filterService.restaurantType$.next(next);
   }
 
-  setPriceCategory(type: number | null) {
+  setPriceCategory(type: PriceCategory | null) {
     var next = type;
-    console.log(type);
     if (type === this.filterService.priceCategory$.value) {
       next = null;
     }
@@ -122,5 +126,27 @@ export class RestaurantFiltersComponent implements OnInit {
 
   setPersonCount(count: number) {
     this.filterService.personCount$.next(count);
+  }
+
+  formatRestaurantName(restaurantType: RestaurantType): string {
+    let lower = restaurantType.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+
+  formatPriceCategory(priceCategory: PriceCategory): string {
+    switch (priceCategory) {
+      case 'CHEAP':
+        return '€'.repeat(1);
+      case 'NORMAL':
+        return '€'.repeat(2);
+      case 'COSTLY':
+        return '€'.repeat(3);
+      default:
+        return '-';
+    }
+  }
+
+  resetFilters() {
+    this.filterService.resetFilters();
   }
 }
