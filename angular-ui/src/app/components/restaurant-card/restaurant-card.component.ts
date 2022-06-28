@@ -1,3 +1,4 @@
+import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/restaurant/Comment';
 import { PriceCategory } from 'src/app/models/types/PriceCategory';
@@ -66,8 +67,8 @@ export class RestaurantCardComponent implements OnInit {
   }
 
   getCommentText(index: number) {
-    if(index<0 || index>=this.restaurant.comments.length){
-      return "";
+    if (index < 0 || index >= this.restaurant.comments.length) {
+      return '';
     }
 
     if (index != this.currentCommentIndex) {
@@ -86,7 +87,7 @@ export class RestaurantCardComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if(this.subscription){
+    if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
@@ -95,16 +96,42 @@ export class RestaurantCardComponent implements OnInit {
     this.mapService.selectedRestaurant$.next(null);
   }
 
-  getWeekDay(index: number): string{
-    switch(index){
-      case 0: return "MON";
-      case 1: return "TUE";
-      case 2: return "WED";
-      case 3: return "THU";
-      case 4: return "FRI";
-      case 5: return "SAT";
-      case 6: return "SUN";
-      default: return "";
+  getTimeSlot(index: number) {
+    index = index != 6 ? index + 1 : 0;
+
+    const { startTime, endTime, ...rest } = this.restaurant.openingTimes.filter(
+      (day) => day.dayOfWeek.toString() == WeekDay[index].toUpperCase()
+    )[0];
+
+    if (!startTime || !endTime) {
+      return;
+    }
+
+    return (
+      startTime.substring(0, startTime.lastIndexOf(':')) +
+      ' - ' +
+      endTime.substring(0, endTime.lastIndexOf(':'))
+    );
+  }
+
+  getWeekDay(index: number): string {
+    switch (index) {
+      case 0:
+        return 'MON';
+      case 1:
+        return 'TUE';
+      case 2:
+        return 'WED';
+      case 3:
+        return 'THU';
+      case 4:
+        return 'FRI';
+      case 5:
+        return 'SAT';
+      case 6:
+        return 'SUN';
+      default:
+        return '';
     }
   }
 }
