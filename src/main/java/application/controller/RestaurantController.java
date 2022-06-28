@@ -221,4 +221,10 @@ public class RestaurantController {
         restaurantService.updateAverageRating();
         return "averageRating updated";
     }
+
+    @PutMapping("updateCommentCount")
+    public String updateCommentCount() {
+        restaurantService.updateCommentCount();
+        return "commentCount updated";
+    }
 }

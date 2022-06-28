@@ -306,6 +306,13 @@ public class RestaurantService {
         }
     }
 
+    @Transactional
+    public void updateCommentCount() {
+        for (Restaurant restaurant : restaurantRepository.findAll()) {
+            updateCommentCount(restaurant.getId());
+        }
+    }
+
 /*
     //Nico for Restaurant creation:
     public static void main(String[] args) {
