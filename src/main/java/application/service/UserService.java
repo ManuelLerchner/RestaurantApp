@@ -1,5 +1,6 @@
 package application.service;
 
+import application.model.Reservation;
 import application.model.User;
 import application.repository.UserRepository;
 import com.google.common.hash.Hashing;
@@ -57,6 +58,15 @@ public class UserService {
         }
 
         return List.of(user.getEmail(), user.getUsername(), authToken);
+    }
+
+    @Transactional
+    public List<Reservation> retrieveReservations(String authToken) {
+        User user = userRepository.findByAuthToken(authToken);
+        if (user == null) {
+            return null;
+        }
+        return user.getReservations();
     }
 
 

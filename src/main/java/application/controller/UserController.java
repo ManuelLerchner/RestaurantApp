@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.model.Reservation;
 import application.model.User;
 import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,14 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(returnEntity);
+    }
+
+    @GetMapping("reservations")
+    public ResponseEntity<List<Reservation>> retrieveReservations(@RequestParam(name = "authtoken") String authToken) {
+        if (authToken == null) {
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok(userService.retrieveReservations(authToken));
     }
 
 
