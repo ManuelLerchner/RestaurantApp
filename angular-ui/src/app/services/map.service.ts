@@ -16,14 +16,20 @@ export class MapService {
 
   private normalIcon = icon({
     iconUrl: 'assets/icons/leaflet_marker_icon.png',
+    shadowUrl: 'assets/icons/leaflet_marker_shadow.png',
+    shadowSize: [20, 45],
+    shadowAnchor: [1, 43],
     iconSize: [30, 45],
-    iconAnchor: [20, 60],
+    iconAnchor: [15, 45],
   });
 
   private selectedIcon = icon({
     iconUrl: 'assets/icons/leaflet_marker_icon_selected.png',
+    shadowUrl: 'assets/icons/leaflet_marker_shadow.png',
+    shadowSize: [20, 45],
+    shadowAnchor: [1, 43],
     iconSize: [30, 45],
-    iconAnchor: [20, 60],
+    iconAnchor: [15, 45],
   });
 
   constructor(
@@ -132,8 +138,11 @@ export class MapService {
     let newMarker = marker(storedMarker.getLatLng(), {
       icon: icon({
         iconUrl: 'assets/icons/leaflet_marker_person.png',
+        shadowUrl: 'assets/icons/leaflet_marker_person_shadow.png',
         iconSize: [20, 35],
-        iconAnchor: [20, 60],
+        shadowSize: [22, 35],
+        iconAnchor: [10, 35],
+        shadowAnchor: [0, 35],
       }),
       draggable: true,
       autoPan: true,
