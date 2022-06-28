@@ -96,15 +96,21 @@ export class RestaurantCardComponent implements OnInit {
     this.mapService.selectedRestaurant$.next(null);
   }
 
-  getTimeSlot(index: number) {
+  getTimeSlot(index: number): string {
     index = index != 6 ? index + 1 : 0;
 
-    const { startTime, endTime, ...rest } = this.restaurant.openingTimes.filter(
+    let item = this.restaurant.openingTimes.filter(
       (day) => day.dayOfWeek.toString() == WeekDay[index].toUpperCase()
     )[0];
 
+    if (!item) {
+      return 'Geschlossen';
+    }
+
+    const { startTime, endTime, ...rest } = item;
+
     if (!startTime || !endTime) {
-      return;
+      return 'Geschlossen';
     }
 
     return (
