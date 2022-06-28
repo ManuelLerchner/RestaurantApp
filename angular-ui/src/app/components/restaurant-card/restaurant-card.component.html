@@ -9,14 +9,22 @@
         </button>
       </div>
       <div class="info-grid">
-        <span class="type">{{ formatRestaurantName(restaurant.restaurantType )}}</span>
-        <span class="priceCategory">{{ formatPriceCategory(restaurant.priceCategory) }}</span>
+        <span class="type">{{
+          formatRestaurantName(restaurant.restaurantType)
+        }}</span>
+        <span class="priceCategory">{{
+          formatPriceCategory(restaurant.priceCategory)
+        }}</span>
 
         <div class="rating-wrapper">
-          <span class="rating">★ {{ restaurant.averageRating | number : '1.0-1' }}</span>
-          <span class="reviews">({{ restaurant.commentCount}})</span>
+          <span class="rating"
+            >★ {{ restaurant.averageRating | number: "1.0-1" }}</span
+          >
+          <span class="reviews">({{ restaurant.commentCount }})</span>
         </div>
-        <span class="distance">{{ restaurant.distanceToUser | number : '1.1-2' }} km</span>
+        <span class="distance"
+          >{{ restaurant.distanceToUser | number: "1.1-2" }} km</span
+        >
       </div>
     </div>
 
@@ -44,33 +52,9 @@
       <div class="opening-times">
         <h4>Opening Times</h4>
         <table>
-          <tr>
-            <td>MON</td>
-            <td>13:00-23:00</td>
-          </tr>
-          <tr>
-            <td>TUE</td>
-            <td>13:00-23:00</td>
-          </tr>
-          <tr>
-            <td>WED</td>
-            <td>13:00-23:00</td>
-          </tr>
-          <tr>
-            <td>THU</td>
-            <td>13:00-23:00</td>
-          </tr>
-          <tr>
-            <td>FRI</td>
-            <td>13:00-23:00</td>
-          </tr>
-          <tr>
-            <td>SAT</td>
-            <td>13:00-23:00</td>
-          </tr>
-          <tr>
-            <td>SUN</td>
-            <td>13:00-23:00</td>
+          <tr *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]">
+            <td>{{ getWeekDay(i) }}</td>
+            <td>{{ getTimeSlot(i) }}</td>
           </tr>
         </table>
         <a href="" class="website-link">Website</a>
@@ -100,7 +84,8 @@
           <span>{{ comment.date | date: "longDate" }}</span>
         </div>
 
-        <img class="profile-picture"
+        <img
+          class="profile-picture"
           src="https://avatars.dicebear.com/api/initials/{{
             comment.postedBy?.name ?? ''
           }}.svg"
