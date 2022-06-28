@@ -252,9 +252,20 @@ public class RestaurantController {
         return restaurantService.deleteRestaurant(restaurant);
     }
 
+    @RequestMapping(value = "deleteAllRestaurants", method = RequestMethod.DELETE)
+    public String deleteAllRestaurants() {
+        return restaurantService.deleteAllRestaurants();
+    }
+
     @PutMapping("updateAverageRating")
     public String updateAverageRatings() {
         restaurantService.updateAverageRating();
         return "averageRating updated";
+    }
+
+    @PutMapping("updateCommentCount")
+    public String updateCommentCount() {
+        restaurantService.updateCommentCount();
+        return "commentCount updated";
     }
 }

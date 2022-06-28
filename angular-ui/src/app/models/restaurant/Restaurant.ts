@@ -15,6 +15,7 @@ export interface Restaurant {
   averageRating: number;
   linkToWebsite: string;
   distanceToUser: number;
+  commentCount: number;
 
   location: Location;
 

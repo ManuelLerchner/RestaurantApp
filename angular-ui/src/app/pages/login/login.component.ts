@@ -13,8 +13,8 @@ export class LoginComponent implements OnInit {
   signUpForm!: FormGroup;
   forgotPasswordForm!: FormGroup;
   state: AuthMode = AuthMode.LOGIN;
-  responseStatus: string="";
-  responseText: string="";
+  responseStatus: '' | 'Error' | 'Success' = '';
+  responseText: string = '';
 
   constructor(
     private accountService: AccountService,
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: this.fb.control(null, [Validators.required]),
       password: this.fb.control(null, [Validators.required]),
-      rememberMe: this.fb.control(null),
+      rememberMe: this.fb.control(true),
     });
 
     this.signUpForm = this.fb.group({
@@ -64,8 +64,6 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    console.log('login', this.loginForm.value);
-
     let loginData = this.loginForm.value;
 
     try {
@@ -73,7 +71,7 @@ export class LoginComponent implements OnInit {
         .login(loginData.email, loginData.password, loginData.rememberMe)
         .toPromise();
 
-      this.responseStatus = 'success';
+      this.responseStatus = 'Success';
       this.responseText = 'Login successful';
 
       await sleep(500);
@@ -82,7 +80,7 @@ export class LoginComponent implements OnInit {
     } catch (error: any) {
       console.log(error);
 
-      this.responseStatus = 'error';
+      this.responseStatus = 'Error';
 
       if (typeof error.error === 'string') {
         this.responseText = error.error;
@@ -92,8 +90,35 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  signup() {
-    console.log('signup', this.signUpForm.value);
+  async signup() {
+    let signupData = this.signUpForm.value;
+
+    try {
+      let user = await this.accountService
+        .register(signupData.email, signupData.username, signupData.password)
+        .toPromise();
+
+      this.responseStatus = 'Success';
+      this.responseText = 'Register successful';
+
+      await sleep(500);
+
+      await this.accountService
+        .login(signupData.email, signupData.password, true)
+        .toPromise();
+
+      this.router.navigate(['/home']);
+    } catch (error: any) {
+      console.log(error);
+
+      this.responseStatus = 'Error';
+
+      if (typeof error.error === 'string') {
+        this.responseText = error.error;
+      } else {
+        this.responseText = 'An unknown error occured.';
+      }
+    }
   }
 
   forgotPassword() {
@@ -101,17 +126,20 @@ export class LoginComponent implements OnInit {
   }
 
   showLogin() {
+    this.responseStatus = '';
+    this.responseText = '';
     this.state = AuthMode.LOGIN;
   }
 
   showSignUp() {
+    this.responseStatus = '';
+    this.responseText = '';
     this.state = AuthMode.SIGN_UP;
   }
 
   showForgotPassword() {
     this.state = AuthMode.FORGOT_PASSWORD;
   }
-
 }
 
 export enum AuthMode {

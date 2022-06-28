@@ -326,6 +326,12 @@ public class RestaurantService {
     }
 
     @Transactional
+    public String deleteAllRestaurants() {
+        restaurantRepository.deleteAll();
+        return "deleted restaurants";
+    }
+
+    @Transactional
     public List<Restaurant> readRestaurants() {
         return restaurantRepository.findAll();
     }
@@ -334,6 +340,13 @@ public class RestaurantService {
     public void updateAverageRating() {
         for (Restaurant restaurant : restaurantRepository.findAll()) {
             updateRating(restaurant.getId());
+        }
+    }
+
+    @Transactional
+    public void updateCommentCount() {
+        for (Restaurant restaurant : restaurantRepository.findAll()) {
+            updateCommentCount(restaurant.getId());
         }
     }
 

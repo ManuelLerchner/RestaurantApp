@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin
 @RestController
 public class UserController {
@@ -15,30 +16,40 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("signUp")
-    public ResponseEntity<User> signUp(User user) {
-        if (isValidUser(user)) {
-            return ResponseEntity.ok(userService.signUp(user));
+    public ResponseEntity<List<String>> signUp(@RequestBody User user) {
+        if (user.getEmail() == null || user.getPassword() == null || user.getUsername() == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        List<String> returnEntity = userService.signUp(user.getEmail(), user.getPassword(), user.getUsername());
+        if (returnEntity != null) {
+            return ResponseEntity.ok(returnEntity);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("login")
-    public ResponseEntity<String> login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
+    public ResponseEntity<List<String>> login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.ok(userService.login(email, password));
+        List<String> returnEntity = userService.login(email, password);
+        if (returnEntity == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(returnEntity);
     }
 
-
-    private boolean isValidUser(User user) {
-        if (user.getId() != null) {
-            return false;
+    @GetMapping("loginWithAuthToken")
+    public ResponseEntity<List<String>> loginWithAuthToken(@RequestParam(name = "authtoken") String authToken) {
+        if (authToken == null) {
+            return ResponseEntity.status(401).build();
         }
-        if (user.getName() == null || user.getEmail() == null || user.getReservations() != null) {
-            return false;
+        List<String> returnEntity = userService.loginWithAuthToken(authToken);
+        if (returnEntity == null) {
+            return ResponseEntity.badRequest().build();
         }
-        return true;
+        return ResponseEntity.ok(returnEntity);
     }
 
 
