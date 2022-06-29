@@ -6,7 +6,9 @@
     >
       Close Filter Options
     </button>
-    <button>Reset</button>
+    <button
+    (click)="resetFilters()"
+    >Reset</button>
   </div>
 
   <h3>Restaurant Types</h3>
@@ -18,7 +20,7 @@
       }"
       (click)="setRestaurantType(type)"
     >
-      {{ type }}
+      {{ formatRestaurantName(type) }}
     </button>
   </div>
 
@@ -31,7 +33,7 @@
       }"
       (click)="setPriceCategory(category)"
     >
-      {{ "€".repeat(category) }}
+      {{ formatPriceCategory(category) }}
     </button>
   </div>
 
@@ -50,15 +52,6 @@
   </div>
 
   <h3>Maximum Distance</h3>
-
-  <button
-    (click)="placeLocationMarkerEvent()"
-    [ngStyle]="{
-      'background-color': filterService.canPlaceUserMarker ? 'green' : ''
-    }"
-  >
-    Place Person Marker
-  </button>
 
   <div class="custom-slider">
     <ngx-slider

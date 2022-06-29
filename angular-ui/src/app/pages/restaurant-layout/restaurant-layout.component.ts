@@ -42,7 +42,6 @@ export class RestaurantLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.mapService.selectedRestaurant$.subscribe((restaurant) => {
-      console.log('sgho', restaurant);
       if (restaurant) {
         this.restaurant = restaurant;
       }

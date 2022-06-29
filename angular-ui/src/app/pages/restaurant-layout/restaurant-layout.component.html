@@ -10,8 +10,8 @@
 
       <div class="row">
         <div class="rating-wrapper">
-          <span>★{{ restaurant.averageRating }}</span>
-          <span>({{ "//////////////" }})</span>
+          <span>★{{ restaurant.averageRating | number: ".0-1" }}</span>
+          <span>({{ restaurant.comments.length }})</span>
         </div>
         <span>{{ restaurant.distanceToUser }} km</span>
       </div>
@@ -118,13 +118,19 @@
       />
     </svg>
 
-    <div class="custom-slider">
-      <ngx-slider
-        [(value)]="startHour"
-        [(highValue)]="endHour"
-        [options]="hourSelectorOptions"
-        (userChange)="setTimeSlot($event)"
-      ></ngx-slider>
+    <div class="inputs">
+      <div class="custom-slider">
+        <ngx-slider
+          [(value)]="startHour"
+          [(highValue)]="endHour"
+          [options]="hourSelectorOptions"
+          (userChange)="setTimeSlot($event)"
+        ></ngx-slider>
+      </div>
+      <div class="person-input">
+        <span>Persons:</span>
+        <input type="number" value="2" />
+      </div>
     </div>
   </div>
 </div>

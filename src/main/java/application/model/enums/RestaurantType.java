@@ -1,10 +1,5 @@
 package application.model.enums;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 public enum RestaurantType {
     DEFAULT, ITALIAN, CHINESE, INDIAN, JAPANESE, THAI, MEXICAN, GERMAN, ASIAN, VIETNAMESE, GREEK, AMERICAN, KOREAN, TURKISH;
 

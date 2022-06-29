@@ -1,10 +1,10 @@
 <div class="navbar">
-  <a class="logo" href="/">
+  <a class="logo" [routerLink]="['/home']">
     <p class="title">Restaurant Reservation</p>
   </a>
 
   <div class="group">
-    <a class="link" href="/">My Reservations</a>
+    <a class="link" [routerLink]="['/reservations']">My Reservations</a>
 
     <app-login-card></app-login-card>
   </div>

@@ -15,7 +15,6 @@ import application.repository.RestaurantTableRepository;
 import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Paths;
@@ -41,16 +40,17 @@ public class RestaurantService {
     @Autowired
     private WeekTimeSlotRepository weekTimeSlotRepository;
 
+
     /**
      * Filters all restaurants in the database by the given parameters
-     * <p>
+     *
      * If you don't want to filter for a parameter you have to set a corresponding value, these are:
      * restaurantType: RestaurantType.DEFAULT
      * priceCategory: PriceCategory.DEFAULT
      * minRating: <= 1
-     * maxDistance: < 0
-     * userLocation: null
+     * maxDistance and userLocation: maxDistance <= 0 || userLocation == null
      * number: Integer.MAX_VALUE
+     * freeTimeSlot and requiredCapacity: freeTimeSlot == null || requiredCapacity <= 0
      *
      * @param restaurantType
      * @param priceCategory
@@ -58,7 +58,9 @@ public class RestaurantService {
      * @param maxDistance
      * @param userLocation
      * @param number
-     * @return List of filtered restaurants
+     * @param freeTimeSlot
+     * @param requiredCapacity
+     * @return a List containing the filtered restaurants
      */
     @Transactional
     public List<Restaurant> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, int minRating, double maxDistance, Location userLocation, int number, DateTimeSlot freeTimeSlot, int requiredCapacity) {
@@ -129,6 +131,14 @@ public class RestaurantService {
         return restaurants.subList(0, Math.min(restaurants.size(), number));
     }
 
+
+    /**
+     * This method checks whether the given RestaurantTable is free at the specified DateTimeSlot
+     *
+     * @param table
+     * @param freeTimeSlot
+     * @return True if the RestaurantTable is free on the specified DateTimeSlot, false otherwise
+     */
     private boolean hasFreeTimeSlot(RestaurantTable table, DateTimeSlot freeTimeSlot) {
         List<Reservation> reservationsForSpecifiedDate = table.getReservations().stream().filter(reservation -> reservation.getDateTimeSlot().getDate().equals(freeTimeSlot.getDate())).toList();
         // detect potential collision
@@ -141,7 +151,7 @@ public class RestaurantService {
     }
 
     /**
-     * Searches for a restaurant with the given id
+     * This method searches for a restaurant with the given id and return the found object
      *
      * @param id
      * @return Restaurant object with the specified id or null if the id does not exist
@@ -152,9 +162,20 @@ public class RestaurantService {
         return optionalRestaurant.orElse(null);
     }
 
+
+    /**
+     * This method adds the given comment to the restaurant
+     * Notice that the specification of the restaurant is part of the comment object itself
+     *
+     * @param comment must not be null
+     * @return String with information about success or reason for failing
+     */
     @Transactional
     public String addCommentToRestaurant(Comment comment) {
         Long restaurantId = comment.getRestaurant().getId();
+        if (restaurantId == null) {
+            return "ID of restaurant must not be null";
+        }
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
@@ -171,7 +192,15 @@ public class RestaurantService {
     }
 
 
+    /**
+     * This method updates the averageRating for the given restaurant, identified by its ID
+     *
+     * @param restaurantId must not be null
+     */
     private void updateRating(Long restaurantId) {
+        if (restaurantId == null) {
+            return;
+        }
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
@@ -185,7 +214,15 @@ public class RestaurantService {
         }
     }
 
+    /**
+     * This method updates the commentCount for the given restaurant, identified by its ID
+     *
+     * @param restaurantId must not be null
+     */
     private void updateCommentCount(Long restaurantId) {
+        if (restaurantId == null) {
+            return;
+        }
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
@@ -303,6 +340,13 @@ public class RestaurantService {
     public void updateAverageRating() {
         for (Restaurant restaurant : restaurantRepository.findAll()) {
             updateRating(restaurant.getId());
+        }
+    }
+
+    @Transactional
+    public void updateCommentCount() {
+        for (Restaurant restaurant : restaurantRepository.findAll()) {
+            updateCommentCount(restaurant.getId());
         }
     }
 

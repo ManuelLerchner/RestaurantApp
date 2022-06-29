@@ -16,14 +16,20 @@ export class MapService {
 
   private normalIcon = icon({
     iconUrl: 'assets/icons/leaflet_marker_icon.png',
+    shadowUrl: 'assets/icons/leaflet_marker_shadow.png',
+    shadowSize: [20, 45],
+    shadowAnchor: [1, 43],
     iconSize: [30, 45],
-    iconAnchor: [20, 60],
+    iconAnchor: [15, 45],
   });
 
   private selectedIcon = icon({
     iconUrl: 'assets/icons/leaflet_marker_icon_selected.png',
+    shadowUrl: 'assets/icons/leaflet_marker_shadow.png',
+    shadowSize: [20, 45],
+    shadowAnchor: [1, 43],
     iconSize: [30, 45],
-    iconAnchor: [20, 60],
+    iconAnchor: [15, 45],
   });
 
   constructor(
@@ -127,38 +133,35 @@ export class MapService {
   }
 
   prepareMovingUserMarker() {
-    this.map.on('click', (e: any) => {
-      if (this.filterService.canPlaceUserMarker) {
-        const oldMarker = this.filterService.personMarker$.getValue();
-        if (oldMarker) this.map.removeLayer(oldMarker);
+    const storedMarker = this.filterService.personMarker$.getValue();
 
-        let newMarker = marker(e.latlng, {
-          icon: icon({
-            iconUrl: 'assets/icons/leaflet_marker_person.png',
-            iconSize: [20, 35],
-            iconAnchor: [20, 60],
-          }),
-          draggable: true,
-          autoPan: true,
-        });
-
-        newMarker.on('drag', (event) => {
-          var marker = event.target;
-          var position = marker.getLatLng();
-
-          marker.setLatLng(position, {
-            draggable: 'true',
-          });
-
-          this.filterService.personMarker$.next(newMarker);
-        });
-
-        this.filterService.personMarker$.next(newMarker);
-        this.filterService.canPlaceUserMarker = false;
-
-        newMarker.addTo(this.map);
-      }
+    let newMarker = marker(storedMarker.getLatLng(), {
+      icon: icon({
+        iconUrl: 'assets/icons/leaflet_marker_person.png',
+        shadowUrl: 'assets/icons/leaflet_marker_person_shadow.png',
+        iconSize: [20, 35],
+        shadowSize: [22, 35],
+        iconAnchor: [10, 35],
+        shadowAnchor: [0, 35],
+      }),
+      draggable: true,
+      autoPan: true,
     });
+
+    newMarker.on('drag', (event) => {
+      var marker = event.target;
+      var position = marker.getLatLng();
+
+      marker.setLatLng(position, {
+        draggable: 'true',
+      });
+
+      this.filterService.personMarker$.next(newMarker);
+    });
+
+    this.filterService.personMarker$.next(newMarker);
+
+    newMarker.addTo(this.map);
   }
 
   updateIcons(restaurant: Restaurant) {
@@ -201,9 +204,9 @@ export class MapService {
     this.updateIcons(restaurant);
 
     setTimeout(() => {
-      if(restaurant){
+      if (restaurant) {
         this.selectedRestaurant$.next(restaurant);
-      }      
+      }
     }, durationSeconds * 1000);
   }
 }

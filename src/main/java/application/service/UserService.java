@@ -1,11 +1,11 @@
 package application.service;
 
+import application.model.Reservation;
 import application.model.User;
 import application.repository.UserRepository;
 import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -17,35 +17,57 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional
-    public User signUp(User user) {
-        if (user.getId() == null) {
-            user.setHashedPassword(Hashing.sha256().hashString(user.getEmail() + user.getHashedPassword(), StandardCharsets.UTF_8).toString());
-            return userRepository.save(user);
+    public List<String> signUp(String email, String password, String userName) {
+        if (userRepository.findByEmail(email) == null) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setUsername(userName);
+            newUser.setPassword(Hashing.sha256().hashString(email + password, StandardCharsets.UTF_8).toString());
+            userRepository.save(newUser);
+            return List.of(email, password, userName);
         }
         return null;
     }
 
     @Transactional
-    public String login(String email, String password) {
+    public List<String> login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             return null;
         }
         String loginHash = Hashing.sha256().hashString(user.getEmail() + password, StandardCharsets.UTF_8).toString();
-        String userHash = user.getHashedPassword();
+        String userHash = user.getPassword();
         if (loginHash.equals(userHash)) {
             Random random = new Random();
             StringBuffer sb = new StringBuffer();
-            while(sb.length() < 50){
+            while (sb.length() < 50) {
                 sb.append(Integer.toHexString(random.nextInt()));
             }
             String token = sb.toString();
             user.setAuthToken(token);
-            return token;
+            return List.of(email, user.getUsername(), token);
         }
         return null;
     }
 
+    @Transactional
+    public List<String> loginWithAuthToken(String authToken) {
+        User user = userRepository.findByAuthToken(authToken);
+        if (user == null) {
+            return null;
+        }
+
+        return List.of(user.getEmail(), user.getUsername(), authToken);
+    }
+
+    @Transactional
+    public List<Reservation> retrieveReservations(String authToken) {
+        User user = userRepository.findByAuthToken(authToken);
+        if (user == null) {
+            return null;
+        }
+        return user.getReservations();
+    }
 
 
     // **************************
@@ -55,7 +77,7 @@ public class UserService {
     @Transactional
     public String createUser(User user) {
         if (user.getId() == null) {
-            user.setHashedPassword(Hashing.sha256().hashString(user.getName() + user.getHashedPassword(), StandardCharsets.UTF_8).toString());
+            user.setPassword(Hashing.sha256().hashString(user.getUsername() + user.getPassword(), StandardCharsets.UTF_8).toString());
             userRepository.save(user);
             return "User created successfully";
         }

@@ -27,33 +27,51 @@ export class AccountService {
       let localUserDataJson = JSON.parse(localUserData);
 
       try {
-        let user = await this.http
-          .post<User>(`${environment.apiUrl}/auth/keep-signed-in`, {
-            user: localUserDataJson,
+        let list = await this.http
+          .get<string[]>(`${environment.apiUrl}/loginWithAuthToken`, {
+            params: {
+              authtoken: localUserDataJson.authToken,
+            },
           })
           .toPromise();
+
+        let user: User = {
+          email: list[0],
+          name: list[1],
+          authToken: list[2],
+        };
 
         this.user$.next(user as User);
 
         this.router.navigate([returnUrl]);
       } catch (error: any) {
-        console.log(error.statusText);
+        console.log(error);
       }
     }
   }
 
   login(email: string, password: string, rememberMe: boolean) {
     return this.http
-      .post<User>(`${environment.apiUrl}/auth/login`, {
-        email,
-        password,
-        rememberMe,
+      .get<User>(`${environment.apiUrl}/login`, {
+        params: {
+          email,
+          password,
+        },
       })
       .pipe(
-        map((user: User) => {
+        map((list: any) => {
+          console.log(list);
+
+          let user: User = {
+            email: list[0],
+            name: list[1],
+            authToken: list[2],
+          };
+
           if (rememberMe) {
             localStorage.setItem('user', JSON.stringify(user));
           }
+
           this.user$.next(user as User);
           return user;
         })
@@ -61,7 +79,7 @@ export class AccountService {
   }
 
   register(email: string, username: string, password: string) {
-    return this.http.post(`${environment.apiUrl}/auth/register`, {
+    return this.http.post(`${environment.apiUrl}/signUp`, {
       email,
       username,
       password,

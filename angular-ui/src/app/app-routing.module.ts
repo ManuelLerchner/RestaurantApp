@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { MyReservationsComponent } from './pages/my-reservations/my-reservations.component';
 import { RestaurantLayoutComponent } from './pages/restaurant-layout/restaurant-layout.component';
 
 const routes: Routes = [
@@ -9,6 +11,11 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'layout', component: RestaurantLayoutComponent },
+  {
+    path: 'reservations',
+    component: MyReservationsComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
