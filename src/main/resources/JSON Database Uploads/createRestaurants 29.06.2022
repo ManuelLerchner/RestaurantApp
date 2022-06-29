@@ -519,7 +519,7 @@
             "endtime" : "21:00:00"},
             {"dayOfWeek" : "SUNDAY",
             "starttime" : "11:30:00",
-            "endtime" : "21:00:00"},
+            "endtime" : "21:00:00"}
             ],
         "pictures": ["https://images.unsplash.com/photo-1579027989536-b7b1f875659b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwyOHx8cmVzdGF1cmFudHxlbnwwfDB8fHwxNjU1MzEyNjU1&ixlib=rb-1.2.1&q=80&w=1080",
 "https://images.unsplash.com/photo-1560053608-13721e0d69e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwyOXx8cmVzdGF1cmFudHxlbnwwfDB8fHwxNjU1MzEyNjU1&ixlib=rb-1.2.1&q=80&w=1080",
@@ -1224,7 +1224,7 @@
             "endtime" : "23:59:59"},
             {"dayOfWeek" : "SUNDAY",
             "starttime" : "11:00:00",
-            "endtime" : "23:59:59"},
+            "endtime" : "23:59:59"}
             ],
         "pictures": ["https://images.unsplash.com/photo-1619273470666-807cde79d0b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwxMjB8fHJlc3RhdXJhbnR8ZW58MHwwfHx8MTY1NTMxMjY1Ng&ixlib=rb-1.2.1&q=80&w=1080",
 "https://images.unsplash.com/photo-1463797221720-6b07e6426c24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwxMjF8fHJlc3RhdXJhbnR8ZW58MHwwfHx8MTY1NTMxMjY1Ng&ixlib=rb-1.2.1&q=80&w=1080",
@@ -1286,7 +1286,7 @@
             "endtime" : "23:59:59"},
             {"dayOfWeek" : "SUNDAY",
             "starttime" : "11:00:00",
-            "endtime" : "23:59:59"},
+            "endtime" : "23:59:59"}
             ],
         "pictures": ["https://images.unsplash.com/photo-1618670708336-2df80fdd0ecb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwxMjh8fHJlc3RhdXJhbnR8ZW58MHwwfHx8MTY1NTMxMjY1Ng&ixlib=rb-1.2.1&q=80&w=1080",
 "https://images.unsplash.com/photo-1508766917616-d22f3f1eea14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwxMjl8fHJlc3RhdXJhbnR8ZW58MHwwfHx8MTY1NTMxMjY1Ng&ixlib=rb-1.2.1&q=80&w=1080",
@@ -1339,7 +1339,7 @@
             "endtime" : "23:59:59"},
             {"dayOfWeek" : "SUNDAY",
             "starttime" : "11:00:00",
-            "endtime" : "23:59:59"},
+            "endtime" : "23:59:59"}
             ],
         "pictures": ["https://images.unsplash.com/photo-1458644267420-66bc8a5f21e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwxMzN8fHJlc3RhdXJhbnR8ZW58MHwwfHx8MTY1NTMxMjY1Ng&ixlib=rb-1.2.1&q=80&w=1080",
 "https://images.unsplash.com/photo-1576723664541-23f84c3f93fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzgyNTJ8MHwxfHNlYXJjaHwxMzR8fHJlc3RhdXJhbnR8ZW58MHwwfHx8MTY1NTMxMjY1Ng&ixlib=rb-1.2.1&q=80&w=1080",

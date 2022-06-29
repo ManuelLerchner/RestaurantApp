@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
