@@ -8,12 +8,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin
 @RestController
 public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @GetMapping("getReservations")
+    public ResponseEntity<List<Reservation>> getReservations(
+            @RequestParam(name = "authToken") String authToken // User
+    ) {
+        User user = reservationService.isAuthorized(authToken);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user.getReservations());
+    }
 
     @PostMapping("reserveTable")
     public ResponseEntity<Reservation> reserveTable(
@@ -22,22 +34,21 @@ public class ReservationController {
             @RequestParam(name = "date", defaultValue = "null") String date, // Date
             @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> timeSlot // TimeSlot
     ) {
-         User user = reservationService.isAuthorized(authToken);
-         if (user == null) {
-             return ResponseEntity.notFound().build();
-         }
-         if (tableId == null || date == null || timeSlot == null) {
-             return ResponseEntity.badRequest().build();
-         }
-         return ResponseEntity.ok(reservationService.reserveTable(user, tableId, date, timeSlot));
+        User user = reservationService.isAuthorized(authToken);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (tableId == null || date == null || timeSlot == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(reservationService.reserveTable(user, tableId, date, timeSlot));
     }
 
 
     @DeleteMapping("cancelReservation")
     public ResponseEntity<String> cancelReservation(
             @RequestParam(name = "authToken") String authToken,
-            @RequestParam Long id)
-    {
+            @RequestParam Long id) {
         User user = reservationService.isAuthorized(authToken);
         if (user == null) {
             return ResponseEntity.notFound().build();
