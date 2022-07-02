@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="image-container">
+    <img src="{{ reservation.image }}" alt="" />
+  </div>
+
+  <div class="content">
+    <h2>{{ reservation.name }}</h2>
+    <p><strong>Address:</strong> {{ reservation.address }}<br /></p>
+    <p><strong>Date:</strong> {{ reservation.date }}<br /></p>
+    <p><strong>Party Size:</strong> {{ reservation.personCount }}<br /></p>
+  </div>
+
+  <div class="actions">
+    <button
+      [ngStyle]="{ 'background-color': 'red' }"
+      (click)="deleteReservation(reservation.id)"
+    >
+      Delete
+    </button>
+    <button
+      [ngStyle]="{ 'background-color': 'green' }"
+      (click)="confirmReservation(reservation.id)"
+    >
+      Confirm
+    </button>
+  </div>
+</div>

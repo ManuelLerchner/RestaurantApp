@@ -1,0 +1,17 @@
+.content {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 100px;
+
+  overflow-y: auto;
+
+  h1 {
+    font-size: 2.2rem;
+
+    margin-bottom: 40px;
+  }
+}

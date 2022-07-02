@@ -25,6 +25,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { MyReservationsComponent } from './pages/my-reservations/my-reservations.component';
+import { ReservationCardComponent } from './components/reservation-card/reservation-card.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MyReservationsComponent } from './pages/my-reservations/my-reservations
     LoginComponent,
     RestaurantLayoutComponent,
     MyReservationsComponent,
+    ReservationCardComponent,
   ],
   imports: [
     BrowserModule,

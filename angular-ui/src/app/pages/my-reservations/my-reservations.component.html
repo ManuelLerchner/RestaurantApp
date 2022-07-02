@@ -1,1 +1,13 @@
-<p>my-reservations works!</p>
+<div class="content">
+  <h1>My Reservations</h1>
+
+  <app-reservation-card></app-reservation-card>
+  <app-reservation-card></app-reservation-card>
+
+  <div *ngFor="let reservation of reservationsService.reservations$ | async">
+    <p>
+      {{ reservation.id }}
+    </p>
+    <app-reservation-card></app-reservation-card>
+  </div>
+</div>
