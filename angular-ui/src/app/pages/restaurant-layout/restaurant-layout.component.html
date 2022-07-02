@@ -1,6 +1,7 @@
 <div class="page">
   <div class="restaurant-sidebar" *ngIf="restaurant != null">
     <div class="restaurant-info">
+      <img (click)="goBack()" src="assets/icons/back-arrow.svg" alt="Back arrow">
       <h3>{{ restaurant.name }}</h3>
 
       <div class="row">

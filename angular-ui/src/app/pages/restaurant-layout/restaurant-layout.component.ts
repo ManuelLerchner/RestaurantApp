@@ -5,6 +5,7 @@ import { Restaurant } from 'src/app/models/restaurant/Restaurant';
 import { TableState } from 'src/app/models/restaurant/TableState';
 import { TableService } from 'src/app/services/table.service';
 import { MapService } from 'src/app/services/map.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-restaurant-layout',
@@ -37,7 +38,8 @@ export class RestaurantLayoutComponent implements OnInit {
 
   constructor(
     private tableService: TableService,
-    private mapService: MapService
+    private mapService: MapService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -94,5 +96,9 @@ export class RestaurantLayoutComponent implements OnInit {
         this.changeImage(1);
       }
     }, 3500);
+  }
+
+  goBack(){
+    this.location.back();
   }
 }
