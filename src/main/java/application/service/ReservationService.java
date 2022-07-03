@@ -9,6 +9,7 @@ import application.repository.ReservationRepository;
 import application.repository.RestaurantTableRepository;
 import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 @Service
 public class ReservationService {
@@ -72,8 +76,17 @@ public class ReservationService {
 
     @Transactional
     public Reservation confirmReservation(Long id) {
-        // TODO
-        // probably add attribute "confirmed" to reservation
+        Reservation reservation = reservationRepository.getById(id);
+        if (reservation == null) {
+            return null;
+        }
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalTime reservationStartTime = reservation.getDateTimeSlot().getStartTime();
+        LocalDate reservationDate = reservation.getDateTimeSlot().getDate();
+        if (currentTime.plusHours(12).compareTo(LocalDateTime.of(reservationDate, reservationStartTime)) > 0) {
+            return null;
+        }
+        reservationRepository.updateConfirmedById(true, id);
         return null;
     }
 
@@ -99,6 +112,69 @@ public class ReservationService {
     @Transactional
     public boolean isExistingReservation(Long id) {
         return reservationRepository.existsById(id);
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void reminder() {
+        // TODO E-Mail
+        /*String from = "four0food@gmail.com";
+        String pass = "Four0Four2022";
+        String[] to = {"julian.huebenthal@online.de"};
+        String subject = "Test";
+        String body = "Test Body";
+
+        Properties props = System.getProperties();
+        String host = "smtp.gmail.com";
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.user", from);
+        props.put("mail.smtp.password", pass);
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+        Session session = Session.getDefaultInstance(props);
+        MimeMessage message = new MimeMessage(session);
+
+        try {
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] toAddress = new InternetAddress[to.length];
+
+            // To get the array of addresses
+            for( int i = 0; i < to.length; i++ ) {
+                toAddress[i] = new InternetAddress(to[i]);
+            }
+
+            for( int i = 0; i < toAddress.length; i++) {
+                message.addRecipient(Message.RecipientType.TO, toAddress[i]);
+            }
+
+            message.setSubject(subject);
+            message.setText(body);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        }
+        catch (AddressException ae) {
+            ae.printStackTrace();
+        }
+        catch (MessagingException me) {
+            me.printStackTrace();
+        }*/
+    }
+
+    @Scheduled(cron = "0 */15 * * * *")
+    public void cancelNotConfirmedReservations() {
+        List<Reservation> reservations = reservationRepository.findAll();
+        LocalDateTime currentTime = LocalDateTime.now();
+        for (Reservation reservation : reservations) {
+            LocalTime reservationStartTime = reservation.getDateTimeSlot().getStartTime();
+            LocalDate reservationDate = reservation.getDateTimeSlot().getDate();
+            if (currentTime.plusHours(12).compareTo(LocalDateTime.of(reservationDate, reservationStartTime)) > 0 && !reservation.getConfirmed()) {
+                reservationRepository.deleteById(reservation.getId());
+            }
+        }
     }
 
     // **************************
