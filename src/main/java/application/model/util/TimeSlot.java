@@ -1,5 +1,7 @@
 package application.model.util;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalTime;
 
@@ -12,9 +14,11 @@ public class TimeSlot {
     private Long id;
 
     @Column(name = "start_time")
+    @JsonFormat(pattern = "hh:mm:ss")
     private LocalTime startTime;
 
     @Column(name = "end_time")
+    @JsonFormat(pattern = "hh:mm:ss")
     private LocalTime endTime;
 
     public TimeSlot() {
