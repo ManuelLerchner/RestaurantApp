@@ -16,6 +16,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * This method adds the user to the user database by calling signUp in userService if the attributes of parameter user are not null
+     * Depending on the returned List from userService.signUp it returns ok, or if return was null, badRequest
+     *
+     * @param user
+     * @return ResponseEntity with information whether signUp was successful or failed
+     */
     @PostMapping("signUp")
     public ResponseEntity<List<String>> signUp(@RequestBody User user) {
         if (user.getEmail() == null || user.getPassword() == null || user.getUsername() == null) {
@@ -29,6 +36,15 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * This method logs the user in by calling login in userService if the parameters email and password are not null
+     * If userService.login returns null, the return will be badRequest.build(), otherwise ok
+     *
+     * @param email
+     * @param password
+     * @return ResponseEntity with information whether Login was successful or failed
+     */
+
     @GetMapping("login")
     public ResponseEntity<List<String>> login(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
@@ -40,6 +56,14 @@ public class UserController {
         }
         return ResponseEntity.ok(returnEntity);
     }
+
+    /**
+     * This method logs the user in by calling loginWithAuthToken in userService if the parameter authToken is not null
+     * If userService.loginWithAuthToken returns null, the return will be badRequest.build(), otherwise ok
+     *
+     * @param authToken
+     * @return ResponseEntity with information whether Login was successful or failed
+     */
 
     @GetMapping("loginWithAuthToken")
     public ResponseEntity<List<String>> loginWithAuthToken(@RequestParam(name = "authtoken") String authToken) {

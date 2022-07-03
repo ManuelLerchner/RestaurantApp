@@ -16,6 +16,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * This method checks whether a user with the given email already exists, and if not creates a new user with the passed on email, username and password
+     * Notice that the password is set by using a chosen hashFunction to make it more secure
+     * After creating the user, the user is saved in the database with calling userRepository.save
+     *
+     * @param email
+     * @param password
+     * @param userName
+     * @return String-List of the saved user's email, password, userName if no user with same email already existed, otherwise null
+     */
+
     @Transactional
     public List<String> signUp(String email, String password, String userName) {
         if (userRepository.findByEmail(email) == null) {
@@ -28,6 +39,15 @@ public class UserService {
         }
         return null;
     }
+
+    /**
+     * This method checks whether a user with the given email exists, and whether the password corresponds to this user's password
+     * When both is true, a token is being created and set for this user after creating this token as a random string in a while-loop
+     *
+     * @param email
+     * @param password
+     * @return If user exists and password is right returns String-List of the users email, username and created AuthToken, otherwise null
+     */
 
     @Transactional
     public List<String> login(String email, String password) {
@@ -50,6 +70,13 @@ public class UserService {
         return null;
     }
 
+    /**
+     * This method finds the user to a given authToken
+     *
+     * @param authToken
+     * @return If a user to the authToken exists, returns String-List of the users email, username and the AuthToken, otherwise null
+     */
+
     @Transactional
     public List<String> loginWithAuthToken(String authToken) {
         User user = userRepository.findByAuthToken(authToken);
@@ -59,6 +86,13 @@ public class UserService {
 
         return List.of(user.getEmail(), user.getUsername(), authToken);
     }
+
+    /**
+     * This method finds the user to a given authToken
+     *
+     * @param authToken
+     * @return If a user to the authToken exists, returns list of reservations of this user, otherwise null
+     */
 
     @Transactional
     public List<Reservation> retrieveReservations(String authToken) {
