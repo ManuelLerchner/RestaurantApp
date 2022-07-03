@@ -16,11 +16,11 @@ public class TimeSlot {
     private Long id;
 
     @Column(name = "start_time")
-    @JsonFormat(pattern = "'T' HH:mm:ss")
+    @JsonFormat(pattern = "T HH:mm:ss")
     private LocalTime startTime;
 
     @Column(name = "end_time")
-    @JsonFormat(pattern = "'T' HH:mm:ss")
+    @JsonFormat(pattern = "T HH:mm:ss")
     private LocalTime endTime;
 
     public TimeSlot() {
