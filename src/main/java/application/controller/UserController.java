@@ -77,14 +77,6 @@ public class UserController {
         return ResponseEntity.ok(returnEntity);
     }
 
-    @GetMapping("reservations")
-    public ResponseEntity<List<Reservation>> retrieveReservations(@RequestParam(name = "authtoken") String authToken) {
-        if (authToken == null) {
-            return ResponseEntity.status(401).build();
-        }
-        return ResponseEntity.ok(userService.retrieveReservations(authToken));
-    }
-
 
     // **************************
     // Test purpose
