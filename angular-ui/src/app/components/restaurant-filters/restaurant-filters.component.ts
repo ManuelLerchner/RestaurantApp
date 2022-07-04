@@ -42,7 +42,7 @@ export class RestaurantFiltersComponent implements OnInit {
   endHour: number = 24.0;
 
   distanceOptions: Options = {
-    floor: 0,
+    floor: 0.05,
     ceil: 20,
     step: 0.05,
     translate: (value: number): string => {

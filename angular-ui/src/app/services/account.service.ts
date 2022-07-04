@@ -60,8 +60,6 @@ export class AccountService {
       })
       .pipe(
         map((list: any) => {
-          console.log(list);
-
           let user: User = {
             email: list[0],
             name: list[1],

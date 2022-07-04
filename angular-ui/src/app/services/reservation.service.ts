@@ -19,7 +19,6 @@ export class ReservationService {
 
   public requestReservation() {
     this.accountService.user$.subscribe(async (user: User) => {
-      console.log(user);
       let reservations = await this.http
         .get<Reservation[]>(`${environment.apiUrl}/getReservations`, {
           params: {
@@ -31,7 +30,9 @@ export class ReservationService {
             this.reservations$.next(reservations);
             return reservations;
           })
-        );
+        )
+        .toPromise();
+      console.log('reservations:', reservations);
     });
   }
 }
