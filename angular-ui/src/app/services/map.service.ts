@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { icon, LatLng, Map, marker, Marker, popup, tileLayer } from 'leaflet';
+import {
+  icon,
+  LatLng,
+  Map,
+  marker,
+  Marker,
+  popup,
+  tileLayer,
+  circle,
+} from 'leaflet';
 import { BehaviorSubject } from 'rxjs';
 import { Restaurant } from '../models/restaurant/Restaurant';
 import { FilterService } from './filter.service';
@@ -35,9 +44,7 @@ export class MapService {
   constructor(
     private restaurantService: RestaurantService,
     private filterService: FilterService
-  ) {
-    this.selectedRestaurant$.subscribe(console.log);
-  }
+  ) {}
 
   get selectedRestaurant() {
     return this.selectedRestaurant$.getValue();
@@ -148,6 +155,17 @@ export class MapService {
       autoPan: true,
     });
 
+    let restaurantRadius = circle(
+      storedMarker.getLatLng(),
+      (this.filterService.maxDistance$.getValue() ?? 0.0) * 1000,
+      {
+        color: '#444',
+        fillColor: '#888',
+        fillOpacity: 0.08,
+        weight: 2,
+      }
+    );
+
     newMarker.on('drag', (event) => {
       var marker = event.target;
       var position = marker.getLatLng();
@@ -157,10 +175,16 @@ export class MapService {
       });
 
       this.filterService.personMarker$.next(newMarker);
+      restaurantRadius.setLatLng(position);
     });
 
     this.filterService.personMarker$.next(newMarker);
 
+    this.filterService.maxDistance$.subscribe((maxDistance) => {
+      restaurantRadius.setRadius((maxDistance ?? 0.0) * 1000);
+    });
+
+    restaurantRadius.addTo(this.map);
     newMarker.addTo(this.map);
   }
 
