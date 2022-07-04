@@ -54,7 +54,7 @@ export class FilterService {
       this.personMarker$,
       this.refresh$,
     ])
-      .pipe(throttleTime(50))
+      .pipe(throttleTime(25))
       .pipe(
         map((filterData: any[]) => {
           let position = filterData[7]?.getLatLng();
