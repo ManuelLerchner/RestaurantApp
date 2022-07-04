@@ -115,6 +115,8 @@ public class Comment {
         return getClass().hashCode();
     }
 
+
+    //Main-Method to create comments for database
     public static void main(String[] args) {
         int repeat = 3 ;
 
@@ -126,7 +128,7 @@ public class Comment {
             String[] textPArt2Good = {"great food in this restaurant. ", "meal of the day in this awesome place. ", "recommendations of the cook for us. ", "welcoming ambience here. ", "professional service. ", "kind servers. "};
             String[] text3 = {"The background music was great too!", "So happy!", "Yummy!", "Loved it!", "Great for our kids too!"};
 
-            int[] goodRating = {3, 4, 5};
+            int[] goodRating = {4, 5};
 
             String[] headlineStringBadStart = {"Worst ", "Unwelcoming ", "Unprofessional ", "Disappointing "};
             String[] headlinePArt2Bad = {"service ", "ambience ", "Food ", "Experience "};
