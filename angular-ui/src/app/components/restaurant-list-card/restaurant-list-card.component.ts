@@ -18,7 +18,7 @@ export class RestaurantListCardComponent implements OnInit {
   ngOnInit(): void {}
 
   getRating(rating: number): string {
-    return '★'.repeat(Math.round(rating));
+    return '★'.repeat(Math.floor(rating));
   }
 
   getPriceCategory(priceCategory: PriceCategory): string {
