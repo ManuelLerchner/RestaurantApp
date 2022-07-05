@@ -271,13 +271,19 @@ public class RestaurantService {
         return null;
     }
 
-    private void createTables(Restaurant restaurant, String layoutPath) {
+    void createTables(Restaurant restaurant, String layoutPath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(layoutPath))) {
             for (String line; (line = reader.readLine()) != null; ) {
-                if (line.contains("ellipse")) {
-                    RestaurantTable table = createTable(line);
-                    table.setRestaurant(restaurant);
-                    tableRepository.save(table);
+                if (line.contains("rect")) {
+                    line = line.replace("</svg>", "");
+                    for (String tableString : line.split("<rect")) {
+                        if (tableString.contains("#339E00")) {
+                            RestaurantTable table = createTable(tableString);
+                            table.setRestaurant(restaurant);
+                            tableRepository.save(table);
+                        }
+                    }
+
                 }
             }
         } catch (IOException e) {
@@ -285,21 +291,17 @@ public class RestaurantService {
         }
     }
 
-    private RestaurantTable createTable(String line) {
+    private RestaurantTable createTable(String tableString) {
         int tableNumber = 0;
         int capacity = 0;
 
-        // get capacity
-        int rxIndex = line.indexOf("rx=\"");
-        int startRxValue = rxIndex + 4;
-        int endRxValue = startRxValue + line.substring(startRxValue).indexOf("\"");
-        capacity = Integer.valueOf(line.substring(startRxValue, endRxValue));
 
-        // get tableNumber (id)
-        int idIndex = line.indexOf("id=\"table_");
-        int startIdIndex = idIndex + 10;
-        int endIdIndex = startIdIndex + line.substring(startIdIndex).indexOf("\"");
-        tableNumber = Integer.valueOf(line.substring(startIdIndex, endIdIndex));
+        // get 0 and 8 out of string id="table_0_8" from tableString
+        String[] splitted = tableString.split("_");
+        String tableNumberString = splitted[1];
+        tableNumber = Integer.parseInt(tableNumberString);
+        String capacityString = splitted[2].split("\"")[0];
+        capacity = Integer.parseInt(capacityString);
 
         return new RestaurantTable(tableNumber, capacity);
     }
