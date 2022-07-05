@@ -1,2 +1,66 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<svg baseProfile="full" height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="black" height="100" width="100" x="0" y="100" /><rect fill="black" height="100" width="100" x="0" y="400" /><rect fill="black" height="100" width="100" x="100" y="0" /><rect fill="black" height="100" width="100" x="100" y="100" /><rect fill="black" height="100" width="100" x="100" y="300" /><rect fill="black" height="100" width="100" x="100" y="400" /><rect fill="black" height="100" width="100" x="200" y="0" /><rect fill="black" height="100" width="100" x="200" y="100" /><rect fill="black" height="100" width="100" x="200" y="200" /><rect fill="black" height="100" width="100" x="200" y="300" /><rect fill="black" height="100" width="100" x="200" y="400" /><rect fill="black" height="100" width="100" x="300" y="0" /><rect fill="black" height="100" width="100" x="300" y="100" /><rect fill="black" height="100" width="100" x="300" y="200" /><rect fill="black" height="100" width="100" x="300" y="300" /><rect fill="black" height="100" width="100" x="300" y="400" /><rect fill="#339E00" height="25" id="table_0_7" onclick="console.log(0)" rx="5" ry="5" width="70" x="310" y="460" /><rect fill="#339E00" height="25" id="table_1_8" onclick="console.log(1)" rx="5" ry="5" width="80" x="310" y="315" /><rect fill="#339E00" height="25" id="table_2_6" onclick="console.log(2)" rx="5" ry="5" width="60" x="302" y="360" /><rect fill="#339E00" height="25" id="table_3_4" onclick="console.log(3)" rx="5" ry="5" width="40" x="309" y="215" /><rect fill="#339E00" height="25" id="table_4_8" onclick="console.log(4)" rx="5" ry="5" width="80" x="303" y="260" /><rect fill="#339E00" height="25" id="table_5_4" onclick="console.log(5)" rx="5" ry="5" width="40" x="310" y="160" /><rect fill="#339E00" height="25" id="table_6_8" onclick="console.log(6)" rx="5" ry="5" width="30" x="360" y="160" /><rect fill="#339E00" height="25" id="table_7_8" onclick="console.log(7)" rx="5" ry="5" width="80" x="308" y="15" /><rect fill="#339E00" height="25" id="table_8_4" onclick="console.log(8)" rx="5" ry="5" width="40" x="307" y="60" /><rect fill="#339E00" height="25" id="table_9_4" onclick="console.log(9)" rx="5" ry="5" width="40" x="357" y="60" /><rect fill="#339E00" height="25" id="table_10_4" onclick="console.log(10)" rx="5" ry="5" width="40" x="208" y="460" /><rect fill="#339E00" height="25" id="table_11_4" onclick="console.log(11)" rx="5" ry="5" width="40" x="205" y="315" /><rect fill="#339E00" height="25" id="table_12_6" onclick="console.log(12)" rx="5" ry="5" width="60" x="208" y="360" /><rect fill="#339E00" height="25" id="table_13_7" onclick="console.log(13)" rx="5" ry="5" width="70" x="207" y="215" /><rect fill="#339E00" height="25" id="table_14_5" onclick="console.log(14)" rx="5" ry="5" width="50" x="208" y="260" /><rect fill="#339E00" height="25" id="table_15_5" onclick="console.log(15)" rx="5" ry="5" width="22" x="268" y="260" /><rect fill="#339E00" height="25" id="table_16_5" onclick="console.log(16)" rx="5" ry="5" width="50" x="205" y="160" /><rect fill="#339E00" height="25" id="table_17_6" onclick="console.log(17)" rx="5" ry="5" width="25" x="265" y="160" /><rect fill="#339E00" height="25" id="table_18_8" onclick="console.log(18)" rx="5" ry="5" width="80" x="206" y="15" /><rect fill="#339E00" height="25" id="table_19_6" onclick="console.log(19)" rx="5" ry="5" width="60" x="210" y="60" /><rect fill="#339E00" height="25" id="table_20_5" onclick="console.log(20)" rx="5" ry="5" width="50" x="101" y="460" /><rect fill="#339E00" height="25" id="table_21_8" onclick="console.log(21)" rx="5" ry="5" width="29" x="161" y="460" /><rect fill="#339E00" height="25" id="table_22_4" onclick="console.log(22)" rx="5" ry="5" width="40" x="107" y="315" /><rect fill="#339E00" height="25" id="table_23_8" onclick="console.log(23)" rx="5" ry="5" width="80" x="101" y="360" /><rect fill="#339E00" height="25" id="table_24_6" onclick="console.log(24)" rx="5" ry="5" width="60" x="100" y="160" /><rect fill="#339E00" height="25" id="table_25_6" onclick="console.log(25)" rx="5" ry="5" width="60" x="108" y="15" /><rect fill="#339E00" height="25" id="table_26_5" onclick="console.log(26)" rx="5" ry="5" width="50" x="105" y="60" /><rect fill="#339E00" height="25" id="table_27_5" onclick="console.log(27)" rx="5" ry="5" width="25" x="165" y="60" /><rect fill="#339E00" height="25" id="table_28_4" onclick="console.log(28)" rx="5" ry="5" width="40" x="3" y="460" /><rect fill="#339E00" height="25" id="table_29_6" onclick="console.log(29)" rx="5" ry="5" width="37" x="53" y="460" /><rect fill="#339E00" height="25" id="table_30_5" onclick="console.log(30)" rx="5" ry="5" width="50" x="4" y="160" /><rect fill="#339E00" height="25" id="table_31_5" onclick="console.log(31)" rx="5" ry="5" width="26" x="64" y="160" /></svg>
+<svg baseProfile="full" height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg"
+     xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs/>
+    <rect fill="black" height="100" width="100" x="0" y="100"/>
+    <rect fill="black" height="100" width="100" x="0" y="400"/>
+    <rect fill="black" height="100" width="100" x="100" y="0"/>
+    <rect fill="black" height="100" width="100" x="100" y="100"/>
+    <rect fill="black" height="100" width="100" x="100" y="300"/>
+    <rect fill="black" height="100" width="100" x="100" y="400"/>
+    <rect fill="black" height="100" width="100" x="200" y="0"/>
+    <rect fill="black" height="100" width="100" x="200" y="100"/>
+    <rect fill="black" height="100" width="100" x="200" y="200"/>
+    <rect fill="black" height="100" width="100" x="200" y="300"/>
+    <rect fill="black" height="100" width="100" x="200" y="400"/>
+    <rect fill="black" height="100" width="100" x="300" y="0"/>
+    <rect fill="black" height="100" width="100" x="300" y="100"/>
+    <rect fill="black" height="100" width="100" x="300" y="200"/>
+    <rect fill="black" height="100" width="100" x="300" y="300"/>
+    <rect fill="black" height="100" width="100" x="300" y="400"/>
+    <rect fill="#339E00" height="25" id="table_0_7" onclick="console.log(0)" rx="5" ry="5" width="70" x="310" y="460"/>
+    <rect fill="#339E00" height="25" id="table_1_8" onclick="console.log(1)" rx="5" ry="5" width="80" x="310" y="315"/>
+    <rect fill="#339E00" height="25" id="table_2_6" onclick="console.log(2)" rx="5" ry="5" width="60" x="302" y="360"/>
+    <rect fill="#339E00" height="25" id="table_3_4" onclick="console.log(3)" rx="5" ry="5" width="40" x="309" y="215"/>
+    <rect fill="#339E00" height="25" id="table_4_8" onclick="console.log(4)" rx="5" ry="5" width="80" x="303" y="260"/>
+    <rect fill="#339E00" height="25" id="table_5_4" onclick="console.log(5)" rx="5" ry="5" width="40" x="310" y="160"/>
+    <rect fill="#339E00" height="25" id="table_6_8" onclick="console.log(6)" rx="5" ry="5" width="30" x="360" y="160"/>
+    <rect fill="#339E00" height="25" id="table_7_8" onclick="console.log(7)" rx="5" ry="5" width="80" x="308" y="15"/>
+    <rect fill="#339E00" height="25" id="table_8_4" onclick="console.log(8)" rx="5" ry="5" width="40" x="307" y="60"/>
+    <rect fill="#339E00" height="25" id="table_9_4" onclick="console.log(9)" rx="5" ry="5" width="40" x="357" y="60"/>
+    <rect fill="#339E00" height="25" id="table_10_4" onclick="console.log(10)" rx="5" ry="5" width="40" x="208"
+          y="460"/>
+    <rect fill="#339E00" height="25" id="table_11_4" onclick="console.log(11)" rx="5" ry="5" width="40" x="205"
+          y="315"/>
+    <rect fill="#339E00" height="25" id="table_12_6" onclick="console.log(12)" rx="5" ry="5" width="60" x="208"
+          y="360"/>
+    <rect fill="#339E00" height="25" id="table_13_7" onclick="console.log(13)" rx="5" ry="5" width="70" x="207"
+          y="215"/>
+    <rect fill="#339E00" height="25" id="table_14_5" onclick="console.log(14)" rx="5" ry="5" width="50" x="208"
+          y="260"/>
+    <rect fill="#339E00" height="25" id="table_15_5" onclick="console.log(15)" rx="5" ry="5" width="22" x="268"
+          y="260"/>
+    <rect fill="#339E00" height="25" id="table_16_5" onclick="console.log(16)" rx="5" ry="5" width="50" x="205"
+          y="160"/>
+    <rect fill="#339E00" height="25" id="table_17_6" onclick="console.log(17)" rx="5" ry="5" width="25" x="265"
+          y="160"/>
+    <rect fill="#339E00" height="25" id="table_18_8" onclick="console.log(18)" rx="5" ry="5" width="80" x="206" y="15"/>
+    <rect fill="#339E00" height="25" id="table_19_6" onclick="console.log(19)" rx="5" ry="5" width="60" x="210" y="60"/>
+    <rect fill="#339E00" height="25" id="table_20_5" onclick="console.log(20)" rx="5" ry="5" width="50" x="101"
+          y="460"/>
+    <rect fill="#339E00" height="25" id="table_21_8" onclick="console.log(21)" rx="5" ry="5" width="29" x="161"
+          y="460"/>
+    <rect fill="#339E00" height="25" id="table_22_4" onclick="console.log(22)" rx="5" ry="5" width="40" x="107"
+          y="315"/>
+    <rect fill="#339E00" height="25" id="table_23_8" onclick="console.log(23)" rx="5" ry="5" width="80" x="101"
+          y="360"/>
+    <rect fill="#339E00" height="25" id="table_24_6" onclick="console.log(24)" rx="5" ry="5" width="60" x="100"
+          y="160"/>
+    <rect fill="#339E00" height="25" id="table_25_6" onclick="console.log(25)" rx="5" ry="5" width="60" x="108" y="15"/>
+    <rect fill="#339E00" height="25" id="table_26_5" onclick="console.log(26)" rx="5" ry="5" width="50" x="105" y="60"/>
+    <rect fill="#339E00" height="25" id="table_27_5" onclick="console.log(27)" rx="5" ry="5" width="25" x="165" y="60"/>
+    <rect fill="#339E00" height="25" id="table_28_4" onclick="console.log(28)" rx="5" ry="5" width="40" x="3" y="460"/>
+    <rect fill="#339E00" height="25" id="table_29_6" onclick="console.log(29)" rx="5" ry="5" width="37" x="53" y="460"/>
+    <rect fill="#339E00" height="25" id="table_30_5" onclick="console.log(30)" rx="5" ry="5" width="50" x="4" y="160"/>
+    <rect fill="#339E00" height="25" id="table_31_5" onclick="console.log(31)" rx="5" ry="5" width="26" x="64" y="160"/>
+</svg>

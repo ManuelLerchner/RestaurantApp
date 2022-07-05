@@ -1,2 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<svg baseProfile="full" height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><rect fill="black" height="100" width="100" x="0" y="200" /><rect fill="black" height="100" width="100" x="100" y="0" /><rect fill="black" height="100" width="100" x="100" y="100" /><rect fill="black" height="100" width="100" x="100" y="200" /><rect fill="black" height="100" width="100" x="200" y="0" /><rect fill="black" height="100" width="100" x="200" y="100" /><rect fill="black" height="100" width="100" x="200" y="200" /><rect fill="black" height="100" width="100" x="300" y="0" /><rect fill="black" height="100" width="100" x="300" y="100" /><rect fill="black" height="100" width="100" x="300" y="200" /><rect fill="black" height="100" width="100" x="400" y="100" /><rect fill="black" height="100" width="100" x="400" y="200" /><rect fill="#339E00" height="70" id="table_0_7" onclick="console.log(0)" rx="5" ry="5" width="25" x="415" y="210" /><rect fill="#339E00" height="50" id="table_1_5" onclick="console.log(1)" rx="5" ry="5" width="25" x="460" y="207" /><rect fill="#339E00" height="60" id="table_2_6" onclick="console.log(2)" rx="5" ry="5" width="25" x="360" y="207" /><rect fill="#339E00" height="40" id="table_3_4" onclick="console.log(3)" rx="5" ry="5" width="25" x="260" y="203" /><rect fill="#339E00" height="80" id="table_4_8" onclick="console.log(4)" rx="5" ry="5" width="25" x="160" y="207" /><rect fill="#339E00" height="60" id="table_5_6" onclick="console.log(5)" rx="5" ry="5" width="25" x="15" y="208" /><rect fill="#339E00" height="60" id="table_6_6" onclick="console.log(6)" rx="5" ry="5" width="25" x="60" y="210" /><rect fill="#339E00" height="60" id="table_7_6" onclick="console.log(7)" rx="5" ry="5" width="25" x="415" y="109" /><rect fill="#339E00" height="60" id="table_8_6" onclick="console.log(8)" rx="5" ry="5" width="25" x="460" y="104" /><rect fill="#339E00" height="50" id="table_9_5" onclick="console.log(9)" rx="5" ry="5" width="25" x="360" y="104" /><rect fill="#339E00" height="70" id="table_10_7" onclick="console.log(10)" rx="5" ry="5" width="25" x="260" y="103" /><rect fill="#339E00" height="50" id="table_11_5" onclick="console.log(11)" rx="5" ry="5" width="25" x="160" y="104" /><rect fill="#339E00" height="70" id="table_12_7" onclick="console.log(12)" rx="5" ry="5" width="25" x="360" y="2" /><rect fill="#339E00" height="80" id="table_13_8" onclick="console.log(13)" rx="5" ry="5" width="25" x="260" y="7" /><rect fill="#339E00" height="50" id="table_14_5" onclick="console.log(14)" rx="5" ry="5" width="25" x="160" y="10" /></svg>
+<svg baseProfile="full" height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg"
+     xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs/>
+    <rect fill="black" height="100" width="100" x="0" y="200"/>
+    <rect fill="black" height="100" width="100" x="100" y="0"/>
+    <rect fill="black" height="100" width="100" x="100" y="100"/>
+    <rect fill="black" height="100" width="100" x="100" y="200"/>
+    <rect fill="black" height="100" width="100" x="200" y="0"/>
+    <rect fill="black" height="100" width="100" x="200" y="100"/>
+    <rect fill="black" height="100" width="100" x="200" y="200"/>
+    <rect fill="black" height="100" width="100" x="300" y="0"/>
+    <rect fill="black" height="100" width="100" x="300" y="100"/>
+    <rect fill="black" height="100" width="100" x="300" y="200"/>
+    <rect fill="black" height="100" width="100" x="400" y="100"/>
+    <rect fill="black" height="100" width="100" x="400" y="200"/>
+    <rect fill="#339E00" height="70" id="table_0_7" onclick="console.log(0)" rx="5" ry="5" width="25" x="415" y="210"/>
+    <rect fill="#339E00" height="50" id="table_1_5" onclick="console.log(1)" rx="5" ry="5" width="25" x="460" y="207"/>
+    <rect fill="#339E00" height="60" id="table_2_6" onclick="console.log(2)" rx="5" ry="5" width="25" x="360" y="207"/>
+    <rect fill="#339E00" height="40" id="table_3_4" onclick="console.log(3)" rx="5" ry="5" width="25" x="260" y="203"/>
+    <rect fill="#339E00" height="80" id="table_4_8" onclick="console.log(4)" rx="5" ry="5" width="25" x="160" y="207"/>
+    <rect fill="#339E00" height="60" id="table_5_6" onclick="console.log(5)" rx="5" ry="5" width="25" x="15" y="208"/>
+    <rect fill="#339E00" height="60" id="table_6_6" onclick="console.log(6)" rx="5" ry="5" width="25" x="60" y="210"/>
+    <rect fill="#339E00" height="60" id="table_7_6" onclick="console.log(7)" rx="5" ry="5" width="25" x="415" y="109"/>
+    <rect fill="#339E00" height="60" id="table_8_6" onclick="console.log(8)" rx="5" ry="5" width="25" x="460" y="104"/>
+    <rect fill="#339E00" height="50" id="table_9_5" onclick="console.log(9)" rx="5" ry="5" width="25" x="360" y="104"/>
+    <rect fill="#339E00" height="70" id="table_10_7" onclick="console.log(10)" rx="5" ry="5" width="25" x="260"
+          y="103"/>
+    <rect fill="#339E00" height="50" id="table_11_5" onclick="console.log(11)" rx="5" ry="5" width="25" x="160"
+          y="104"/>
+    <rect fill="#339E00" height="70" id="table_12_7" onclick="console.log(12)" rx="5" ry="5" width="25" x="360" y="2"/>
+    <rect fill="#339E00" height="80" id="table_13_8" onclick="console.log(13)" rx="5" ry="5" width="25" x="260" y="7"/>
+    <rect fill="#339E00" height="50" id="table_14_5" onclick="console.log(14)" rx="5" ry="5" width="25" x="160" y="10"/>
+</svg>
