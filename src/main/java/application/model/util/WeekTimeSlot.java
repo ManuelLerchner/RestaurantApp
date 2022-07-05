@@ -1,13 +1,13 @@
 package application.model.util;
 
+import application.model.Restaurant;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
 
-@JsonSerialize
 @Entity
-@Table(name = "week_time_slot")
 public class WeekTimeSlot extends TimeSlot {
 
     @Enumerated
@@ -26,6 +26,7 @@ public class WeekTimeSlot extends TimeSlot {
     public String toString() {
         return "WeekTimeSlot{" +
                 "dayOfWeek=" + dayOfWeek +
+                "startTime=" + getStartTime() +
                 '}';
     }
 }

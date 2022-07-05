@@ -4,17 +4,11 @@ import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
 import application.model.util.WeekTimeSlot;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "FieldHandler"})
@@ -73,6 +67,14 @@ public class Restaurant {
     @Column(name = "comment_count")
     private Double commentCount;
 
+    public List<WeekTimeSlot> getOpeningTimes() {
+        return openingTimes;
+    }
+
+    public void setOpeningTimes(List<WeekTimeSlot> openingTimess) {
+        this.openingTimes = openingTimess;
+    }
+
     public Double getCommentCount() {
         return commentCount;
     }
@@ -112,15 +114,6 @@ public class Restaurant {
 
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
-    }
-
-
-    public List<WeekTimeSlot> getOpeningTimes() {
-        return openingTimes;
-    }
-
-    public void setOpeningTimes(List<WeekTimeSlot> openingTimes) {
-        this.openingTimes = openingTimes;
     }
 
     public Location getLocation() {

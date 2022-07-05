@@ -114,23 +114,32 @@ public class ReservationService {
         return reservationRepository.existsById(id);
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void reminder() {
-        // TODO E-Mail
-        /*String from = "four0food@gmail.com";
-        String pass = "Four0Four2022";
-        String[] to = {"julian.huebenthal@online.de"};
-        String subject = "Test";
-        String body = "Test Body";
+        List<Reservation> reservations = reservationRepository.findAll();
+        LocalDate currentDate = LocalDate.now();
+        for (Reservation reservation : reservations) {
+            LocalDate reservationDate = reservation.getDateTimeSlot().getDate();
+            if (currentDate.plusDays(1).equals(reservationDate)) {
+                sendMail(new String[]{reservation.getUser().getEmail()}, "Please confirm your reservation!"); // TODO message evtl. anpassen
+            }
+        }
+    }
+
+    // based on https://stackoverflow.com/questions/46663/how-can-i-send-an-email-by-java-application-using-gmail-yahoo-or-hotmail
+    private void sendMail(String[] to, String body) {
+        String from = "four0food@outlook.com";
+        String pass = "F0F2022+";
+        String subject = "Confirm your Reservation";
 
         Properties props = System.getProperties();
-        String host = "smtp.gmail.com";
+        String host = "smtp.office365.com";
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.user", from);
         props.put("mail.smtp.password", pass);
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.put("mail.smtp.ssl.trust", "smtp.office365.com");
         props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
         Session session = Session.getDefaultInstance(props);
@@ -161,7 +170,7 @@ public class ReservationService {
         }
         catch (MessagingException me) {
             me.printStackTrace();
-        }*/
+        }
     }
 
     @Scheduled(cron = "0 */15 * * * *")
@@ -186,6 +195,7 @@ public class ReservationService {
         if (reservation.getId() == null) {
             dateTimeSlotRepository.save(reservation.getDateTimeSlot());
             reservationRepository.save(reservation);
+            userRepository.save(reservation.getUser());
             return "Reservation created successfully";
         }
         return "Reservation exists already";
