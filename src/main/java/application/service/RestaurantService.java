@@ -15,10 +15,12 @@ import application.repository.RestaurantTableRepository;
 import application.repository.WeekTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Paths;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +45,7 @@ public class RestaurantService {
 
     /**
      * Filters all restaurants in the database by the given parameters
-     *
+     * <p>
      * If you don't want to filter for a parameter you have to set a corresponding value, these are:
      * restaurantType: RestaurantType.DEFAULT
      * priceCategory: PriceCategory.DEFAULT
@@ -160,6 +162,25 @@ public class RestaurantService {
     public Restaurant retrieveRestaurant(Long id) {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
         return optionalRestaurant.orElse(null);
+    }
+
+    @Transactional
+    public List<Integer> findSuitableTables(Long restaurantId, Integer numberOfPersons, DateTimeSlot dateTimeSlot) {
+
+        if (!restaurantRepository.existsById(restaurantId)) {
+            return null;
+        }
+
+        Restaurant restaurant = restaurantRepository.getById(restaurantId);
+
+        List<Integer> suitableTables = new ArrayList<>();
+        for (RestaurantTable table : restaurant.getRestaurantTables()) {
+            if (numberOfPersons < table.getCapacity() && hasFreeTimeSlot(table, dateTimeSlot)) {
+                suitableTables.add(table.getTableNumber());
+            }
+        }
+
+        return suitableTables;
     }
 
 

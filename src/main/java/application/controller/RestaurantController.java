@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -39,22 +40,22 @@ public class RestaurantController {
 
     /**
      * This method searches/filters the restaurants that fulfill the specified filter-parameters
-     *
+     * <p>
      * The method only filters on the criteria specified directly as RequestParam,
      * unspecified parameters are replaced by a default value that does not affect the filtering
-     *
+     * <p>
      * Filtering for free Tables requires date, timeSlot and capacity:
      * When specifying date and capacity, a default timeSlot (18.00 - 20.00) is automatically used if not specified
      * Otherwise if you specify timeSlot, date and capacity are not automatically specified and the specification of
      * the timeSlot does not affect the filtering
-     *
+     * <p>
      * Filtering for distance to a certain location requires the maxDistance and the userPosition,
      * specification of just one parameter does not affect the filtering
      *
      * @param restaurantType
      * @param priceCategory
      * @param maxDistance
-     * @param minRating must be between 1 and 5
+     * @param minRating      must be between 1 and 5
      * @param listSize
      * @param capacity
      * @param userPosition
@@ -105,6 +106,22 @@ public class RestaurantController {
         ));
     }
 
+
+    @GetMapping(value = "restaurants/getSuitableTables")
+    public List<Integer> getSuitableTables(
+            @RequestParam Long restaurantId,
+            @RequestParam Integer numberOfPersons,
+            @RequestParam(name = "date", defaultValue = "null") String date,
+            @RequestParam(name = "timeSlot", defaultValue = "18.0, 20.0") List<Double> timeSlot) {
+        DateTimeSlot dateTimeSlot = DateTimeSlot.convertToDateTimeSlot(date, timeSlot.get(0), timeSlot.get(1));
+        if(restaurantId == null || numberOfPersons == null || dateTimeSlot == null || numberOfPersons < 1) {
+            return null;
+        }
+
+        return restaurantService.findSuitableTables(restaurantId, numberOfPersons, dateTimeSlot);
+
+    }
+
     /**
      * This method adds the given comment to the restaurant
      * Notice that the specification of the restaurant is part of the comment object itself
@@ -124,7 +141,7 @@ public class RestaurantController {
 
     /**
      * This method checks whether the given comment is valid
-     *
+     * <p>
      * valid comment has to fulfill the following requirements:
      * comment must not be null,
      * comment.getHeadline() must not be null,
@@ -154,7 +171,7 @@ public class RestaurantController {
 
     /**
      * This method checks whether the given parameters are valid
-     *
+     * <p>
      * valid parameters have to fulfill the following requirements:
      * restaurantType has to exist,
      * priceCategory has to exist,

@@ -1,17 +1,16 @@
 package application.service;
 
 import application.model.Reservation;
+import application.model.Restaurant;
 import application.model.RestaurantTable;
 import application.model.User;
 import application.model.util.DateTimeSlot;
-import application.repository.DateTimeSlotRepository;
-import application.repository.ReservationRepository;
-import application.repository.RestaurantTableRepository;
-import application.repository.UserRepository;
+import application.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,6 +33,9 @@ public class ReservationService {
     private UserRepository userRepository;
 
     @Autowired
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
     private DateTimeSlotRepository dateTimeSlotRepository;
 
 
@@ -43,9 +45,19 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation reserveTable(User user, long tableId, String date, List<Double> timeSlot) {
+    public Reservation reserveTable(User user, long restaurantId, long tableNumber, String date, List<Double> timeSlot) {
         Reservation reservation = new Reservation();
-        RestaurantTable table = tableRepository.getById(tableId);
+        Restaurant restaurant = restaurantRepository.getById(restaurantId);
+        if(restaurant == null) {
+            return null;
+        }
+
+        Optional<RestaurantTable> tableObject = restaurant.getRestaurantTables().stream().filter(t -> t.getTableNumber() == tableNumber).findFirst();
+        if (tableObject.isEmpty()) {
+            return null;
+        }
+
+        RestaurantTable table = tableRepository.getById(tableObject.get().getId());
         if (table == null) {
             return null;
         }
@@ -54,6 +66,7 @@ public class ReservationService {
         if (dateTimeSlot == null) {
             return null;
         }
+        dateTimeSlotRepository.save(dateTimeSlot);
         reservation.setDateTimeSlot(dateTimeSlot);
         reservation.setUser(user);
         reservation.setConfirmed(false);

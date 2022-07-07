@@ -30,7 +30,8 @@ public class ReservationController {
     @PostMapping("reserveTable")
     public ResponseEntity<Reservation> reserveTable(
             @RequestParam(name = "authToken") String authToken, // User
-            @RequestParam(name = "tableId") Long tableId, // Table & Restaurant implizit
+            @RequestParam(name = "restaurantId") Long restaurantId, //Restaurant Id
+            @RequestParam(name = "tableNumber") Long tableNumber, // Table Number (in restaurant)
             @RequestParam(name = "date", defaultValue = "null") String date, // Date
             @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> timeSlot // TimeSlot
     ) {
@@ -38,10 +39,15 @@ public class ReservationController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        if (tableId == null || date == null || timeSlot == null) {
+        if (restaurantId == null || tableNumber == null || date == null || timeSlot == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(reservationService.reserveTable(user, tableId, date, timeSlot));
+
+        Reservation returnEntity = reservationService.reserveTable(user, restaurantId, tableNumber, date, timeSlot);
+        if (returnEntity == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(returnEntity);
     }
 
 
