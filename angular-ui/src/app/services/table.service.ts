@@ -8,6 +8,7 @@ import {
   throttleTime,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ReserveTableDialogData } from '../models/restaurant/ReserveTableDialogData';
 import { TableState } from '../models/restaurant/TableState';
 import { FilterService } from './filter.service';
 
@@ -63,6 +64,15 @@ export class TableService {
       `${environment.apiUrl}/restaurants/getSuitableTables`,
       {
         params: this.createQueryParams(this.parameters),
+      }
+    );
+  }
+
+  public reserveTable(params: ReserveTableDialogData): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/restaurants/getSuitableTables`,
+      {
+        params: this.createQueryParams(params),
       }
     );
   }

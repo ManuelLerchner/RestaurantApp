@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
+import { TableService } from 'src/app/services/table.service';
 
 @Component({
   selector: 'app-reserve-table',
@@ -10,10 +11,11 @@ import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDi
 export class ReserveTableComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ReserveTableComponent>,
-    @Inject(MAT_DIALOG_DATA) public tableData: ReserveTableDialogData
+    @Inject(MAT_DIALOG_DATA) public tableData: ReserveTableDialogData,
+    private tableService: TableService
   ) {}
 
-  private errorOccured = false;
+  public errorOccured = false;
 
   ngOnInit(): void {}
 
@@ -34,7 +36,13 @@ export class ReserveTableComponent implements OnInit {
     return `${day}.${month}.${year}`;
   }
 
-  reserveTable(){
-    console.log("in reserve table");
+  reserveTable() {
+    this.errorOccured = false;
+    this.tableService.reserveTable(this.tableData).subscribe({
+      next: () => this.dialogRef.close(),
+      error: () => {
+        this.errorOccured = true;
+      },
+    });
   }
 }

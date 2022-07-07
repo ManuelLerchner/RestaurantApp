@@ -8,6 +8,10 @@
     <span>From: {{ timeToString(tableData.timeSlot[0]) }}</span>
     <span>Until: {{ timeToString(tableData.timeSlot[1]) }}</span>
   </div>
+
+  <p class="errorMsg" *ngIf="errorOccured">
+    An error occured. Please try again later!
+  </p>
 </mat-dialog-content>
 
 <mat-dialog-actions align="center">
