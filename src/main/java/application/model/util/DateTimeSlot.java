@@ -42,7 +42,7 @@ public class DateTimeSlot extends TimeSlot {
         if (!this.getDate().equals(other.getDate())) {
             return false;
         }
-        if (this.getEndTime().compareTo(other.getStartTime()) < 0 || this.getStartTime().compareTo(other.getEndTime()) > 0) {
+        if (this.getEndTime().compareTo(other.getStartTime()) <= 0 || this.getStartTime().compareTo(other.getEndTime()) >= 0) {
             return false;
         }
         return true;
