@@ -2,10 +2,16 @@ import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
 import { TABLESTATES } from 'src/app/mockdata/Tables';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
 import { TableState } from 'src/app/models/restaurant/TableState';
 import { TableService } from 'src/app/services/table.service';
 import { MapService } from 'src/app/services/map.service';
 import { Location } from '@angular/common';
+import { ReserveTableComponent } from 'src/app/components/reserve-table/reserve-table.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-restaurant-layout',
@@ -20,6 +26,8 @@ export class RestaurantLayoutComponent implements OnInit {
 
   startHour: number = 19;
   endHour: number = 23;
+  date = new FormControl(moment());
+  selectedPersons: number = 2;
 
   hourSelectorOptions: Options = {
     floor: 10,
@@ -39,7 +47,8 @@ export class RestaurantLayoutComponent implements OnInit {
   constructor(
     private tableService: TableService,
     private mapService: MapService,
-    private location: Location
+    private location: Location,
+    private reserveDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -49,18 +58,21 @@ export class RestaurantLayoutComponent implements OnInit {
       }
     });
 
-    this.tableService.restaurantId$.next(this.restaurant?.id ?? 0);
-    this.tableService.getTableStates().subscribe({
+    this.tableService.requestTableStates().subscribe({
       next: (tableStates) => (this.tableStates = tableStates),
     });
-    
+    this.tableService.restaurantId$.next(this.restaurant.id);
+    this.tableService.selectedDate$.next(moment().format('YYYYMMDD'));
+    this.tableService.numberOfPersons$.next(2);
+    this.tableService.timeSlot$.next([this.startHour, this.endHour]);
+
     this.shuffleImagesPeriodically();
   }
 
-  getTableColor(id: number): string {
-    return this.tableStates.find((table) => table.id === id)?.reserved
-      ? 'red'
-      : 'green';
+  getTableClass(tableId: number): string {
+    return this.tableStates.find((table) => table.id === tableId)?.reserved
+      ? 'reserved'
+      : 'free';
   }
 
   setTimeSlot(window: ChangeContext) {
@@ -74,11 +86,7 @@ export class RestaurantLayoutComponent implements OnInit {
   getCommentRating(rating: number) {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   }
-
-  getInitials(name: string) {
-    return name[0];
-  }
-
+  
   changeImage(delta: number) {
     const amountOfImages: number = this.restaurant.pictures.length;
     this.currentImageIndex =
@@ -98,7 +106,27 @@ export class RestaurantLayoutComponent implements OnInit {
     }, 3500);
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
+  }
+
+  setDate(date: MatDatepickerInputEvent<any, any>) {
+    this.tableService.selectedDate$.next(date.value.format('YYYYMMDD'));
+  }
+
+  reserveTable(tableId: number): void {
+    if (this.tableStates.find((table) => table.id === tableId)?.reserved) {
+      return;
+    }
+
+    const tableData: ReserveTableDialogData = {
+      tableId,
+      persons: this.tableService.numberOfPersons$.value!,
+      restaurantId: this.restaurant.id,
+      timeSlot: this.tableService.timeSlot$.value!,
+      date: this.tableService.selectedDate$.value!,
+    };
+
+    this.reserveDialog.open(ReserveTableComponent, { data: tableData });
   }
 }

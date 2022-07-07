@@ -1,7 +1,11 @@
 <div class="page">
   <div class="restaurant-sidebar" *ngIf="restaurant != null">
     <div class="restaurant-info">
-      <img (click)="goBack()" src="assets/icons/back-arrow.svg" alt="Back arrow">
+      <img
+        (click)="goBack()"
+        src="assets/icons/back-arrow.svg"
+        alt="Back arrow"
+      />
       <h3>{{ restaurant.name }}</h3>
 
       <div class="row">
@@ -56,9 +60,13 @@
           </div>
 
           <div>
-            <div class="profile-picture">
-              <span>{{ getInitials(comment.postedBy?.name ?? "") }}</span>
-            </div>
+            <img
+              class="profile-picture"
+              src="https://avatars.dicebear.com/api/initials/{{
+                comment.postedBy?.name ?? ''
+              }}.svg"
+              alt="Profile picture of {{ comment.postedBy?.name ?? '' }}"
+            />
           </div>
         </div>
 
@@ -79,35 +87,45 @@
     >
       <path
         d="M44 39C63.33 39 79 31.8366 79 23C79 14.1634 63.33 7 44 7C24.67 7 9 14.1634 9 23C9 31.8366 24.67 39 44 39Z"
-        [style.fill]="getTableColor(0)"
+        [class]="getTableClass(0)"
+        (click)="reserveTable(0)"
       />
       <path
         d="M186 39C205.33 39 221 31.8366 221 23C221 14.1634 205.33 7 186 7C166.67 7 151 14.1634 151 23C151 31.8366 166.67 39 186 39Z"
-        [style.fill]="getTableColor(1)"
+        [class]="getTableClass(1)"
+        (click)="reserveTable(1)"
+        class="table"
       />
       <path
         d="M324 37C345.539 37 363 30.0604 363 21.5C363 12.9396 345.539 6 324 6C302.461 6 285 12.9396 285 21.5C285 30.0604 302.461 37 324 37Z"
-        [style.fill]="getTableColor(2)"
+        [class]="getTableClass(2)"
+        (click)="reserveTable(2)"
       />
       <path
         d="M44 82C63.33 82 79 74.8366 79 66C79 57.1634 63.33 50 44 50C24.67 50 9 57.1634 9 66C9 74.8366 24.67 82 44 82Z"
-        [style.fill]="getTableColor(3)"
+        [class]="getTableClass(3)"
+        (click)="reserveTable(3)"
       />
       <path
         d="M324 80C345.539 80 363 73.0604 363 64.5C363 55.9396 345.539 49 324 49C302.461 49 285 55.9396 285 64.5C285 73.0604 302.461 80 324 80Z"
-        [style.fill]="getTableColor(4)"
+        [class]="getTableClass(4)"
+        (click)="reserveTable(4)"
       />
       <path
         d="M176.5 149C182.851 149 188 142.284 188 134C188 125.716 182.851 119 176.5 119C170.149 119 165 125.716 165 134C165 142.284 170.149 149 176.5 149Z"
-        [style.fill]="getTableColor(5)"
+        [class]="getTableClass(5)"
+        (click)="reserveTable(5)"
       />
       <path
         d="M176.5 188C182.851 188 188 181.284 188 173C188 164.716 182.851 158 176.5 158C170.149 158 165 164.716 165 173C165 181.284 170.149 188 176.5 188Z"
-        [style.fill]="getTableColor(6)"
+        [class]="getTableClass(6)"
+        (click)="reserveTable(6)"
+        class="table"
       />
       <path
         d="M295 188C316.539 188 334 181.284 334 173C334 164.716 316.539 158 295 158C273.461 158 256 164.716 256 173C256 181.284 273.461 188 295 188Z"
-        [style.fill]="getTableColor(7)"
+        [class]="getTableClass(7)"
+        (click)="reserveTable(7)"
       />
       <path
         d="M343.664 99H360.284C366.755 99 372 93.7897 372 87.3625V12.6375C372 6.21029 366.755 1 360.284 1H12.7158C6.24534 1 1 6.21029 1 12.6375V87.3625C1 93.7897 6.24534 99 12.7158 99H157.211"
@@ -128,9 +146,28 @@
           (userChange)="setTimeSlot($event)"
         ></ngx-slider>
       </div>
-      <div class="person-input">
-        <span>Persons:</span>
-        <input type="number" value="2" />
+
+      <div class="person-date-wrapper">
+        <div class="person-input">
+          <span>Persons:</span>
+          <input type="number" [(ngModel)]="selectedPersons" />
+        </div>
+
+        <mat-form-field class="itemSelector" appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="date"
+            (dateChange)="setDate($event)"
+          />
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </div>
     </div>
   </div>

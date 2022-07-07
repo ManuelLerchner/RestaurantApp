@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Reserve table</h2>
+
+<mat-dialog-content class="mat-typography">
+  <p>Would you like to reserve the table with the following information?</p>
+  <div class="table-info">
+    <span>Persons: {{ tableData.persons }}</span>
+    <span>Date: {{ formatDate(tableData.date) }}</span>
+    <span>From: {{ timeToString(tableData.timeSlot[0]) }}</span>
+    <span>Until: {{ timeToString(tableData.timeSlot[1]) }}</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <div class="buttons">
+    <button mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button (click)="reserveTable()">Reserve</button>
+  </div>
+</mat-dialog-actions>

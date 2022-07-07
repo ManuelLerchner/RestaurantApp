@@ -107,7 +107,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0.5em;
+  margin: 0 0.5em;
   margin-bottom: 0.35em;
 
   h4 {
@@ -129,19 +129,9 @@
   }
 
   .profile-picture {
-    background-color: purple;
     height: 3em;
     aspect-ratio: 1/1;
     border-radius: 1.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .profile-picture > span {
-    color: white;
-    font-size: 1.75em;
-    font-weight: 200;
   }
 }
 
@@ -220,4 +210,19 @@
 
   border-radius: 5px;
   border: 1px solid rgb(189, 189, 189);
+}
+
+.free {
+  cursor: pointer;
+  fill: green;
+}
+
+.reserved {
+  fill: red;
+}
+
+.person-date-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

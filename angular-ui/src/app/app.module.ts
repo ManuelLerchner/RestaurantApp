@@ -26,6 +26,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { MyReservationsComponent } from './pages/my-reservations/my-reservations.component';
 import { ReservationCardComponent } from './components/reservation-card/reservation-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReserveTableComponent } from './components/reserve-table/reserve-table.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { ReservationCardComponent } from './components/reservation-card/reservat
     RestaurantLayoutComponent,
     MyReservationsComponent,
     ReservationCardComponent,
+    ReserveTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { ReservationCardComponent } from './components/reservation-card/reservat
     ReactiveFormsModule,
     CommonModule,
     NgxLoadingModule.forRoot({}),
+    MatDialogModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],
