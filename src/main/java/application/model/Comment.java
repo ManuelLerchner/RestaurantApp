@@ -118,7 +118,8 @@ public class Comment {
 
     //Main-Method to create comments for database
     public static void main(String[] args) {
-        int repeat = 3 ;
+        int repeat = 99 ;
+        double hurdleBadReviews = 0.1;
 
             String[] headlineStringGoodStart = {"Amazing ", "Wholesome ", "Good ", "Fun ", "Relaxing ", "Remarkable ", "Outstanding ", "Terrific ", "Impeccable "};
             String[] headlinePArt2Good = {"Day ", "Time ", "Food ", "Experience ", "Service "};
@@ -128,7 +129,7 @@ public class Comment {
             String[] textPArt2Good = {"great food in this restaurant. ", "meal of the day in this awesome place. ", "recommendations of the cook for us. ", "welcoming ambience here. ", "professional service. ", "kind servers. "};
             String[] text3 = {"The background music was great too!", "So happy!", "Yummy!", "Loved it!", "Great for our kids too!"};
 
-            int[] goodRating = {4, 5};
+            int[] goodRating = {5, 5};
 
             String[] headlineStringBadStart = {"Worst ", "Unwelcoming ", "Unprofessional ", "Disappointing "};
             String[] headlinePArt2Bad = {"service ", "ambience ", "Food ", "Experience "};
@@ -148,9 +149,9 @@ public class Comment {
             String headline;
             String text;
             int rating;
-            if (Math.random() < 0.1) {
+            if (Math.random() < hurdleBadReviews) {
                 headline = headlineStringBadStart[(int) (Math.random() * 3)] + headlinePArt2Bad[(int) (Math.random() * 3)] + badPart3[(int) (Math.random() * 4)];
-                rating = badRating[(int) (Math.random() * 2)];
+                rating = badRating[(int) (Math.random() * 3)];
                 text = textStringBadStart[(int) (Math.random() * 3)] + textPArt2Bad[(int) (Math.random() * 3)] + textBad3[(int) (Math.random() * 3)];
             } else {
                 headline = headlineStringGoodStart[(int) (Math.random() * 8)] + headlinePArt2Good[(int) (Math.random() * 4)] + GoodPart3[(int) (Math.random() * 6)];
