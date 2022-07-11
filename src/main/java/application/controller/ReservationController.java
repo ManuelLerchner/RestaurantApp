@@ -16,6 +16,13 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    /**
+     * This method returns the reservations corresponding to the user, identified by the given authentication token.
+     * If no user with the given token was found, "NotFound" is returned.
+     *
+     * @param authToken
+     * @return ResponseEntity with a list of all reservations of the given user
+     */
     @GetMapping("getReservations")
     public ResponseEntity<List<Reservation>> getReservations(
             @RequestParam(name = "authToken") String authToken // User
@@ -27,6 +34,18 @@ public class ReservationController {
         return ResponseEntity.ok(user.getReservations());
     }
 
+    /**
+     * This method saves a reservation for the user determined by his authToken, in the defined restaurant,
+     * at the defined table and during the defined timeslot.
+     * If any of the given parameters are invalid, "BadRequest" is returned.
+     *
+     * @param authToken
+     * @param restaurantId
+     * @param tableNumber
+     * @param date
+     * @param timeSlot
+     * @return ResponseEntity with the saved reservation
+     */
     @PostMapping("reserveTable")
     public ResponseEntity<Reservation> reserveTable(
             @RequestParam(name = "authToken") String authToken, // User
@@ -50,7 +69,16 @@ public class ReservationController {
         return ResponseEntity.ok(returnEntity);
     }
 
-
+    /**
+     * This method cancels and deletes the reservation with the given id from the database.
+     * To do this the authentication token of the user is needed.
+     * If no user with the given token or no reservation was found, "NotFound" is returned.
+     * If the cancellation process did not succeed, bad request is returned.
+     *
+     * @param authToken
+     * @param id
+     * @return Empty response entity on success, NotFound for missing user or reservation, BadRequest for faulty cancellation
+     */
     @DeleteMapping("cancelReservation")
     public ResponseEntity<String> cancelReservation(
             @RequestParam(name = "authToken") String authToken,
@@ -69,8 +97,18 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * This method confirms the reservation with the given id
+     * If no reservation with this id was found, "NotFound" is returned.
+     *
+     * @param id
+     * @return Response entity with the reservation on success, NotFound for missing reservation, Bad request for null as id
+     */
     @PutMapping("confirmReservation")
     public ResponseEntity<Reservation> confirmReservation(@RequestParam Long id) {
+        if(id == null) {
+            return ResponseEntity.badRequest().build();
+        }
         if (!reservationService.isExistingReservation(id)) {
             return ResponseEntity.notFound().build();
         }
