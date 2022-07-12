@@ -2,6 +2,7 @@ package application.controller;
 
 import application.model.Comment;
 import application.model.Restaurant;
+import application.model.RestaurantSimple;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.DateTimeSlot;
@@ -64,7 +65,7 @@ public class RestaurantController {
      * @return By listSize limited List of restaurants fulfilling the filter criteria
      */
     @GetMapping("restaurants")
-    public ResponseEntity<List<Restaurant>> retrieveRestaurants(
+    public ResponseEntity<List<RestaurantSimple>> retrieveRestaurants(
             @RequestParam(name = "restaurantType", defaultValue = "DEFAULT") RestaurantType restaurantType,
             @RequestParam(name = "priceCategory", defaultValue = "DEFAULT") PriceCategory priceCategory,
             @RequestParam(name = "maxDistance", defaultValue = "-1") double maxDistance,

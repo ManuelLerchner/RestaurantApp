@@ -1,9 +1,6 @@
 package application.service;
 
-import application.model.Comment;
-import application.model.Reservation;
-import application.model.Restaurant;
-import application.model.RestaurantTable;
+import application.model.*;
 import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.DateTimeSlot;
@@ -65,7 +62,7 @@ public class RestaurantService {
      * @return a List containing the filtered restaurants
      */
     @Transactional
-    public List<Restaurant> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, int minRating, double maxDistance, Location userLocation, int number, DateTimeSlot freeTimeSlot, int requiredCapacity) {
+    public List<RestaurantSimple> readFilteredRestaurants(RestaurantType restaurantType, PriceCategory priceCategory, int minRating, double maxDistance, Location userLocation, int number, DateTimeSlot freeTimeSlot, int requiredCapacity) {
         List<Restaurant> restaurants;
         // filter by restaurantType, priceCategory and minRating with database query
         if (restaurantType != RestaurantType.DEFAULT && priceCategory != PriceCategory.DEFAULT && minRating > 1) {
@@ -130,7 +127,7 @@ public class RestaurantService {
         }
 
         // Limit list of restaurants to number
-        return restaurants.subList(0, Math.min(restaurants.size(), number));
+        return restaurants.stream().map(RestaurantSimple::restaurantToSimple).toList().subList(0, Math.min(restaurants.size(), number));
     }
 
 
