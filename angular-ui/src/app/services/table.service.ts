@@ -59,7 +59,7 @@ export class TableService {
 
   public requestTableStates(): Observable<TableState[]> {
     return this.http
-    .get<TableState[]>(`${environment.apiUrl}/getSuitableTables`, {
+    .get<TableState[]>(`${environment.apiUrl}/restaurants/getSuitableTables`, {
       params: this.createQueryParams(this.parameters),
     })
   }
