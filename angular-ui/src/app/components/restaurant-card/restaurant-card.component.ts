@@ -4,7 +4,7 @@ import { Comment } from 'src/app/models/restaurant/Comment';
 import { PriceCategory } from 'src/app/models/types/PriceCategory';
 import { RestaurantType } from 'src/app/models/types/RestaurantType';
 import { MapService } from 'src/app/services/map.service';
-import { RestaurantFull } from '../../models/restaurant/Restaurant';
+import { Restaurant } from '../../models/restaurant/Restaurant';
 import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
   styleUrls: ['./restaurant-card.component.scss'],
 })
 export class RestaurantCardComponent implements OnInit {
-  restaurant!: RestaurantFull;
+  restaurant!: Restaurant;
   showComments: boolean = false;
   currentImageIndex: number = 0;
   currentCommentIndex: number = -1;
@@ -22,7 +22,7 @@ export class RestaurantCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.restaurantService.selectedRestaurant$.subscribe(
-      (restaurant: RestaurantFull | null) => {
+      (restaurant: Restaurant | null) => {
         if (restaurant) {
           this.restaurant = restaurant;
         }

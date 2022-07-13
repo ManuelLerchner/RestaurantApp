@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { RestaurantSmall } from '../models/restaurant/MapRestaurant';
-import { RestaurantFull } from '../models/restaurant/Restaurant';
+import { MapRestaurant } from '../models/restaurant/MapRestaurant';
+import { Restaurant } from '../models/restaurant/Restaurant';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class RestaurantService {
-  public restaurants$ = new BehaviorSubject<RestaurantSmall[]>([]);
-  public selectedRestaurant$ = new BehaviorSubject<RestaurantFull | null>(null);
+  public restaurants$ = new BehaviorSubject<MapRestaurant[]>([]);
+  public selectedRestaurant$ = new BehaviorSubject<Restaurant | null>(null);
   public showRestaurant: boolean = false;
 
   constructor(private http: HttpClient) {}
@@ -18,7 +18,7 @@ export class RestaurantService {
   async loadFullRestaurant(id: number) {
     console.log('loadFullRestaurant:', id);
     var selectedRestaurant = await this.http
-      .get<RestaurantFull>(`${environment.apiUrl}/restaurants/${id}`)
+      .get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
       .toPromise();
 
     console.log(selectedRestaurant);

@@ -1,16 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
-  debounceTime,
-  distinctUntilChanged,
   map,
   throttleTime,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ReserveTableDialogData } from '../models/restaurant/ReserveTableDialogData';
 import { TableState } from '../models/restaurant/TableState';
-import { FilterService } from './filter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,13 +34,13 @@ export class TableService {
             timeSlot: tableData[0],
             restaurantId: tableData[1],
             numberOfPersons: tableData[2],
-            selectedDate: tableData[3],
+            date: tableData[3],
           };
         })
       )
       .subscribe((filterParams: { [key: string]: any }) => {
         this.parameters = filterParams;
-        this.requestTableStates();
+        this.requestTableStates().subscribe();
       });
   }
 
@@ -52,20 +49,19 @@ export class TableService {
 
     Object.entries(filterParams).forEach(([key, value]: [string, any]) => {
       if (value) {
+        console.log(key, value);
         queryParams = queryParams.append(key, value);
       }
     });
-
+    console.log(queryParams.toString);
     return queryParams;
   }
 
   public requestTableStates(): Observable<TableState[]> {
-    return this.http.get<TableState[]>(
-      `${environment.apiUrl}/restaurants/getSuitableTables`,
-      {
-        params: this.createQueryParams(this.parameters),
-      }
-    );
+    return this.http
+    .get<TableState[]>(`${environment.apiUrl}/getSuitableTables`, {
+      params: this.createQueryParams(this.parameters),
+    })
   }
 
   public reserveTable(params: ReserveTableDialogData): Observable<any> {
