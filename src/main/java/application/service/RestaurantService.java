@@ -171,7 +171,12 @@ public class RestaurantService {
 
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
 
-        List<Boolean> suitableTables = restaurant.getRestaurantTables().stream().map(table -> numberOfPersons < table.getCapacity() && hasFreeTimeSlot(table, dateTimeSlot)).toList();
+        List<Boolean> suitableTables = restaurant.getRestaurantTables().stream()
+                .map(
+                        table -> numberOfPersons < table.getCapacity() &&
+                                hasFreeTimeSlot(table, dateTimeSlot) &&
+                                dateTimeSlot.isContainedInOpeningTimes(restaurant)
+                ).toList();
 
         return suitableTables;
     }
