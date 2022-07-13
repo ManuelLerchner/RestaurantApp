@@ -17,9 +17,7 @@ public class RestaurantSimple {
     private Double distanceToUser;
     private Double commentCount;
 
-    private List<String> pictures = new ArrayList<>();
-
-    public RestaurantSimple(Long id, String name, RestaurantType restaurantType, PriceCategory priceCategory, Double averageRating, Location location, Double distanceToUser, Double commentCount, List<String> pictures) {
+    public RestaurantSimple(Long id, String name, RestaurantType restaurantType, PriceCategory priceCategory, Double averageRating, Location location, Double distanceToUser, Double commentCount) {
         this.id = id;
         this.name = name;
         this.restaurantType = restaurantType;
@@ -28,7 +26,6 @@ public class RestaurantSimple {
         this.location = location;
         this.distanceToUser = distanceToUser;
         this.commentCount = commentCount;
-        this.pictures = pictures;
     }
 
     public Long getId() {
@@ -95,14 +92,6 @@ public class RestaurantSimple {
         this.commentCount = commentCount;
     }
 
-    public List<String> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<String> pictures) {
-        this.pictures = pictures;
-    }
-
     public static RestaurantSimple restaurantToSimple(Restaurant r) {
         return new RestaurantSimple(
                 r.getId(),
@@ -112,8 +101,7 @@ public class RestaurantSimple {
                 r.getAverageRating(),
                 r.getLocation(),
                 r.getDistanceToUser(),
-                r.getCommentCount(),
-                r.getPictures()
+                r.getCommentCount()
         );
     }
 }

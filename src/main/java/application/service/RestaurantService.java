@@ -5,6 +5,7 @@ import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.DateTimeSlot;
 import application.model.util.Location;
+import application.model.util.TimeSlot;
 import application.model.util.WeekTimeSlot;
 import application.repository.CommentRepository;
 import application.repository.RestaurantRepository;
@@ -118,7 +119,7 @@ public class RestaurantService {
                     if (requiredCapacity > table.getCapacity()) {
                         return false;
                     }
-                    if (hasFreeTimeSlot(table, freeTimeSlot)) {
+                    if (freeTimeSlot.isContainedInOpeningTimes(restaurant) && hasFreeTimeSlot(table, freeTimeSlot)) {
                         return true;
                     }
                 }
