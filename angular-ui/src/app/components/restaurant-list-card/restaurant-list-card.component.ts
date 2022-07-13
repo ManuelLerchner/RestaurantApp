@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { RestaurantSmall } from 'src/app/models/restaurant/MapRestaurant';
 import { PriceCategory } from 'src/app/models/types/PriceCategory';
 import { RestaurantType } from 'src/app/models/types/RestaurantType';
 import { MapService } from 'src/app/services/map.service';
@@ -10,7 +10,7 @@ import { MapService } from 'src/app/services/map.service';
   styleUrls: ['./restaurant-list-card.component.scss'],
 })
 export class RestaurantListCardComponent implements OnInit {
-  @Input() restaurant!: Restaurant;
+  @Input() restaurant!: RestaurantSmall;
   @Input() isSelected!: boolean;
 
   constructor(public mapService: MapService) {}

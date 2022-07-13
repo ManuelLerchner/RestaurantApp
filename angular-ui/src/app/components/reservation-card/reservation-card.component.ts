@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { RestaurantFull } from 'src/app/models/restaurant/Restaurant';
 
 @Component({
   selector: 'app-reservation-card',

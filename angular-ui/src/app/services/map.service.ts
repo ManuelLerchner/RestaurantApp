@@ -10,7 +10,7 @@ import {
   circle,
 } from 'leaflet';
 import { BehaviorSubject } from 'rxjs';
-import { Restaurant } from '../models/restaurant/Restaurant';
+import { RestaurantSmall } from '../models/restaurant/MapRestaurant';
 import { FilterService } from './filter.service';
 import { RestaurantService } from './restaurant.service';
 
@@ -21,7 +21,6 @@ export class MapService {
   private _map!: Map;
   private markers: Marker<any>[] = [];
   private selectedMarker: Marker<any> | null = null;
-  public selectedRestaurant$ = new BehaviorSubject<Restaurant | null>(null);
 
   private normalIcon = icon({
     iconUrl: 'assets/icons/leaflet_marker_icon.png',
@@ -46,10 +45,6 @@ export class MapService {
     private filterService: FilterService
   ) {}
 
-  get selectedRestaurant() {
-    return this.selectedRestaurant$.getValue();
-  }
-
   get map(): Map {
     return this._map;
   }
@@ -58,7 +53,7 @@ export class MapService {
     this._map = map;
 
     this.map.on('click', (e: any) => {
-      this.selectedRestaurant$.next(null);
+      this.restaurantService.showRestaurant = false;
     });
 
     this.initMap();
@@ -88,7 +83,7 @@ export class MapService {
     tiles.addTo(this.map);
   }
 
-  private prepareRestaurantBehaiviour(restaurants: Restaurant[]) {
+  private prepareRestaurantBehaiviour(restaurants: RestaurantSmall[]) {
     for (let restaurant of restaurants) {
       const restaurantPosition = new LatLng(
         restaurant.location.latitude,
@@ -104,10 +99,7 @@ export class MapService {
         autoPan: false,
       })
         .setLatLng(restaurantPosition)
-        .setContent(
-          `<h2>${restaurant.name}</h2>
-          <img style="width:280px" src=${restaurant.pictures[0]}</img>`
-        );
+        .setContent(`<h2>${restaurant.name}</h2>`);
 
       restaurantMarker.addTo(this.map);
       restaurantPopup.openOn(this.map);
@@ -188,7 +180,7 @@ export class MapService {
     newMarker.addTo(this.map);
   }
 
-  updateIcons(restaurant: Restaurant) {
+  updateIcons(restaurant: RestaurantSmall) {
     if (restaurant) {
       this.markers.find((marker: Marker<any>) => {
         if (
@@ -208,9 +200,10 @@ export class MapService {
   }
 
   public selectAndFlyToRestaurant(
-    restaurant: Restaurant,
+    restaurant: RestaurantSmall,
     durationSeconds: number
   ) {
+    this.restaurantService.loadFullRestaurant(restaurant.id);
     this.map.flyTo(
       new LatLng(restaurant.location.latitude, restaurant.location.longitude),
       16,
@@ -222,14 +215,14 @@ export class MapService {
     );
 
     if (durationSeconds > 0) {
-      this.selectedRestaurant$.next(null);
+      this.restaurantService.showRestaurant = false;
     }
 
     this.updateIcons(restaurant);
 
     setTimeout(() => {
       if (restaurant) {
-        this.selectedRestaurant$.next(restaurant);
+        this.restaurantService.showRestaurant = true;
       }
     }, durationSeconds * 1000);
   }

@@ -1,7 +1,7 @@
 import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
 import { TABLESTATES } from 'src/app/mockdata/Tables';
-import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { RestaurantFull } from 'src/app/models/restaurant/Restaurant';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
 import { TableState } from 'src/app/models/restaurant/TableState';
 import { TableService } from 'src/app/services/table.service';
@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-layout',
@@ -20,7 +22,7 @@ import * as moment from 'moment';
 })
 export class RestaurantLayoutComponent implements OnInit {
   tableStates: TableState[] = TABLESTATES;
-  restaurant!: Restaurant;
+  restaurant!: RestaurantFull;
   currentImageIndex: number = 0;
   imageManuallySwitched: boolean = false;
 
@@ -46,13 +48,14 @@ export class RestaurantLayoutComponent implements OnInit {
 
   constructor(
     private tableService: TableService,
-    private mapService: MapService,
+    private restaurantService: RestaurantService,
     private location: Location,
-    private reserveDialog: MatDialog
+    private reserveDialog: MatDialog,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    this.mapService.selectedRestaurant$.subscribe((restaurant) => {
+    this.restaurantService.selectedRestaurant$.subscribe((restaurant) => {
       if (restaurant) {
         this.restaurant = restaurant;
       }
@@ -86,7 +89,7 @@ export class RestaurantLayoutComponent implements OnInit {
   getCommentRating(rating: number) {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   }
-  
+
   changeImage(delta: number) {
     const amountOfImages: number = this.restaurant.pictures.length;
     this.currentImageIndex =
