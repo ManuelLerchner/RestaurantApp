@@ -109,7 +109,7 @@ public class RestaurantController {
 
 
     @GetMapping(value = "restaurants/getSuitableTables")
-    public List<Integer> getSuitableTables(
+    public List<Boolean> getSuitableTables(
             @RequestParam Long restaurantId,
             @RequestParam Integer numberOfPersons,
             @RequestParam(name = "date", defaultValue = "null") String date,
