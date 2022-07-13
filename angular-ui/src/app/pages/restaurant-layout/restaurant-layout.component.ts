@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-layout',
@@ -46,25 +48,28 @@ export class RestaurantLayoutComponent implements OnInit {
 
   constructor(
     private tableService: TableService,
-    private mapService: MapService,
+    private restaurantService: RestaurantService,
     private location: Location,
-    private reserveDialog: MatDialog
+    private reserveDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
-    this.mapService.selectedRestaurant$.subscribe((restaurant) => {
+    this.restaurantService.selectedRestaurant$.subscribe((restaurant) => {
       if (restaurant) {
         this.restaurant = restaurant;
       }
     });
+    if (this.restaurant) {
+      this.tableService.restaurantId$.next(this.restaurant.id);
+    }
+
+    this.tableService.selectedDate$.next(moment().format('YYYY-MM-DD'));
+    this.tableService.numberOfPersons$.next(2);
+    this.tableService.timeSlot$.next([this.startHour, this.endHour]);
 
     this.tableService.requestTableStates().subscribe({
       next: (tableStates) => (this.tableStates = tableStates),
     });
-    this.tableService.restaurantId$.next(this.restaurant.id);
-    this.tableService.selectedDate$.next(moment().format('YYYYMMDD'));
-    this.tableService.numberOfPersons$.next(2);
-    this.tableService.timeSlot$.next([this.startHour, this.endHour]);
 
     this.shuffleImagesPeriodically();
   }
@@ -86,7 +91,7 @@ export class RestaurantLayoutComponent implements OnInit {
   getCommentRating(rating: number) {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   }
-  
+
   changeImage(delta: number) {
     const amountOfImages: number = this.restaurant.pictures.length;
     this.currentImageIndex =
@@ -111,7 +116,7 @@ export class RestaurantLayoutComponent implements OnInit {
   }
 
   setDate(date: MatDatepickerInputEvent<any, any>) {
-    this.tableService.selectedDate$.next(date.value.format('YYYYMMDD'));
+    this.tableService.selectedDate$.next(date.value.format('YYYY-MM-DD'));
   }
 
   reserveTable(tableId: number): void {

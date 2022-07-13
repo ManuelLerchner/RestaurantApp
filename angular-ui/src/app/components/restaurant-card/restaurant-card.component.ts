@@ -5,6 +5,7 @@ import { PriceCategory } from 'src/app/models/types/PriceCategory';
 import { RestaurantType } from 'src/app/models/types/RestaurantType';
 import { MapService } from 'src/app/services/map.service';
 import { Restaurant } from '../../models/restaurant/Restaurant';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-card',
@@ -16,12 +17,11 @@ export class RestaurantCardComponent implements OnInit {
   showComments: boolean = false;
   currentImageIndex: number = 0;
   currentCommentIndex: number = -1;
-  subscription: any;
 
-  constructor(private mapService: MapService) {}
+  constructor(private restaurantService: RestaurantService) {}
 
   ngOnInit(): void {
-    this.subscription = this.mapService.selectedRestaurant$.subscribe(
+    this.restaurantService.selectedRestaurant$.subscribe(
       (restaurant: Restaurant | null) => {
         if (restaurant) {
           this.restaurant = restaurant;
@@ -86,14 +86,8 @@ export class RestaurantCardComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   close() {
-    this.mapService.selectedRestaurant$.next(null);
+    this.restaurantService.showRestaurant = false;
   }
 
   getTimeSlot(index: number): string {
