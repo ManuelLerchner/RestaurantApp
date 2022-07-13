@@ -1,6 +1,5 @@
 import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
-import { TABLESTATES } from 'src/app/mockdata/Tables';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
 import { TableState } from 'src/app/models/restaurant/TableState';
@@ -21,7 +20,7 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
   styleUrls: ['./restaurant-layout.component.scss'],
 })
 export class RestaurantLayoutComponent implements OnInit {
-  tableStates: TableState[] = TABLESTATES;
+  tableStates!: TableState[];
   restaurant!: Restaurant;
   currentImageIndex: number = 0;
   imageManuallySwitched: boolean = false;
@@ -50,7 +49,7 @@ export class RestaurantLayoutComponent implements OnInit {
     private tableService: TableService,
     private restaurantService: RestaurantService,
     private location: Location,
-    private reserveDialog: MatDialog,
+    private reserveDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -75,9 +74,10 @@ export class RestaurantLayoutComponent implements OnInit {
   }
 
   getTableClass(tableId: number): string {
-    return this.tableStates.find((table) => table.id === tableId)?.reserved
-      ? 'reserved'
-      : 'free';
+    if (this.tableStates[tableId]) {
+      return this.tableStates[tableId].reserved ? 'reserved' : 'free';
+    }
+    return 'reserved';
   }
 
   setTimeSlot(window: ChangeContext) {
@@ -120,7 +120,7 @@ export class RestaurantLayoutComponent implements OnInit {
   }
 
   reserveTable(tableId: number): void {
-    if (this.tableStates.find((table) => table.id === tableId)?.reserved) {
+    if (tableId >= this.tableStates.length) {
       return;
     }
 
