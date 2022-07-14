@@ -2,7 +2,6 @@ import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
-import { TableState } from 'src/app/models/restaurant/TableState';
 import { TableService } from 'src/app/services/table.service';
 import { Location } from '@angular/common';
 import { ReserveTableComponent } from 'src/app/components/reserve-table/reserve-table.component';

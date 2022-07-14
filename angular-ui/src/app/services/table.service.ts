@@ -4,7 +4,6 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, throttleTime } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ReserveTableDialogData } from '../models/restaurant/ReserveTableDialogData';
-import { TableState } from '../models/restaurant/TableState';
 
 @Injectable({
   providedIn: 'root',
