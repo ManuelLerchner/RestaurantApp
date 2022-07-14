@@ -48,11 +48,9 @@ export class TableService {
 
     Object.entries(filterParams).forEach(([key, value]: [string, any]) => {
       if (value) {
-        console.log(key, value);
         queryParams = queryParams.append(key, value);
       }
     });
-    console.log(queryParams.toString);
     return queryParams;
   }
 
@@ -67,7 +65,7 @@ export class TableService {
 
   public reserveTable(params: ReserveTableDialogData): Observable<any> {
     return this.http.post<any>(
-      `${environment.apiUrl}/restaurants/getSuitableTables`,
+      `${environment.apiUrl}/restaurants/reserveTable`,
       {
         params: this.createQueryParams(params),
       }

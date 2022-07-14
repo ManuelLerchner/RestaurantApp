@@ -132,7 +132,7 @@ export class RestaurantLayoutComponent implements OnInit {
       timeSlot: this.tableService.timeSlot$.value!,
       date: this.tableService.selectedDate$.value!,
     };
-
+ 
     this.reserveDialog.open(ReserveTableComponent, { data: tableData });
   }
 }
