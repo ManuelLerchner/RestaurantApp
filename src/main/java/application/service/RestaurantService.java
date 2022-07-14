@@ -5,6 +5,7 @@ import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.DateTimeSlot;
 import application.model.util.Location;
+import application.model.util.TimeSlot;
 import application.model.util.WeekTimeSlot;
 import application.repository.CommentRepository;
 import application.repository.RestaurantRepository;
@@ -118,7 +119,7 @@ public class RestaurantService {
                     if (requiredCapacity > table.getCapacity()) {
                         return false;
                     }
-                    if (hasFreeTimeSlot(table, freeTimeSlot)) {
+                    if (freeTimeSlot.isContainedInOpeningTimes(restaurant) && hasFreeTimeSlot(table, freeTimeSlot)) {
                         return true;
                     }
                 }
@@ -162,7 +163,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public List<Integer> findSuitableTables(Long restaurantId, Integer numberOfPersons, DateTimeSlot dateTimeSlot) {
+    public List<Boolean> findSuitableTables(Long restaurantId, Integer numberOfPersons, DateTimeSlot dateTimeSlot) {
 
         if (!restaurantRepository.existsById(restaurantId)) {
             return null;
@@ -170,12 +171,12 @@ public class RestaurantService {
 
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
 
-        List<Integer> suitableTables = new ArrayList<>();
-        for (RestaurantTable table : restaurant.getRestaurantTables()) {
-            if (numberOfPersons < table.getCapacity() && hasFreeTimeSlot(table, dateTimeSlot)) {
-                suitableTables.add(table.getTableNumber());
-            }
-        }
+        List<Boolean> suitableTables = restaurant.getRestaurantTables().stream()
+                .map(
+                        table -> numberOfPersons < table.getCapacity() &&
+                                hasFreeTimeSlot(table, dateTimeSlot) &&
+                                dateTimeSlot.isContainedInOpeningTimes(restaurant)
+                ).toList();
 
         return suitableTables;
     }

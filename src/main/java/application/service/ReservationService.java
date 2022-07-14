@@ -48,7 +48,7 @@ public class ReservationService {
     public Reservation reserveTable(User user, long restaurantId, long tableNumber, String date, List<Double> timeSlot) {
         Reservation reservation = new Reservation();
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
-        if(restaurant == null) {
+        if (restaurant == null) {
             return null;
         }
 
@@ -70,7 +70,7 @@ public class ReservationService {
         reservation.setDateTimeSlot(dateTimeSlot);
         reservation.setUser(user);
         reservation.setConfirmed(false);
-        if (!hasFreeTimeSlot(table, dateTimeSlot)) {
+        if (!dateTimeSlot.isContainedInOpeningTimes(restaurant) || !hasFreeTimeSlot(table, dateTimeSlot)) {
             return null;
         }
         return reservationRepository.save(reservation);
@@ -80,7 +80,7 @@ public class ReservationService {
         List<Reservation> reservationsForSpecifiedDate = table.getReservations().stream().filter(reservation -> reservation.getDateTimeSlot().getDate().equals(freeTimeSlot.getDate())).toList();
         // detect potential collision
         for (Reservation reservation : reservationsForSpecifiedDate) {
-            if (reservation.getDateTimeSlot().isCollision(freeTimeSlot)) {
+            if (freeTimeSlot.isContainedInOpeningTimes(table.getRestaurant()) && reservation.getDateTimeSlot().isCollision(freeTimeSlot)) {
                 return false;
             }
         }
@@ -180,11 +180,11 @@ public class ReservationService {
             InternetAddress[] toAddress = new InternetAddress[to.length];
 
             // To get the array of addresses
-            for( int i = 0; i < to.length; i++ ) {
+            for (int i = 0; i < to.length; i++) {
                 toAddress[i] = new InternetAddress(to[i]);
             }
 
-            for( int i = 0; i < toAddress.length; i++) {
+            for (int i = 0; i < toAddress.length; i++) {
                 message.addRecipient(Message.RecipientType.TO, toAddress[i]);
             }
 
@@ -194,11 +194,9 @@ public class ReservationService {
             transport.connect(host, from, pass);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-        }
-        catch (AddressException ae) {
+        } catch (AddressException ae) {
             ae.printStackTrace();
-        }
-        catch (MessagingException me) {
+        } catch (MessagingException me) {
             me.printStackTrace();
         }
     }

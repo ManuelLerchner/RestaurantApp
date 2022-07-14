@@ -1,10 +1,14 @@
 package application.model.util;
 
+import application.model.Restaurant;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 @Entity
 public class DateTimeSlot extends TimeSlot {
@@ -46,10 +50,20 @@ public class DateTimeSlot extends TimeSlot {
         if (!this.getDate().equals(other.getDate())) {
             return false;
         }
-        if (this.getEndTime().compareTo(other.getStartTime()) <= 0 || this.getStartTime().compareTo(other.getEndTime()) >= 0) {
+        return this.getEndTime().compareTo(other.getStartTime()) > 0 && this.getStartTime().compareTo(other.getEndTime()) < 0;
+    }
+
+    public boolean isContainedInOpeningTimes(Restaurant restaurant) {
+        if(restaurant == null || restaurant.getOpeningTimes() == null) {
             return false;
         }
-        return true;
+        DayOfWeek thisWeekday = date.getDayOfWeek();
+        Optional<WeekTimeSlot> openingTimesOnThisWeekday = restaurant.getOpeningTimes().stream().filter(e -> e.getDayOfWeek() == thisWeekday).findFirst();
+        if(openingTimesOnThisWeekday.isEmpty()) {
+            return false;
+        }
+        TimeSlot outer = openingTimesOnThisWeekday.get();
+        return !getStartTime().isBefore(outer.getStartTime()) && !getEndTime().isAfter(outer.getEndTime());
     }
 
     public static DateTimeSlot convertToDateTimeSlot(String date, double startTime, double endTime) {

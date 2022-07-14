@@ -4,6 +4,9 @@ import application.model.enums.PriceCategory;
 import application.model.enums.RestaurantType;
 import application.model.util.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RestaurantSimple {
     private Long id;
     private String name;
@@ -98,6 +101,7 @@ public class RestaurantSimple {
                 r.getAverageRating(),
                 r.getLocation(),
                 r.getDistanceToUser(),
-                r.getCommentCount());
+                r.getCommentCount()
+        );
     }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterService } from 'src/app/services/filter.service';
-import { MapService } from 'src/app/services/map.service';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import { MapService } from 'src/app/services/map.service';
 })
 export class HomeComponent implements OnInit {
   constructor(
-    public mapService: MapService,
+    public restaurantService: RestaurantService,
     public filterService: FilterService
   ) {}
 
