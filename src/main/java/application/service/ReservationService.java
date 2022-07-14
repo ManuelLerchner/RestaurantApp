@@ -134,7 +134,24 @@ public class ReservationService {
         for (Reservation reservation : reservations) {
             LocalDate reservationDate = reservation.getDateTimeSlot().getDate();
             if (currentDate.plusDays(1).equals(reservationDate)) {
-                sendMail(new String[]{reservation.getUser().getEmail()}, "Please confirm your reservation!"); // TODO message evtl. anpassen
+                String body = String.format("""
+                        Please confirm your reservation!
+                        
+                        How to confirm?
+                        Visit our website, login and confirm at "My Reservations"
+                        
+                        Your reservation:
+                        Restaurant: %s
+                        Date and Time: %s
+                        maximum number of people: %d
+                        
+                        You must confirm the reservation at least 12 hours before the appointment, 
+                        otherwise it will be canceled
+                        
+                        We wish you a great meal!
+                        
+                        """, reservation.getRestaurantTable().getRestaurant().getName(), reservation.getDateTimeSlot().emailRepresentation(), reservation.getRestaurantTable().getCapacity());
+                sendMail(new String[]{reservation.getUser().getEmail()}, body);
             }
         }
     }
