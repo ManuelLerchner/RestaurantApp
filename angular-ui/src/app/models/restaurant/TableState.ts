@@ -1,3 +1,3 @@
 export interface TableState {
-  reserved: boolean;
+  free: boolean;
 }

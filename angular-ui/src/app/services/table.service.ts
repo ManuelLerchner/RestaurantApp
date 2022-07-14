@@ -1,10 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import {
-  map,
-  throttleTime,
-} from 'rxjs/operators';
+import { map, throttleTime } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ReserveTableDialogData } from '../models/restaurant/ReserveTableDialogData';
 import { TableState } from '../models/restaurant/TableState';
@@ -17,6 +14,7 @@ export class TableService {
   public restaurantId$ = new BehaviorSubject<number | null>(null);
   public numberOfPersons$ = new BehaviorSubject<number | null>(null);
   public selectedDate$ = new BehaviorSubject<string | null>(null);
+  public tableStates$ = new BehaviorSubject<boolean[] | null>(null);
 
   private parameters!: { [key: string]: any };
 
@@ -40,7 +38,9 @@ export class TableService {
       )
       .subscribe((filterParams: { [key: string]: any }) => {
         this.parameters = filterParams;
-        this.requestTableStates().subscribe();
+        this.requestTableStates().subscribe({
+          next: (tableStates) => this.tableStates$.next(tableStates),
+        });
       });
   }
 
@@ -57,11 +57,13 @@ export class TableService {
     return queryParams;
   }
 
-  public requestTableStates(): Observable<TableState[]> {
-    return this.http
-    .get<TableState[]>(`${environment.apiUrl}/restaurants/getSuitableTables`, {
-      params: this.createQueryParams(this.parameters),
-    })
+  public requestTableStates(): Observable<boolean[]> {
+    return this.http.get<boolean[]>(
+      `${environment.apiUrl}/restaurants/getSuitableTables`,
+      {
+        params: this.createQueryParams(this.parameters),
+      }
+    );
   }
 
   public reserveTable(params: ReserveTableDialogData): Observable<any> {

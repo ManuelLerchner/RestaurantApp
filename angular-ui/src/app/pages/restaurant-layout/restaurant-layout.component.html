@@ -87,45 +87,53 @@
     >
       <path
         d="M44 39C63.33 39 79 31.8366 79 23C79 14.1634 63.33 7 44 7C24.67 7 9 14.1634 9 23C9 31.8366 24.67 39 44 39Z"
-        [class]="getTableClass(0)"
+        class="reserved"
+        [ngClass]="{'free' : tableFree(0)}"
         (click)="reserveTable(0)"
       />
       <path
         d="M186 39C205.33 39 221 31.8366 221 23C221 14.1634 205.33 7 186 7C166.67 7 151 14.1634 151 23C151 31.8366 166.67 39 186 39Z"
-        [class]="getTableClass(1)"
+        class="reserved"
         (click)="reserveTable(1)"
+        [ngClass]="{'free' : tableFree(1)}"
         class="table"
       />
       <path
         d="M324 37C345.539 37 363 30.0604 363 21.5C363 12.9396 345.539 6 324 6C302.461 6 285 12.9396 285 21.5C285 30.0604 302.461 37 324 37Z"
-        [class]="getTableClass(2)"
+        class="reserved"
         (click)="reserveTable(2)"
+        [ngClass]="{'free' : tableFree(2)}"
       />
       <path
         d="M44 82C63.33 82 79 74.8366 79 66C79 57.1634 63.33 50 44 50C24.67 50 9 57.1634 9 66C9 74.8366 24.67 82 44 82Z"
-        [class]="getTableClass(3)"
+        class="reserved"
         (click)="reserveTable(3)"
+        [ngClass]="{'free' : tableFree(3)}"
       />
       <path
         d="M324 80C345.539 80 363 73.0604 363 64.5C363 55.9396 345.539 49 324 49C302.461 49 285 55.9396 285 64.5C285 73.0604 302.461 80 324 80Z"
-        [class]="getTableClass(4)"
+        class="reserved"
         (click)="reserveTable(4)"
+        [ngClass]="{'free' : tableFree(4)}"
       />
       <path
         d="M176.5 149C182.851 149 188 142.284 188 134C188 125.716 182.851 119 176.5 119C170.149 119 165 125.716 165 134C165 142.284 170.149 149 176.5 149Z"
-        [class]="getTableClass(5)"
+        class="reserved"
         (click)="reserveTable(5)"
+        [ngClass]="{'free' : tableFree(5)}"
       />
       <path
         d="M176.5 188C182.851 188 188 181.284 188 173C188 164.716 182.851 158 176.5 158C170.149 158 165 164.716 165 173C165 181.284 170.149 188 176.5 188Z"
-        [class]="getTableClass(6)"
+        class="reserved"
         (click)="reserveTable(6)"
+        [ngClass]="{'free' : tableFree(6)}"
         class="table"
       />
       <path
         d="M295 188C316.539 188 334 181.284 334 173C334 164.716 316.539 158 295 158C273.461 158 256 164.716 256 173C256 181.284 273.461 188 295 188Z"
-        [class]="getTableClass(7)"
+        class="reserved"
         (click)="reserveTable(7)"
+        [ngClass]="{'free' : tableFree(7)}"
       />
       <path
         d="M343.664 99H360.284C366.755 99 372 93.7897 372 87.3625V12.6375C372 6.21029 366.755 1 360.284 1H12.7158C6.24534 1 1 6.21029 1 12.6375V87.3625C1 93.7897 6.24534 99 12.7158 99H157.211"
