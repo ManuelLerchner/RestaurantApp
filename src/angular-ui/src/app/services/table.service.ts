@@ -67,9 +67,9 @@ export class TableService {
     let parameters = this.createQueryParams(params);
     parameters = parameters.append('authToken', (JSON.parse(localStorage.getItem('user')??""))?.authToken ?? "");
     return this.http.post<boolean>(
-      `${environment.apiUrl}/restaurants/reserveTable`,
+      `${environment.apiUrl}/reserveTable`,
       {
-        params: this.createQueryParams(params),
+        params: parameters,
       }
     );
   }
