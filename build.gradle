@@ -62,7 +62,7 @@ task npmBuild(type: NpxTask) {
 task copyFrontendToBuild(type: Copy) {
     dependsOn npmBuild
     from 'src/angular-ui/dist/angular-ui'
-    into 'build/resources/main/static/'
+    into 'build/resources/static/'
 }
 
 processResources {
@@ -91,6 +91,7 @@ sourceSets {
         resources {
             srcDir 'src/main/resources'
         }
+        output.resourcesDir 'build/resources'
     }
     test {
         java {
