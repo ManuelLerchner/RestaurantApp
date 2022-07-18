@@ -5,7 +5,7 @@ import { RestaurantType } from '../types/RestaurantType';
 import { WeekTimeSlot } from '../time/WeekTimeSlot';
 import { Comment } from './Comment';
 
-export interface RestaurantFull {
+export interface Restaurant {
   id: number;
 
   name: string;

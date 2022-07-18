@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantSmall } from 'src/app/models/restaurant/MapRestaurant';
+import { MapRestaurant } from 'src/app/models/restaurant/MapRestaurant';
 import { FilterService } from 'src/app/services/filter.service';
 import { MapService } from 'src/app/services/map.service';
 import { RestaurantService } from 'src/app/services/restaurant.service';
@@ -21,7 +21,7 @@ export class SideMenuComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  selectRestaurant(restaurant: RestaurantSmall): void {
+  selectRestaurant(restaurant: MapRestaurant): void {
     this.mapService.selectAndFlyToRestaurant(restaurant, 1.5);
   }
 

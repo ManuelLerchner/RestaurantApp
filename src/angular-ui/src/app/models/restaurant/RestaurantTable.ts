@@ -1,5 +1,5 @@
 import { Reservation } from './Reservation';
-import { RestaurantFull } from './Restaurant';
+import { Restaurant } from './Restaurant';
 
 export interface RestaurantTable {
   id: number;
@@ -7,7 +7,7 @@ export interface RestaurantTable {
   tableNumber: number;
   capacity: number;
 
-  restaurant: RestaurantFull;
+  restaurant: Restaurant;
 
   reservations: Array<Reservation>;
 }

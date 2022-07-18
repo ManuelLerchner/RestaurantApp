@@ -4,7 +4,7 @@ import { LatLng, Marker } from 'leaflet';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, throttleTime, debounceTime } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { RestaurantSmall } from '../models/restaurant/MapRestaurant';
+import { MapRestaurant } from '../models/restaurant/MapRestaurant';
 import { PriceCategory } from '../models/types/PriceCategory';
 import { RestaurantType } from '../models/types/RestaurantType';
 import { RestaurantService } from './restaurant.service';
@@ -90,7 +90,7 @@ export class FilterService {
   private async requestFilteredData(filterParams: { [key: string]: any }) {
     try {
       let filteredRestaurants = await this.http
-        .get<RestaurantSmall[]>(`${environment.apiUrl}/restaurants`, {
+        .get<MapRestaurant[]>(`${environment.apiUrl}/restaurants`, {
           params: this.createQueryParams(filterParams),
         })
         .toPromise();

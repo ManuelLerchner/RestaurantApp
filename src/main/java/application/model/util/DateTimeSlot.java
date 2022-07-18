@@ -42,6 +42,10 @@ public class DateTimeSlot extends TimeSlot {
                 '}';
     }
 
+    public String emailRepresentation() {
+        return date + ", " + getStartTime() + " until " + getEndTime();
+    }
+
     public boolean isCollision(DateTimeSlot other) {
         if (!this.getDate().equals(other.getDate())) {
             return false;

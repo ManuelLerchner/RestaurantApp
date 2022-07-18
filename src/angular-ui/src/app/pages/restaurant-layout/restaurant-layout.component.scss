@@ -210,13 +210,13 @@
   border: 1px solid rgb(189, 189, 189);
 }
 
+.reserved {
+  fill: red;
+}
+
 .free {
   cursor: pointer;
   fill: green;
-}
-
-.reserved {
-  fill: red;
 }
 
 .person-date-wrapper {

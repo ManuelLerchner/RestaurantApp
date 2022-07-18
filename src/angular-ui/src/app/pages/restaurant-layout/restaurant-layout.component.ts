@@ -1,18 +1,14 @@
 import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
-import { TABLESTATES } from 'src/app/mockdata/Tables';
-import { RestaurantFull } from 'src/app/models/restaurant/Restaurant';
+import { Restaurant } from 'src/app/models/restaurant/Restaurant';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
-import { TableState } from 'src/app/models/restaurant/TableState';
 import { TableService } from 'src/app/services/table.service';
-import { MapService } from 'src/app/services/map.service';
 import { Location } from '@angular/common';
 import { ReserveTableComponent } from 'src/app/components/reserve-table/reserve-table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from 'src/app/services/restaurant.service';
 
 @Component({
@@ -21,8 +17,8 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
   styleUrls: ['./restaurant-layout.component.scss'],
 })
 export class RestaurantLayoutComponent implements OnInit {
-  tableStates: TableState[] = TABLESTATES;
-  restaurant!: RestaurantFull;
+  tableStates!: boolean[];
+  restaurant!: Restaurant;
   currentImageIndex: number = 0;
   imageManuallySwitched: boolean = false;
 
@@ -50,8 +46,7 @@ export class RestaurantLayoutComponent implements OnInit {
     private tableService: TableService,
     private restaurantService: RestaurantService,
     private location: Location,
-    private reserveDialog: MatDialog,
-    private http: HttpClient
+    private reserveDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -60,22 +55,30 @@ export class RestaurantLayoutComponent implements OnInit {
         this.restaurant = restaurant;
       }
     });
+    if (this.restaurant) {
+      this.tableService.restaurantId$.next(this.restaurant.id);
+    }
 
-    this.tableService.requestTableStates().subscribe({
-      next: (tableStates) => (this.tableStates = tableStates),
+    this.tableService.tableStates$.subscribe({
+      next: (tableStates) => {
+        if (tableStates) {
+          this.tableStates = tableStates;
+        }
+      },
     });
-    this.tableService.restaurantId$.next(this.restaurant.id);
-    this.tableService.selectedDate$.next(moment().format('YYYYMMDD'));
+
+    this.tableService.selectedDate$.next(moment().format('YYYY-MM-DD'));
     this.tableService.numberOfPersons$.next(2);
     this.tableService.timeSlot$.next([this.startHour, this.endHour]);
 
     this.shuffleImagesPeriodically();
   }
 
-  getTableClass(tableId: number): string {
-    return this.tableStates.find((table) => table.id === tableId)?.reserved
-      ? 'reserved'
-      : 'free';
+  tableFree(tableId: number): boolean {
+    if (!this.tableStates || tableId >= this.tableStates.length) {
+      return false;
+    }
+    return this.tableStates[tableId];
   }
 
   setTimeSlot(window: ChangeContext) {
@@ -114,11 +117,11 @@ export class RestaurantLayoutComponent implements OnInit {
   }
 
   setDate(date: MatDatepickerInputEvent<any, any>) {
-    this.tableService.selectedDate$.next(date.value.format('YYYYMMDD'));
+    this.tableService.selectedDate$.next(date.value.format('YYYY-MM-DD'));
   }
 
   reserveTable(tableId: number): void {
-    if (this.tableStates.find((table) => table.id === tableId)?.reserved) {
+    if (tableId >= this.tableStates.length) {
       return;
     }
 
@@ -129,7 +132,7 @@ export class RestaurantLayoutComponent implements OnInit {
       timeSlot: this.tableService.timeSlot$.value!,
       date: this.tableService.selectedDate$.value!,
     };
-
+ 
     this.reserveDialog.open(ReserveTableComponent, { data: tableData });
   }
 }

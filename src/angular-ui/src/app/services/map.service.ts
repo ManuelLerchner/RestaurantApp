@@ -10,7 +10,7 @@ import {
   circle,
 } from 'leaflet';
 import { BehaviorSubject } from 'rxjs';
-import { RestaurantSmall } from '../models/restaurant/MapRestaurant';
+import { MapRestaurant } from '../models/restaurant/MapRestaurant';
 import { FilterService } from './filter.service';
 import { RestaurantService } from './restaurant.service';
 
@@ -83,7 +83,7 @@ export class MapService {
     tiles.addTo(this.map);
   }
 
-  private prepareRestaurantBehaiviour(restaurants: RestaurantSmall[]) {
+  private prepareRestaurantBehaiviour(restaurants: MapRestaurant[]) {
     for (let restaurant of restaurants) {
       const restaurantPosition = new LatLng(
         restaurant.location.latitude,
@@ -180,7 +180,7 @@ export class MapService {
     newMarker.addTo(this.map);
   }
 
-  updateIcons(restaurant: RestaurantSmall) {
+  updateIcons(restaurant: MapRestaurant) {
     if (restaurant) {
       this.markers.find((marker: Marker<any>) => {
         if (
@@ -200,7 +200,7 @@ export class MapService {
   }
 
   public selectAndFlyToRestaurant(
-    restaurant: RestaurantSmall,
+    restaurant: MapRestaurant,
     durationSeconds: number
   ) {
     this.restaurantService.loadFullRestaurant(restaurant.id);
