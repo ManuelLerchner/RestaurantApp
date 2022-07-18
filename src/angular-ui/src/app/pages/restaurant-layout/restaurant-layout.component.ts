@@ -16,6 +16,7 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
   templateUrl: './restaurant-layout.component.html',
   styleUrls: ['./restaurant-layout.component.scss'],
 })
+
 export class RestaurantLayoutComponent implements OnInit {
   tableStates!: boolean[];
   restaurant!: Restaurant;
@@ -132,7 +133,17 @@ export class RestaurantLayoutComponent implements OnInit {
       timeSlot: this.tableService.timeSlot$.value!,
       date: this.tableService.selectedDate$.value!,
     };
- 
+
     this.reserveDialog.open(ReserveTableComponent, { data: tableData });
+  }
+
+  showLayout(index: number) {
+    if (
+      (!this.restaurant && index == 0) ||
+      (this.restaurant.layoutId > 2 && index == 0)
+    ) {
+      return true;
+    }
+    return this.restaurant.layoutId==index;
   }
 }
