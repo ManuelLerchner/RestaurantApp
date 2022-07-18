@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://restaurantapp.manuellerchner.de',
+  apiUrl: 'http://localhost:3019'
 };
 
 /*
