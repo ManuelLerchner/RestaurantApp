@@ -1,7 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.7'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.6.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "com.github.node-gradle.node" version "3.4.0"
 }
 
 group = 'hello.world'
@@ -11,47 +12,101 @@ compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-	implementation 'com.google.guava:guava:31.1-jre'
-	runtimeOnly 'com.h2database:h2'
-	implementation 'javax.mail:mail:1.4.7'
+node {
+    // Version of node to use.
+    version = '16.14.2'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Version of npm to use.
+    npmVersion = '8.9.0'
+
+    // Base URL for fetching node distributions (change if you have a mirror).
+    distBaseUrl = 'https://nodejs.org/dist'
+
+    // If true, it will download node using above parameters.
+    // If false, it will try to use globally installed node.
+    download = true
+
+    // Set the work directory for unpacking node
+    workDir = file("${project.buildDir}/nodejs")
+
+    // Set the work directory for NPM
+    npmWorkDir = file("${project.buildDir}/npm")
+
+    // Set the work directory for Yarn
+    yarnWorkDir = file("${project.buildDir}/yarn")
+
+    // Set the work directory where node_modules should be located
+    nodeModulesDir = file("${project.projectDir}/src/angular-ui/node_modules")
 }
 
-sourceSets {
-	main {
-		java {
-			srcDir 'src/main/java'
-		}
-		resources {
-			srcDir 'src/main/resources'
-		}
-	}
-	test {
-		java {
-			srcDir 'src/test/java'
-		}
-		resources {
-			'src/test/resources'
-		}
-	}
+task npmInstallDependencies(type: NpxTask) {
+    dependsOn 'npmSetup'
+    command = 'npm'
+    args = ['install']
+    inputs.dir('src/angular-ui/')
+
+    outputs.dir('src/angular-ui/node_modules')
+}
+
+task npmBuild(type: NpxTask) {
+    dependsOn npmInstallDependencies
+    command = 'npm'
+    args = ['run', 'build']
+    inputs.dir('src/angular-ui/')
+    outputs.dir('src/angular-ui/dist')
+}
+
+task copyFrontendToBuild(type: Copy) {
+    dependsOn npmBuild
+    from 'src/angular-ui/dist/angular-ui'
+    into 'build/resources/main/static/'
 }
 
 processResources {
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    dependsOn copyFrontendToBuild
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'com.google.guava:guava:31.1-jre'
+    runtimeOnly 'com.h2database:h2'
+    implementation 'javax.mail:mail:1.4.7'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            'src/test/resources'
+        }
+    }
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 test {
-	defaultCharacterEncoding = 'UTF-8'
-	useJUnitPlatform()
+    defaultCharacterEncoding = 'UTF-8'
+    useJUnitPlatform()
 }
