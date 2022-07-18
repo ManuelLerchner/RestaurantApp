@@ -26,7 +26,7 @@ import java.util.Optional;
 @Service
 public class RestaurantService {
 
-    private static final String PATH_TO_LAYOUTS = "src/main/resources/restaurantLayouts";
+    private static final String PATH_TO_LAYOUTS = "./src/main/resources/restaurantLayouts";
 
     @Autowired
     private RestaurantRepository restaurantRepository;
