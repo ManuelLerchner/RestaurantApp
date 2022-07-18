@@ -18,10 +18,10 @@ public class UserController {
 
     /**
      * This method adds the user to the user database by calling signUp in userService if the attributes of parameter user are not null
-     * Depending on the returned List from userService.signUp it returns ok, or if return was null, badRequest
+     * Depending on the returned List from userService.signUp() it returns ok, or if return was null, badRequest
      *
      * @param user
-     * @return ResponseEntity with information whether signUp was successful or failed
+     * @return ResponseEntity with List of Strings if Signup successful or else BadRequest
      */
     @PostMapping("signUp")
     public ResponseEntity<List<String>> signUp(@RequestBody User user) {
@@ -38,11 +38,11 @@ public class UserController {
 
     /**
      * This method logs the user in by calling login in userService if the parameters email and password are not null
-     * If userService.login returns null, the return will be badRequest.build(), otherwise ok
+     * If userService.login() returns null, the return will be badRequest.build(), otherwise ok
      *
      * @param email
      * @param password
-     * @return ResponseEntity with information whether Login was successful or failed
+     * @return ResponseEntity with List of Strings when Login was successful or else BadRequest
      */
 
     @GetMapping("login")
@@ -62,7 +62,7 @@ public class UserController {
      * If userService.loginWithAuthToken returns null, the return will be badRequest.build(), otherwise ok
      *
      * @param authToken
-     * @return ResponseEntity with information whether Login was successful or failed
+     * @return ResponseEntity with List of Strings when Login was successful or else BadRequest
      */
 
     @GetMapping("loginWithAuthToken")

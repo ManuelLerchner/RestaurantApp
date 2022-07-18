@@ -23,6 +23,10 @@ import javax.mail.internet.*;
 @Service
 public class ReservationService {
 
+    private static final String EMAIL_OUTLOOK = "four0food@outlook.com";
+
+    private static final String EMAIL_PWD = "F0F2022+";
+
     @Autowired
     private ReservationRepository reservationRepository;
 
@@ -158,8 +162,8 @@ public class ReservationService {
 
     // based on https://stackoverflow.com/questions/46663/how-can-i-send-an-email-by-java-application-using-gmail-yahoo-or-hotmail
     private void sendMail(String[] to, String body) {
-        String from = "four0food@outlook.com";
-        String pass = "F0F2022+";
+        String from = EMAIL_OUTLOOK;
+        String pass = EMAIL_PWD;
         String subject = "Confirm your Reservation";
 
         Properties props = System.getProperties();
