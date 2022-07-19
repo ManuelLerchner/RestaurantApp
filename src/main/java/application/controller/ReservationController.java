@@ -1,9 +1,11 @@
 package application.controller;
 
 import application.model.Reservation;
+import application.model.ReservationInformation;
 import application.model.User;
 import application.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,37 +46,31 @@ public class ReservationController {
      * @body All necessary information: authToken, restaurantId, tableNumber, date, timeSlot
      * @return ResponseEntity with the saved reservation
      */
-
-
     @PostMapping("reserveTable")
-    public ResponseEntity<Reservation> reserveTable(
-            @RequestBody Map<String, Object> body
+    public ResponseEntity reserveTable(
+            @RequestBody ReservationInformation resInfo
     ) {
-        String authToken = body.get("authToken").toString();
-        Long restaurantId = Long.getLong(body.get("restaurantId").toString());
-        Long tableNumber = Long.getLong(body.get("tableNumber").toString());
-        String date = body.get("date").toString();
-        List<String> items = Arrays.asList(body.get("timeSlot").toString().split("\\s*,\\s*"));
-        List<Double> timeSlot = items.stream().map(Double::parseDouble).toList();
-        User user = reservationService.isAuthorized(authToken);
+
+        User user = reservationService.isAuthorized(resInfo.authToken);
 
         if (user == null) {
-            System.out.println("test");
-            return ResponseEntity.notFound().build();
+            System.out.println("user not found");
+            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
-        if (restaurantId == null || tableNumber == null || date == null || timeSlot == null) {
-            System.out.println("wrong shit");
-            return ResponseEntity.badRequest().build();
+        if (resInfo.restaurantId == null || resInfo.tableNumber == null || resInfo.date == null || resInfo.timeSlot == null) {
+            System.out.println("One parameter was null");
+            return new ResponseEntity<>("Parameter was null", HttpStatus.BAD_REQUEST);
         }
 
-        Reservation returnEntity = reservationService.reserveTable(user, restaurantId, tableNumber, date, timeSlot);
+        System.out.println(resInfo);
+
+        Reservation returnEntity = reservationService.reserveTable(user, resInfo.restaurantId, resInfo.tableNumber, resInfo.date, resInfo.timeSlot);
         if (returnEntity == null) {
-            System.out.println("somthing wrong");
-            return ResponseEntity.badRequest().build();
+            System.out.println("Couldnt reserve table");
+            return new ResponseEntity<>("Couldn't reserve table", HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println(authToken);
-        return ResponseEntity.ok(null);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

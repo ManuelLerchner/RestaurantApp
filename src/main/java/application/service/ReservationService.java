@@ -51,10 +51,12 @@ public class ReservationService {
     @Transactional
     public Reservation reserveTable(User user, long restaurantId, long tableNumber, String date, List<Double> timeSlot) {
         Reservation reservation = new Reservation();
-        Restaurant restaurant = restaurantRepository.getById(restaurantId);
-        if (restaurant == null) {
+
+        if (!restaurantRepository.existsById(restaurantId)) {
+            System.out.println("restaurant does not exist");
             return null;
         }
+        Restaurant restaurant = restaurantRepository.getById(restaurantId);
 
         Optional<RestaurantTable> tableObject = restaurant.getRestaurantTables().stream().filter(t -> t.getTableNumber() == tableNumber).findFirst();
         if (tableObject.isEmpty()) {

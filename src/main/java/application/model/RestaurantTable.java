@@ -25,7 +25,7 @@ public class RestaurantTable {
     private List<Reservation> reservations = new ArrayList<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("restaurantTable")
+    @JsonIgnoreProperties({"restaurantTables", "comments"})
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
