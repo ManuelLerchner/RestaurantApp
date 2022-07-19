@@ -41,11 +41,7 @@ public class ReservationController {
      * at the defined table and during the defined timeslot.
      * If any of the given parameters are invalid, "BadRequest" is returned.
      *
-     * @param authToken
-     * @param restaurantId
-     * @param tableNumber
-     * @param date
-     * @param timeSlot
+     * @body All necessary information: authToken, restaurantId, tableNumber, date, timeSlot
      * @return ResponseEntity with the saved reservation
      */
 
@@ -61,6 +57,7 @@ public class ReservationController {
         List<String> items = Arrays.asList(body.get("timeSlot").toString().split("\\s*,\\s*"));
         List<Double> timeSlot = items.stream().map(Double::parseDouble).toList();
         User user = reservationService.isAuthorized(authToken);
+
         if (user == null) {
             System.out.println("test");
             return ResponseEntity.notFound().build();
