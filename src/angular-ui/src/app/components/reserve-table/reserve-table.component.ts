@@ -49,7 +49,8 @@ export class ReserveTableComponent implements OnInit {
         this.errorOccured = true;
         if(!this.accountService.isLoggedIn){
           this.router.navigate(['/login']);
-        }
+          this.dialogRef.close();
+        }      
       },
     });
   }
