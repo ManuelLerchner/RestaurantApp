@@ -19,7 +19,7 @@ export class ReservationService {
 
   public requestReservation() {
     this.accountService.user$.subscribe(async (user: User) => {
-      let reservations = await this.http
+      await this.http
         .get<Reservation[]>(`${environment.apiUrl}/getReservations`, {
           params: {
             authToken: user.authToken,
@@ -32,7 +32,6 @@ export class ReservationService {
           })
         )
         .toPromise();
-      console.log('reservations:', reservations);
     });
   }
 }

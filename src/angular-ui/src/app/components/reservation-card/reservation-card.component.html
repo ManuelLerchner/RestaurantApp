@@ -1,22 +1,23 @@
 <div class="card">
   <div class="image-container">
-    <img src="{{ reservation.image }}" alt="" />
+    <img class="restaurantImage" src="{{ reservation.restaurantTable.restaurant.pictures[0] }}" alt="" />
   </div>
 
   <div class="content">
-    <h2>{{ reservation.name }}</h2>
-    <p><strong>Address:</strong> {{ reservation.address }}<br /></p>
-    <p><strong>Date:</strong> {{ reservation.date }}<br /></p>
-    <p><strong>Party Size:</strong> {{ reservation.personCount }}<br /></p>
+    <h2>{{ reservation.restaurantTable.restaurant.name }}</h2>
+    <p><strong>Date:</strong> {{ reservation.dateTimeSlot.date }}<br /></p>
+    <p><strong>Time:</strong> {{ reservation.dateTimeSlot.startTime + " to "+reservation.dateTimeSlot.endTime }}<br />
+
+    <p><strong>Party Size:</strong> {{ reservation.restaurantTable.capacity }}<br /></p>
   </div>
 
   <div class="actions">
-    <button [ngStyle]="{ 'background-color': 'green' }" (click)="confirmReservation(reservation.id)"> Confirm
+    <button *ngIf="!reservation.isConfirmed" [ngStyle]="{ 'background-color': 'green' }"
+      (click)="confirmReservation(reservation.id)"> Confirm
     </button>
     <button [ngStyle]="{ 'background-color': 'red' }" (click)="deleteReservation(reservation.id)">
-      Delete
+      Cancel
     </button>
-
 
   </div>
 </div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Reservation } from 'src/app/models/restaurant/Reservation';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
 
 @Component({
@@ -7,20 +8,17 @@ import { Restaurant } from 'src/app/models/restaurant/Restaurant';
   styleUrls: ['./reservation-card.component.scss'],
 })
 export class ReservationCardComponent implements OnInit {
-  reservation: any = {
-    id: 2132,
-    name: 'Example Restaurant',
-    address: 'münchner freiheit 123',
-    image: 'https://via.placeholder.com/150',
-    date: '2020-01-01',
-    personCount: 5,
-  };
+  @Input() reservation!: Reservation;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  deleteReservation(reservationId: number): void {}
+  deleteReservation(reservationId: number): void {
+    console.log("button deleteReservation clicked reservationId:"+reservationId);
+  }
 
-  confirmReservation(reservationId: number): void {}
+  confirmReservation(reservationId: number): void {
+    console.log('button confirmReservation clicked reservationId:'+reservationId);
+  }
 }

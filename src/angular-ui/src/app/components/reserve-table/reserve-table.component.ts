@@ -50,7 +50,7 @@ export class ReserveTableComponent implements OnInit {
         if(!this.accountService.isLoggedIn){
           this.router.navigate(['/login']);
           this.dialogRef.close();
-        }      
+        }
       },
     });
   }

@@ -16,12 +16,9 @@ export class RestaurantService {
   constructor(private http: HttpClient) {}
 
   async loadFullRestaurant(id: number) {
-    console.log('loadFullRestaurant:', id);
     var selectedRestaurant = await this.http
       .get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
       .toPromise();
-
-    console.log(selectedRestaurant);
 
     this.selectedRestaurant$.next(selectedRestaurant);
   }

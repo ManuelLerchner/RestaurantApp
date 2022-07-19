@@ -65,7 +65,12 @@ export class TableService {
 
   public reserveTable(params: ReserveTableDialogData): Observable<boolean> {
     return this.http.post<boolean>(`${environment.apiUrl}/reserveTable`, {
-      ...params,
+      date: params.date,
+      timeSlot: params.timeSlot,
+      restaurantId: params.restaurantId,
+      persons: params.persons,
+      tableNumber: params.tableId,
+
       authToken:
         JSON.parse(localStorage.getItem('user') ?? '')?.authToken ?? '',
     });

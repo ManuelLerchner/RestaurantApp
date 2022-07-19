@@ -16,7 +16,6 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
   templateUrl: './restaurant-layout.component.html',
   styleUrls: ['./restaurant-layout.component.scss'],
 })
-
 export class RestaurantLayoutComponent implements OnInit {
   tableStates!: boolean[];
   restaurant!: Restaurant;
