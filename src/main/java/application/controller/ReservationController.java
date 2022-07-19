@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -46,27 +48,36 @@ public class ReservationController {
      * @param timeSlot
      * @return ResponseEntity with the saved reservation
      */
+
+
     @PostMapping("reserveTable")
     public ResponseEntity<Reservation> reserveTable(
-            @RequestParam(name = "authToken") String authToken, // User
-            @RequestParam(name = "restaurantId") Long restaurantId, //Restaurant Id
-            @RequestParam(name = "tableNumber") Long tableNumber, // Table Number (in restaurant)
-            @RequestParam(name = "date", defaultValue = "null") String date, // Date
-            @RequestParam(name = "timeSlot", defaultValue = "10.0, 24.0") List<Double> timeSlot // TimeSlot
+            @RequestBody Map<String, Object> body
     ) {
+        String authToken = body.get("authToken").toString();
+        Long restaurantId = Long.getLong(body.get("restaurantId").toString());
+        Long tableNumber = Long.getLong(body.get("tableNumber").toString());
+        String date = body.get("date").toString();
+        List<String> items = Arrays.asList(body.get("timeSlot").toString().split("\\s*,\\s*"));
+        List<Double> timeSlot = items.stream().map(Double::parseDouble).toList();
         User user = reservationService.isAuthorized(authToken);
         if (user == null) {
+            System.out.println("test");
             return ResponseEntity.notFound().build();
         }
         if (restaurantId == null || tableNumber == null || date == null || timeSlot == null) {
+            System.out.println("wrong shit");
             return ResponseEntity.badRequest().build();
         }
 
         Reservation returnEntity = reservationService.reserveTable(user, restaurantId, tableNumber, date, timeSlot);
         if (returnEntity == null) {
+            System.out.println("somthing wrong");
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(returnEntity);
+
+        System.out.println(authToken);
+        return ResponseEntity.ok(null);
     }
 
     /**
