@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
+import { AccountService } from 'src/app/services/account.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
@@ -12,7 +14,9 @@ export class ReserveTableComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ReserveTableComponent>,
     @Inject(MAT_DIALOG_DATA) public tableData: ReserveTableDialogData,
-    private tableService: TableService
+    private tableService: TableService,
+    private accountService: AccountService,
+    private router: Router
   ) {}
 
   public errorOccured = false;
@@ -43,6 +47,9 @@ export class ReserveTableComponent implements OnInit {
       next: () => this.dialogRef.close(),
       error: () => {
         this.errorOccured = true;
+        if(!this.accountService.isLoggedIn){
+          this.router.navigate(['/login']);
+        }
       },
     });
   }

@@ -66,11 +66,8 @@ export class TableService {
   public reserveTable(params: ReserveTableDialogData): Observable<boolean> {
     let parameters = this.createQueryParams(params);
     parameters = parameters.append('authToken', (JSON.parse(localStorage.getItem('user')??""))?.authToken ?? "");
+    console.log(parameters.toString())
     return this.http.post<boolean>(
-      `${environment.apiUrl}/reserveTable`,
-      {
-        params: parameters,
-      }
-    );
+      `${environment.apiUrl}/reserveTable`,parameters);
   }
 }
