@@ -106,7 +106,7 @@ public class ReservationService {
             return null;
         }
         reservationRepository.updateConfirmedById(true, id);
-        return null;
+        return reservationRepository.getById(id);
     }
 
     @Transactional
