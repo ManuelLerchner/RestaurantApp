@@ -61,6 +61,7 @@ export class RestaurantLayoutComponent implements OnInit {
 
     this.tableService.tableStates$.subscribe({
       next: (tableStates) => {
+        console.log(tableStates)
         if (tableStates) {
           this.tableStates = tableStates;
         }
@@ -139,7 +140,7 @@ export class RestaurantLayoutComponent implements OnInit {
   showLayout(index: number) {
     if (
       (!this.restaurant && index == 0) ||
-      (this.restaurant.layoutId > 2 && index == 0)
+      (this.restaurant.layoutId >= 2 && index == 0)
     ) {
       return true;
     }

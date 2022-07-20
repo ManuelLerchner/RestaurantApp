@@ -12,7 +12,7 @@
   </div>
 
   <div class="actions">
-    <button *ngIf="!reservation.isConfirmed" [ngStyle]="{ 'background-color': 'green' }"
+    <button *ngIf="!reservation.confirmed" [ngStyle]="{ 'background-color': 'green' }"
       (click)="confirmReservation(reservation.id)"> Confirm
     </button>
     <button [ngStyle]="{ 'background-color': 'red' }" (click)="deleteReservation(reservation.id)">

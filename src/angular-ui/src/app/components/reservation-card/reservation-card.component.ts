@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Reservation } from 'src/app/models/restaurant/Reservation';
 import { Restaurant } from 'src/app/models/restaurant/Restaurant';
+import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
   selector: 'app-reservation-card',
@@ -10,15 +11,19 @@ import { Restaurant } from 'src/app/models/restaurant/Restaurant';
 export class ReservationCardComponent implements OnInit {
   @Input() reservation!: Reservation;
 
-  constructor() {}
+  constructor(private reservationService: ReservationService) {}
 
   ngOnInit(): void {}
 
   deleteReservation(reservationId: number): void {
-    console.log("button deleteReservation clicked reservationId:"+reservationId);
+    this.reservationService.cancelReservation(this.reservation.id).subscribe({
+      next: (result) => this.reservationService.requestReservation(),
+    });
   }
 
   confirmReservation(reservationId: number): void {
-    console.log('button confirmReservation clicked reservationId:'+reservationId);
+    this.reservationService.confirmReservation(this.reservation.id).subscribe({
+      next: (reservation) => this.reservationService.requestReservation(),
+    });
   }
 }
