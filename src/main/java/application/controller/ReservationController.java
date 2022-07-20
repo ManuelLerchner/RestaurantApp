@@ -116,7 +116,11 @@ public class ReservationController {
         if (!reservationService.isExistingReservation(id)) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(reservationService.confirmReservation(id));
+        Reservation returnEntity = reservationService.confirmReservation(id);
+        if(returnEntity==null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(returnEntity);
     }
 
     // **************************
