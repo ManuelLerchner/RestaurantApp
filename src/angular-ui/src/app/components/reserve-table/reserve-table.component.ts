@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ReserveTableDialogData } from 'src/app/models/restaurant/ReserveTableDialogData';
 import { AccountService } from 'src/app/services/account.service';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ReserveTableComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public tableData: ReserveTableDialogData,
     private tableService: TableService,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
   ) {}
 
   public errorOccured = false;
@@ -44,12 +45,20 @@ export class ReserveTableComponent implements OnInit {
   reserveTable() {
     this.errorOccured = false;
     this.tableService.reserveTable(this.tableData).subscribe({
-      next: () => this.dialogRef.close(),
+      next: () => {
+        this.dialogRef.close();
+        this.tableService.requestTableStates().subscribe({
+          next: (value)=>this.tableService.tableStates$.next(value),
+        })
+      },
       error: () => {
         this.errorOccured = true;
-        if(!this.accountService.isLoggedIn){
+        if (!this.accountService.isLoggedIn) {
           this.router.navigate(['/login']);
           this.dialogRef.close();
+          this.tableService.requestTableStates().subscribe({
+            next: (value)=>this.tableService.tableStates$.next(value),
+          });
         }
       },
     });

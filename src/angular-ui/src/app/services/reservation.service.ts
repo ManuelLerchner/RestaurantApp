@@ -34,4 +34,12 @@ export class ReservationService {
         .toPromise();
     });
   }
+
+  public confirmReservation(id: number){
+      return this.http.put<Reservation>(`${environment.apiUrl}/confirmReservation?id=${id}`, {});
+  }
+
+  public cancelReservation(id: number){
+    return this.http.delete<boolean>(`${environment.apiUrl}/cancelReservation?id=${id}`, {});
+}
 }

@@ -9,5 +9,5 @@ export interface Reservation {
   dateTimeSlot: DateTimeSlot;
   restaurantTable: RestaurantTable;
   restaurant: Restaurant;
-  isConfirmed: boolean;
+  confirmed: boolean;
 }
