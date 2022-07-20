@@ -95,10 +95,10 @@ public class ReservationService {
 
     @Transactional
     public Reservation confirmReservation(Long id) {
-        Reservation reservation = reservationRepository.getById(id);
-        if (reservation == null) {
+        if(!reservationRepository.existsById(id)) {
             return null;
         }
+        Reservation reservation = reservationRepository.getById(id);
         LocalDateTime currentTime = LocalDateTime.now();
         LocalTime reservationStartTime = reservation.getDateTimeSlot().getStartTime();
         LocalDate reservationDate = reservation.getDateTimeSlot().getDate();
@@ -111,6 +111,9 @@ public class ReservationService {
 
     @Transactional
     public boolean cancelReservation(User user, Long id) {
+        if(!reservationRepository.existsById(id)) {
+            return false;
+        }
         Reservation reservation = reservationRepository.getById(id);
         if (!user.getReservations().contains(reservation)) {
             return false;
