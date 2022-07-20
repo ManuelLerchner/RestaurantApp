@@ -110,14 +110,11 @@ public class ReservationService {
     }
 
     @Transactional
-    public boolean cancelReservation(User user, Long id) {
+    public boolean cancelReservation(Long id) {
         if(!reservationRepository.existsById(id)) {
             return false;
         }
         Reservation reservation = reservationRepository.getById(id);
-        if (!user.getReservations().contains(reservation)) {
-            return false;
-        }
         if (reservation.getConfirmed()) {
             return false;
         }

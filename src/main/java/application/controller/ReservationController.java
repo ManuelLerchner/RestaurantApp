@@ -75,26 +75,19 @@ public class ReservationController {
 
     /**
      * This method cancels and deletes the reservation with the given id from the database.
-     * To do this the authentication token of the user is needed.
-     * If no user with the given token or no reservation was found, "NotFound" is returned.
+     * If no reservation was found, "NotFound" is returned.
      * If the cancellation process did not succeed, bad request is returned.
      *
-     * @param authToken
      * @param id
      * @return Empty response entity on success, NotFound for missing user or reservation, BadRequest for faulty cancellation
      */
     @DeleteMapping("cancelReservation")
     public ResponseEntity<String> cancelReservation(
-            @RequestParam(name = "authToken") String authToken,
             @RequestParam Long id) {
-        User user = reservationService.isAuthorized(authToken);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
         if (!reservationService.isExistingReservation(id)) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
-        boolean canceled = reservationService.cancelReservation(user, id);
+        boolean canceled = reservationService.cancelReservation(id);
         if (!canceled) {
             return ResponseEntity.badRequest().build();
         }
