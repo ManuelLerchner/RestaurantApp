@@ -33,7 +33,7 @@ public class ReservationController {
     ) {
         User user = reservationService.isAuthorized(authToken);
         if (user == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(user.getReservations());
     }

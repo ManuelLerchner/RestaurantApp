@@ -27,6 +27,21 @@ public class CommentController {
     }
 
     /**
+     * This method deletes a comment from the repository with the given id
+     *
+     * @param id Id of the comment to delete
+     * @return String with affirmative or negative result
+     */
+    @RequestMapping(value = "deleteComment", method = RequestMethod.DELETE)
+    public String deleteComment(@RequestParam Long id) {
+        return commentService.deleteComment(id);
+    }
+
+    // **************************
+    // Test purpose
+    // **************************
+
+    /**
      * This method creates a new comment in the repository with the given comment
      *
      * @body New Comment
@@ -46,17 +61,6 @@ public class CommentController {
     @RequestMapping(value = "createComments", method = RequestMethod.POST)
     public String createComments(@RequestBody List<Comment> comments) {
         return commentService.createComments(comments);
-    }
-
-    /**
-     * This method deletes a comment from the repository with the given id
-     *
-     * @param id Id of the comment to delete
-     * @return String with affirmative or negative result
-     */
-    @RequestMapping(value = "deleteComment", method = RequestMethod.DELETE)
-    public String deleteComment(@RequestParam Long id) {
-        return commentService.deleteComment(id);
     }
 
     /**
