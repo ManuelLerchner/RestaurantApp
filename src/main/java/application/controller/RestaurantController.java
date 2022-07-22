@@ -34,7 +34,7 @@ public class RestaurantController {
     public ResponseEntity<Restaurant> retrieveDetailsForRestaurant(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.retrieveRestaurant(restaurantId);
         if (restaurant == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(restaurant);
     }
@@ -72,7 +72,7 @@ public class RestaurantController {
             @RequestParam(name = "minRating", defaultValue = "1") int minRating,
             @RequestParam(name = "listSize", defaultValue = "50") int listSize,
             @RequestParam(name = "capacity", defaultValue = "-1") int capacity,
-            @RequestParam(name = "userPosition", defaultValue = "11.5755203, 48.1372264") List<Double> userPosition, // TODO wollen wir tatsächlich eine Position von Beginn an festlegen?
+            @RequestParam(name = "userPosition", defaultValue = "11.5755203, 48.1372264") List<Double> userPosition,
             @RequestParam(name = "date", defaultValue = "null") String date,
             @RequestParam(name = "timeSlot", defaultValue = "18.0, 20.0") List<Double> timeSlot
     ) {

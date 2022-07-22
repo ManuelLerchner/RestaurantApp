@@ -26,7 +26,7 @@ public class UserController {
     @PostMapping("signUp")
     public ResponseEntity<List<String>> signUp(@RequestBody User user) {
         if (user.getEmail() == null || user.getPassword() == null || user.getUsername() == null) {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(400).build();
         }
 
         List<String> returnEntity = userService.signUp(user.getEmail(), user.getPassword(), user.getUsername());
