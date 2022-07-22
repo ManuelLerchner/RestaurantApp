@@ -48,6 +48,15 @@ public class ReservationService {
         return userRepository.findByAuthToken(authToken);
     }
 
+    /**
+     * Reserves a table with the given information about user, restaurant, etc.
+     * @param user
+     * @param restaurantId
+     * @param tableNumber
+     * @param date
+     * @param timeSlot
+     * @return the Reservation if successful or null else
+     */
     @Transactional
     public Reservation reserveTable(User user, long restaurantId, long tableNumber, String date, List<Double> timeSlot) {
         Reservation reservation = new Reservation();
@@ -82,6 +91,13 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
+
+    /**
+     * Checks if the given table has a free timeslot
+     * @param table
+     * @param freeTimeSlot
+     * @return boolean if the timeslot is free on the given table
+     */
     private boolean hasFreeTimeSlot(RestaurantTable table, DateTimeSlot freeTimeSlot) {
         List<Reservation> reservationsForSpecifiedDate = table.getReservations().stream().filter(reservation -> reservation.getDateTimeSlot().getDate().equals(freeTimeSlot.getDate())).toList();
         // detect potential collision
@@ -93,6 +109,12 @@ public class ReservationService {
         return true;
     }
 
+    /**
+     * This method checks if a reservation with the given id exists and sets its status to confirmed if all conditions are met
+     *
+     * @param id
+     * @return Confirmed reservation or null if something went wrong
+     */
     @Transactional
     public Reservation confirmReservation(Long id) {
         if(!reservationRepository.existsById(id)) {
@@ -109,6 +131,12 @@ public class ReservationService {
         return reservationRepository.getById(id);
     }
 
+    /**
+     * This method checks if a reservation with the given id exists and deletes it if all conditions are met
+     *
+     * @param id
+     * @return Boolean if the cancel was successful
+     */
     @Transactional
     public boolean cancelReservation(Long id) {
         if(!reservationRepository.existsById(id)) {
@@ -133,6 +161,10 @@ public class ReservationService {
         return reservationRepository.existsById(id);
     }
 
+    /**
+     * Repeated task, sends a reminding email to every user with an upcoming reservation
+     * Repeats every day at 0 o'clock
+     */
     @Scheduled(cron = "0 0 0 * * *")
     public void reminder() {
         List<Reservation> reservations = reservationRepository.findAll();
@@ -163,6 +195,11 @@ public class ReservationService {
     }
 
     // based on https://stackoverflow.com/questions/46663/how-can-i-send-an-email-by-java-application-using-gmail-yahoo-or-hotmail
+
+    /**
+     *  @param to String-list with recipients
+     *  @param body Content of the mail
+     */
     private void sendMail(String[] to, String body) {
         String from = EMAIL_OUTLOOK;
         String pass = EMAIL_PWD;
@@ -207,6 +244,11 @@ public class ReservationService {
         }
     }
 
+    /**
+     * This method is a repeating task that deletes all not confirmed reservations with less than 12 hours left until the
+     * start-time arrives from the repository.
+     * Repeats every 15 minutes
+    */
     @Scheduled(cron = "0 */15 * * * *")
     public void cancelNotConfirmedReservations() {
         List<Reservation> reservations = reservationRepository.findAll();
