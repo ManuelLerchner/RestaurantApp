@@ -286,9 +286,7 @@ public class RestaurantService {
 
 	private Restaurant addRestaurantToDatabase(Restaurant restaurant) {
 		if (restaurant.getId() == null) {
-			for (WeekTimeSlot weekTimeSlot : restaurant.getOpeningTimes()) {
-				weekTimeSlotRepository.save(weekTimeSlot);
-			}
+			weekTimeSlotRepository.saveAll(restaurant.getOpeningTimes());
 			Restaurant restaurantEntity = restaurantRepository.save(restaurant);
 			for (Comment comment : restaurant.getComments()) {
 				comment.setRestaurant(restaurantEntity);
@@ -308,6 +306,7 @@ public class RestaurantService {
 				}
 
 			}
+			updateCommentCount(restaurantEntity.getId());
 			updateRating(restaurantEntity.getId());
 			return restaurantEntity;
 		}

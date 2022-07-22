@@ -28,6 +28,7 @@ import { MyReservationsComponent } from './pages/my-reservations/my-reservations
 import { ReservationCardComponent } from './components/reservation-card/reservation-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReserveTableComponent } from './components/reserve-table/reserve-table.component';
+import { DocsComponent } from './pages/docs/docs.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ReserveTableComponent } from './components/reserve-table/reserve-table.
     MyReservationsComponent,
     ReservationCardComponent,
     ReserveTableComponent,
+    DocsComponent,
   ],
   imports: [
     BrowserModule,
