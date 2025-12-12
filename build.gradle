@@ -45,7 +45,7 @@ node {
 task npmInstallDependencies(type: NpxTask) {
     dependsOn 'npmSetup'
     command = 'npm'
-    args = ['install']
+    args = ['install', '--legacy-peer-deps']
     inputs.dir('src/angular-ui/')
 
     outputs.dir('src/angular-ui/node_modules')
