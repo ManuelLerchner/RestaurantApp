@@ -38,7 +38,9 @@ jobs:
     - name: Cache node modules
       uses: actions/cache@v4
       with:
-        path: src/angular-ui/node_modules
+        path: |
+          src/angular-ui/node_modules
+          ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('src/angular-ui/package*.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
@@ -47,4 +49,4 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew build --no-daemon
+      run: ./gradlew build --no-daemon --build-cache
